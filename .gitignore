@@ -147,3 +147,7 @@ fabric.properties
 /build/
 
 # End of https://www.toptal.com/developers/gitignore/api/phpunit,phpstorm,phpcodesniffer,php-cs-fixer
+
+*.gaphor
+*.drawio
+*.bkp
