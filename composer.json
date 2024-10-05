@@ -1,6 +1,22 @@
 {
-  "require": {
-    "doctrine/orm": "*",
-    "twig/twig": "^3.0"
-  }
+    "name": "zyrtiongamix/create-your-first-php-blog",
+    "description": "blog",
+    "autoload": {
+        "psr-4": {
+            "Zyrtiongamix\\CreateYourFirstPhpBlog\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "GabrielSAPONARA",
+            "email": "gabriel.saponara.pro@protonmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.12",
+        "ekino/phpstan-banned-code": "^2.1"
+    }
 }
