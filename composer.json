@@ -3,7 +3,7 @@
     "description": "blog",
     "autoload": {
         "psr-4": {
-            "Zyrtiongamix\\CreateYourFirstPhpBlog\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
@@ -23,13 +23,14 @@
         "symfony/security-csrf": "^7.1",
         "symfony/security-http": "^7.1",
         "symfony/security-bundle": "^7.1",
-        "symfony/routing": "^7.1",
         "symfony/mailer": "^7.1",
-        "symfony/config": "^7.1",
         "symfony/yaml": "^7.1",
         "symfony/http-foundation": "^7.1",
         "symfony/password-hasher": "^7.1",
-        "symfonycasts/reset-password-bundle": "^1.22"
+        "symfonycasts/reset-password-bundle": "^1.22",
+        "altorouter/altorouter": "^2.0",
+        "symfony/twig-bridge": "^7.1",
+        "symfony/asset": "^7.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.12",
