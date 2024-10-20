@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Modify Role
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <h1>Modify Role</h1>
+    <form action="/role/process/{{ role.id }}" method="post">
+        <label for="name">Name</label>
+        <input type="text" name="name" placeholder="{{ role.name }}" id="name" value="{{ socialNetwork.name }}"/>
+        <input type="submit" name="submit" value="Submit" />
+    </form>
+{% endblock %}
