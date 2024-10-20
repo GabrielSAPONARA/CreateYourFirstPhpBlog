@@ -3,6 +3,9 @@
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+use Twig\TwigFunction;
 
 require_once "vendor/autoload.php";
 
@@ -26,3 +29,5 @@ $connection = DriverManager::getConnection([
 $entityManager = new EntityManager($connection, $config);
 
 \Doctrine\DBAL\Types\Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
+
+return $entityManager;
