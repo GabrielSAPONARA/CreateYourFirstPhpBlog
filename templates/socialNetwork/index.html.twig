@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Social Networks
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block navbar %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block main %}
+        <h1>Social Networks</h1>
+        <a href="/social/network/add">Add Social Network</a>
+        {% for socialNetwork in socialNetworks %}
+            <div>
+                {{ socialNetwork.name }}
+            </div>
+            <div>
+                <a href="/social/network/modify/{{ socialNetwork.id }}">Modify</a>
+            </div>
+            <div>
+                <a href="/social/network/delete/{{ socialNetwork.id }}">Delete</a>
+            </div>
+        {% endfor %}
+    {% endblock %}
+
+{% endblock %}

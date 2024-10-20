@@ -11,9 +11,10 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Repository\SocialNetworkRepository;
 
-#[ORM\Entity]
 #[ORM\Table(name: 'social_network')]
+#[ORM\Entity(repositoryClass: SocialNetworkRepository::class)]
 class SocialNetwork
 {
     #[ORM\Id]

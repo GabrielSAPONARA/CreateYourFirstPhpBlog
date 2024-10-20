@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Modify Social Network
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <h1>Modify Social Network</h1>
+    <form action="/social/network/process/{{ socialNetwork.id }}" method="post">
+        <label for="name">Name</label>
+        <input type="text" name="name" placeholder="{{ socialNetwork.name }}" id="name" value="{{ socialNetwork.name }}"/>
+        <input type="submit" name="submit" value="Submit" />
+    </form>
+{% endblock %}
