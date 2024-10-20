@@ -67,7 +67,6 @@ class SocialNetworkController extends BasicController
     public function modify(array $params) : void
     {
         $socialNetworkId = $params["id"];
-        dump($socialNetworkId);
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
         $socialNetwork = $socialNetworkRepository->find($socialNetworkId);
