@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,8 +16,8 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-#[ORM\Entity]
 #[ORM\Table(name: 'user')]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -49,7 +50,7 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "text", nullable: true)]
     private $cvLink;
 
-    #[ORM\Column(type: "string", length: 64, nullable: false)]
+    #[ORM\Column(type: "string", length: 255, nullable: false)]
     private $password;
 
     #[ManyToOne(targetEntity: Role::class, inversedBy: "users")]
@@ -221,7 +222,9 @@ class User implements PasswordAuthenticatedUserInterface
      */
     public function setPassword($password): void
     {
-        $this->password = $password;
+        $options = ['cost' => 15];
+        $hashedPassword =password_hash($password, PASSWORD_DEFAULT, $options);
+        $this->password = $hashedPassword;
     }
 
     /**
@@ -259,6 +262,15 @@ class User implements PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @param Role $role
+     * @return void
+     */
+    public function setRole(Role $role): void
+    {
+        $this->role = $role;
+    }
+
+    /**
      * @return Collection
      */
     private function getPosts(): Collection
@@ -277,8 +289,6 @@ class User implements PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         $this->password = null;
-        $this->lastName = null;
-        $this->firstName = null;
         $this->emailAddress = null;
         $this->username = null;
     }

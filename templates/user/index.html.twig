@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Social Networks
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% block navbar %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block main %}
+        <h1>Users</h1>
+        <a href="/user/add">Add User</a>
+        {% for user in users %}
+            <div>
+                {{ user.lastName }}
+            </div>
+            <div>
+                <a href="/user/modify/{{ user.id }}">Modify</a>
+            </div>
+            <div>
+                <a href="/user/delete/{{ user.id }}">Delete</a>
+            </div>
+        {% endfor %}
+    {% endblock %}
+
+{% endblock %}

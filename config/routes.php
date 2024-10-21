@@ -19,3 +19,11 @@ $router->map('POST', '/role/process', "RoleController::process");
 $router->map('POST', '/role/process/[uuid:id]', "RoleController::process");
 $router->map('GET', '/role/modify/[uuid:id]', "RoleController::modify");
 $router->map('GET', '/role/delete/[uuid:id]', "RoleController::delete");
+
+// routes to manage users
+$router->map('GET', '/user', "UserController::index");
+$router->map('GET', '/user/add', "UserController::add");
+$router->map('POST', '/user/process', "UserController::process");
+$router->map('POST', '/user/process/[uuid:id]', "UserController::process");
+$router->map('GET', '/user/modify/[uuid:id]', "UserController::modify");
+$router->map('GET', '/user/delete/[uuid:id]', "UserController::delete");
