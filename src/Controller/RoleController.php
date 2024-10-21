@@ -38,7 +38,7 @@ class RoleController extends BasicController
             {
                 $roleRepository = $entityManager->getRepository
                 (Role::class);
-                $role = $roleRepository->findById($roleId)[0];
+                $role = $roleRepository->findById($roleId);
                 $role->setName($_POST["name"]);
                 $entityManager->flush();
             }
@@ -77,7 +77,7 @@ class RoleController extends BasicController
         $roleId = $params["id"];
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $roleRepository = $entityManager->getRepository(Role::class);
-        $role = $roleRepository->findById($roleId)[0];
+        $role = $roleRepository->findById($roleId);
         $entityManager->remove($role);
         $entityManager->flush();
         $url = "Location: http://";
