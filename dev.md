@@ -21,6 +21,7 @@
 
 [To install pdo_mysql driver : ](https://www.php.net/manual/en/install.unix.dnf.php)
 `sudo dnf install php-mysqlnd php-gd`
+[To use uuid in url](https://stackoverflow.com/questions/45138787/symfony-controller-route-with-requirements-on-uuid)
 
 ### Debug
 
