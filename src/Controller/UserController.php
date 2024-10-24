@@ -17,7 +17,6 @@ class UserController extends BasicController
 
         $userRepository = $entityManager->getRepository(User::class);
         $users = $userRepository->findAll();
-        dump($users);
         $this->twig->display('user/index.html.twig',
             [
                 'users' => $users,
@@ -56,7 +55,9 @@ class UserController extends BasicController
                 $user->setEmailAddress($_POST["emailAdress"]);
                 $user->setUsername($_POST["username"]);
                 $user->setPassword($_POST["password"]);
-                $user->setRole($_POST["role"]);
+                $roleRepository = $entityManager->getRepository(Role::class);
+                $role = $roleRepository->findById($_POST["role"]);
+                $user->setRole($role);
                 $entityManager->flush();
             }
             else
@@ -67,7 +68,6 @@ class UserController extends BasicController
                 $user->setEmailAddress($_POST["emailAdress"]);
                 $user->setUsername($_POST["username"]);
                 $user->setPassword($_POST["password"]);
-                dump($_POST["role"]);
                 $roleRepository = $entityManager->getRepository(Role::class);
                 $role = $roleRepository->findById($_POST["role"]);
                 $user->setRole($role);
@@ -90,10 +90,13 @@ class UserController extends BasicController
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $userRepository = $entityManager->getRepository(User::class);
         $user = $userRepository->find($userId);
+        $roleRepository = $entityManager->getRepository(Role::class);
+        $roles = $roleRepository->findAll();
 
-        $this->twig->display('role/modify.html.twig',
+        $this->twig->display('user/modify.html.twig',
             [
                 'user' => $user,
+                'roles' => $roles,
             ]);
     }
 
@@ -109,7 +112,7 @@ class UserController extends BasicController
         $host = $_SERVER["SERVER_NAME"];
         $port = $_SERVER["SERVER_PORT"];
         $url .= $host .":". $port . "/";
-        $url .= "role";
+        $url .= "user";
         header($url);
         exit();
     }

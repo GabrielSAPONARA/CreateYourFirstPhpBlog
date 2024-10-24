@@ -18,7 +18,24 @@
         <a href="/user/add">Add User</a>
         {% for user in users %}
             <div>
-                {{ user.lastName }}
+                <div>Last Name</div>
+                <div>{{ user.lastName }}</div>
+            </div>
+            <div>
+                <div>First Name</div>
+                <div>{{ user.firstName }}</div>
+            </div>
+            <div>
+                <div>username</div>
+                <div>{{ user.username }}</div>
+            </div>
+            <div>
+                <div>Email Adress</div>
+                <div>{{ user.emailAddress }}</div>
+            </div>
+            <div>
+                <div>Role</div>
+                <div>{{ user.role.name }}</div>
             </div>
             <div>
                 <a href="/user/modify/{{ user.id }}">Modify</a>
