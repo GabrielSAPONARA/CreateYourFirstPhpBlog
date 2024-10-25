@@ -5,33 +5,36 @@ namespace App\Controller;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
+use App\Router\RouteManager;
 
 class BasicController
 {
     private $loader;
     protected $twig;
+    private $routerManager;
 
-    public function __construct()
+    public function __construct(RouteManager $routerManager)
     {
-//        try {
-//            // Chargement du répertoire des templates
-//            $this->loader = new FilesystemLoader(ROOT.'/templates');
-//
-//            // Initialisation de Twig
-//            $this->twig = new Environment($this->loader, [
-//                'cache' => false,  // Désactive le cache pour le développement
-//            ]);
-//        } catch (\Exception $e) {
-//            // Affiche l'erreur si Twig échoue à se charger
-//            dump($e->getMessage());
-//        }
-        $this->loader = new FilesystemLoader(ROOT.'/templates');
-        $this->twig = new Environment($this->loader, [
-            'cache' => false,
-        ]);
+        try
+        {
+            $this->loader = new FilesystemLoader(ROOT.'/templates');
+
+            $this->twig = new Environment($this->loader, [
+                'cache' => false,
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            dump($e->getMessage());
+        }
+
+        $this->routerManager = $routerManager;
 
         $this->twig->addFunction(new TwigFunction('asset', function ($path) {
             return "/" . ltrim($path, '/');
         }));
+
+        $this->twig->addFunction(new TwigFunction('path',
+            [$this->routerManager, 'generatePath']));
     }
 }
