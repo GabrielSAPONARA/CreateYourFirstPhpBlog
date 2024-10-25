@@ -11,15 +11,15 @@
 {% block body %}
     {{ parent() }}
     <h1>Modify {{ user.username }}</h1>
-    <form action="/user/process/{{ user.id }}" method="post">
+    <form action="{{ path('users_process__update' , {'id' : user.id}) }}" method="post">
         <label for="firstName">First Name</label>
         <input type="text" name="firstName" value="{{ user.firstName }}" id="firstName" />
 
         <label for="lastName">Last Name</label>
         <input type="text" name="lastName" value="{{ user.lastName }}" id="lastName" />
 
-        <label for="emailAdress">Email Adress</label>
-        <input type="email" name="emailAdress" value="{{ user.emailAdress }}" id="emailAdress" />
+        <label for="emailAddress">Email Adress</label>
+        <input type="email" name="emailAddress" value="{{ user.emailAddress }}" id="emailAddress" />
 
         <label for="username">Username</label>
         <input type="text" name="username" value="{{ user.username }}" id="username" />

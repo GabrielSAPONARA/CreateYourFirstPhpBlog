@@ -11,7 +11,7 @@
 {% block body %}
     {{ parent() }}
     <h1>Modify Role</h1>
-    <form action="/role/process/{{ role.id }}" method="post">
+    <form action="{{ path('roles_process__update', { 'id' : role.id }) }}" method="post">
         <label for="name">Name</label>
         <input type="text" name="name" id="name" value="{{ role.name }}"/>
         <input type="submit" name="submit" value="Submit" />

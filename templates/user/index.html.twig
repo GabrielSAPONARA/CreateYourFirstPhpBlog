@@ -15,7 +15,7 @@
 
     {% block main %}
         <h1>Users</h1>
-        <a href="/user/add">Add User</a>
+        <a href="{{ path("users__addition") }}">Add User</a>
         {% for user in users %}
             <div>
                 <div>Last Name</div>
@@ -38,10 +38,10 @@
                 <div>{{ user.role.name }}</div>
             </div>
             <div>
-                <a href="/user/modify/{{ user.id }}">Modify</a>
+                <a href="{{ path( 'users_modify', {'id' :user.id}) }}">Modify</a>
             </div>
             <div>
-                <a href="/user/delete/{{ user.id }}">Delete</a>
+                <a href="{{ path( 'users_delete', {'id' :user.id}) }}">Delete</a>
             </div>
         {% endfor %}
     {% endblock %}
