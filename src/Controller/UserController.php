@@ -2,12 +2,8 @@
 
 namespace App\Controller;
 
-use App\Controller\BasicController;
 use App\Entity\Role;
 use App\Entity\User;
-use Doctrine\ORM\EntityManager;
-use Ramsey\Uuid\Uuid;
-use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends BasicController
 {
