@@ -6,6 +6,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
 use App\Router\RouteManager;
+use \Twig\Extension\DebugExtension;
 
 class BasicController
 {
@@ -21,6 +22,7 @@ class BasicController
 
             $this->twig = new Environment($this->loader, [
                 'cache' => false,
+                'debug' => true,
             ]);
         }
         catch (\Exception $e)
@@ -33,6 +35,7 @@ class BasicController
         $this->twig->addFunction(new TwigFunction('asset', function ($path) {
             return "/" . ltrim($path, '/');
         }));
+        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
 
         $this->twig->addFunction(new TwigFunction('path',
             [$this->routerManager, 'generatePath']));
