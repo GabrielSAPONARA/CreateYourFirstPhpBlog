@@ -71,9 +71,12 @@ class RoleController extends BasicController
         $roleRepository = $entityManager->getRepository(Role::class);
         $role = $roleRepository->find($roleId);
 
+        $form = RoleFormType::buildForm($role);
+
         $this->twig->display('role/modify.html.twig',
             [
                 'role' => $role,
+                'formFields' => $form->getFields(),
             ]);
     }
 
