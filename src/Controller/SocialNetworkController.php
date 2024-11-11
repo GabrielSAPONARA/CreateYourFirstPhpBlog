@@ -2,13 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
 use App\Entity\SocialNetwork;
-use Doctrine\ORM\EntityManager;
-use Ramsey\Uuid\Uuid;
-use Symfony\Component\HttpFoundation\Response;
-
-
+use App\Form\SocialNetworkFormType;
 
 class SocialNetworkController extends BasicController
 {
@@ -26,7 +21,12 @@ class SocialNetworkController extends BasicController
 
     public function add(): void
     {
-        $this->twig->display('socialNetwork/add.html.twig');
+        $form = SocialNetworkFormType::buildForm();
+
+        $this->twig->display('socialNetwork/add.html.twig',
+        [
+            'formFields' => $form->getFields(),
+        ]);
 
     }
 
@@ -49,6 +49,7 @@ class SocialNetworkController extends BasicController
             }
             else
             {
+
                 $socialNetwork = new SocialNetwork();
                 $socialNetwork->setName($_POST["name"]);
                 $entityManager->persist($socialNetwork);
@@ -62,6 +63,7 @@ class SocialNetworkController extends BasicController
         }
         header($url);
         exit();
+
     }
 
     public function modify(array $params) : void
@@ -71,9 +73,12 @@ class SocialNetworkController extends BasicController
         $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
         $socialNetwork = $socialNetworkRepository->find($socialNetworkId);
 
+        $form = SocialNetworkFormType::buildForm($socialNetwork);
+
         $this->twig->display('socialNetwork/modify.html.twig',
         [
             'socialNetwork' => $socialNetwork,
+            'formFields' => $form->getFields(),
         ]);
     }
 

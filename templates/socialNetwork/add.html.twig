@@ -11,10 +11,33 @@
 {% block body %}
     {{ parent() }}
     <h1>Add Social Network</h1>
-    <form action="{{ path('social_networks_process__create') }}" method="post">
-        <label for="name">Name</label>
-        <input type="text" name="name" placeholder="Facebook" id="name" />
-        <input type="submit" name="submit" value="Submit" />
+    <form action="{{ path("social_networks_process__create") }}" method="post">
+
+        {% for fieldName, fieldProperties in formFields %}
+            {% if not(fieldProperties["type"] is same as ("submit")) %}
+                <label for="{{ fieldProperties["id"] }}">
+                    {{ fieldName|capitalize }}
+                </label>
+            {% endif %}
+
+            <input
+                {% if not(fieldProperties["type"] is same as ("submit")) %}
+                    name="{{ fieldName }}"
+                {% endif %}
+                {% for attribut, attributValue in fieldProperties %}
+                    {% if attributValue is iterable %}
+                        {% if attributValue|length > 0 %}
+                            {% for option, optionValue in attributValue %}
+                                {{ option }} = "{{ optionValue }}"
+                            {% endfor %}
+                        {% endif %}
+                    {% else %}
+                        {{ attribut }}="{{ attributValue }}"
+                    {% endif %}
+                {% endfor %}
+            >
+        {% endfor %}
+
     </form>
 {% endblock %}
 
