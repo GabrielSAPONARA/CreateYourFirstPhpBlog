@@ -3,20 +3,25 @@
 define("ROOT",dirname(__DIR__));
 
 use App\Router\RouteManager;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__. DIRECTORY_SEPARATOR .'..'. DIRECTORY_SEPARATOR .'vendor'. DIRECTORY_SEPARATOR .'autoload.php';
+
+$whoops = new Run;
+$whoops->pushHandler(new PrettyPageHandler);
+$whoops->register();
 
 $uri = $_SERVER['REQUEST_URI'];
 
 //dump($uri);
 
 $router = new AltoRouter();
-require_once "../config/routes.php";
+require_once "..". DIRECTORY_SEPARATOR ."config". DIRECTORY_SEPARATOR ."routes.php";
 $routeManager = new RouteManager($router);
 
 
 $match = $router->match();
-//dump($match);
 
 if(is_array($match))
 {
