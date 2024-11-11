@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Role;
+use App\Form\RoleFormType;
 
 class RoleController extends BasicController
 {
@@ -20,7 +21,11 @@ class RoleController extends BasicController
 
     public function add(): void
     {
-        $this->twig->display('role/add.html.twig');
+        $form = RoleFormType::buildForm();
+        $this->twig->display('role/add.html.twig',
+        [
+            'formFields' => $form->getFields(),
+        ]);
 
     }
 
