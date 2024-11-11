@@ -16,7 +16,7 @@ class RouteManager
         $route = $this->findRouteByName($name);
 
         if (!$route) {
-            throw new \InvalidArgumentException(sprintf('La route "%s" n\'existe pas.', $name));
+            throw new \InvalidArgumentException(sprintf('The route "%s" is not defined.', $name));
         }
 
         $url = $route[1];
