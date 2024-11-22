@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\User;
+use App\Form\UserFormType;
 
 class UserController extends BasicController
 {
@@ -24,8 +25,11 @@ class UserController extends BasicController
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $roleRepository = $entityManager->getRepository(Role::class);
         $roles = $roleRepository->findAll();
+
+        $form = UserFormType::buildForm(null, $roles);
         $this->twig->display('user/add.html.twig',
         [
+            'formFields' => $form->getFields(),
             'roles' => $roles,
         ]);
 
@@ -48,7 +52,7 @@ class UserController extends BasicController
                 $user = $userRepository->findById($userId);
                 $user->setLastName($_POST["lastName"]);
                 $user->setFirstName($_POST["firstName"]);
-                $user->setEmailAddress($_POST["emailAdress"]);
+                $user->setEmailAddress($_POST["emailAddress"]);
                 $user->setUsername($_POST["username"]);
                 $user->setPassword($_POST["password"]);
                 $roleRepository = $entityManager->getRepository(Role::class);
