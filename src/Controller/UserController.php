@@ -30,7 +30,6 @@ class UserController extends BasicController
         $this->twig->display('user/add.html.twig',
         [
             'formFields' => $form->getFields(),
-            'roles' => $roles,
         ]);
 
     }
@@ -43,33 +42,35 @@ class UserController extends BasicController
         $host = $_SERVER["SERVER_NAME"];
         $port = $_SERVER["SERVER_PORT"];
         $url .= $host .":". $port . "/";
-        if(isset($_POST["lastName"]))
+        if((isset($_POST["Last_Name"])) && (isset($_POST["First_Name"])) &&
+           (isset($_POST["Email_Adress"]))  && (isset($_POST["Username"])) &&
+           (isset($_POST["Password"])) && (isset($_POST["Roles"])))
         {
             if($userId !== null)
             {
                 $userRepository = $entityManager->getRepository
                 (User::class);
                 $user = $userRepository->findById($userId);
-                $user->setLastName($_POST["lastName"]);
-                $user->setFirstName($_POST["firstName"]);
-                $user->setEmailAddress($_POST["emailAddress"]);
-                $user->setUsername($_POST["username"]);
-                $user->setPassword($_POST["password"]);
+                $user->setLastName($_POST["Last_Name"]);
+                $user->setFirstName($_POST["First_Name"]);
+                $user->setEmailAddress($_POST["Email_Adress"]);
+                $user->setUsername($_POST["Username"]);
+                $user->setPassword($_POST["Password"]);
                 $roleRepository = $entityManager->getRepository(Role::class);
-                $role = $roleRepository->findById($_POST["role"]);
+                $role = $roleRepository->findById($_POST["Roles"]);
                 $user->setRole($role);
                 $entityManager->flush();
             }
             else
             {
                 $user = new User();
-                $user->setLastName($_POST["lastName"]);
-                $user->setFirstName($_POST["firstName"]);
-                $user->setEmailAddress($_POST["emailAdress"]);
-                $user->setUsername($_POST["username"]);
-                $user->setPassword($_POST["password"]);
+                $user->setLastName($_POST["Last_Name"]);
+                $user->setFirstName($_POST["First_Name"]);
+                $user->setEmailAddress($_POST["Email_Adress"]);
+                $user->setUsername($_POST["Username"]);
+                $user->setPassword($_POST["Password"]);
                 $roleRepository = $entityManager->getRepository(Role::class);
-                $role = $roleRepository->findById($_POST["role"]);
+                $role = $roleRepository->findById($_POST["Roles"]);
                 $user->setRole($role);
                 $entityManager->persist($user);
                 $entityManager->flush();
@@ -92,11 +93,14 @@ class UserController extends BasicController
         $user = $userRepository->find($userId);
         $roleRepository = $entityManager->getRepository(Role::class);
         $roles = $roleRepository->findAll();
+        $roleIdOfUser = $user->getRole()->getId();
 
+        $form = UserFormType::buildForm($user, $roles);
         $this->twig->display('user/modify.html.twig',
             [
+                'formFields' => $form->getFields(),
                 'user' => $user,
-                'roles' => $roles,
+                'roleIdOfUser' => $roleIdOfUser,
             ]);
     }
 
