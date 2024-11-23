@@ -14,6 +14,7 @@
     <form action="{{ path('users_process__create') }}" method="post">
 
         {% for fieldname, fieldProperties in formFields %}
+
             {% if not(fieldProperties["type"] is same as ("submit")) and not(fieldProperties["type"] is same as ("radio"))%}
                 <label for="{{ fieldProperties["id"] }}">
                     {{ fieldname|capitalize }}
@@ -34,7 +35,7 @@
 
                     <input
                         type="{{ fieldProperties["type"] }}"
-                        name="fieldName"
+                        name="{{ fieldname }}"
                         id="role-{{ roleIterator }}"
                         value="{{ choice["value"] }}"
                     >
@@ -45,7 +46,7 @@
             {% else %}
                 <input
                     {% if not(fieldProperties["type"] is same as ("submit")) %}
-                        name="{{ fieldName }}"
+                        name="{{ fieldname }}"
                     {% endif %}
 
                         {% for attribut, attributValue in fieldProperties %}
@@ -64,29 +65,6 @@
             {% endif %}
         {% endfor %}
 
-{#        <label for="firstName">First Name</label>#}
-{#        <input type="text" name="firstName" placeholder="Jean" id="firstName" />#}
-
-{#        <label for="lastName">Last Name</label>#}
-{#        <input type="text" name="lastName" placeholder="MARTIN" id="lastName" />#}
-
-{#        <label for="emailAdress">Email Adress</label>#}
-{#        <input type="email" name="emailAdress" placeholder="jean.martin@gmail.com" id="emailAdress" />#}
-
-{#        <label for="username">Username</label>#}
-{#        <input type="text" name="username" placeholder="MiloPaper" id="username" />#}
-
-{#        <label for="password">Password</label>#}
-{#        <input type="password" name="password" placeholder="*******************" id="password" />#}
-
-{#        {% set roleIterator = 0 %}#}
-{#        {% for role in roles %}#}
-{#            <label for="role-{{ roleIterator }}">{{ role.name }}</label>#}
-{#            <input type="radio" name="role" id="role-{{ roleIterator }}" value="{{ role.id }}">#}
-{#            {% set roleIterator = roleIterator + 1 %}#}
-{#        {% endfor %}#}
-
-{#        <input type="submit" name="submit" value="Submit" />#}
     </form>
 {% endblock %}
 
