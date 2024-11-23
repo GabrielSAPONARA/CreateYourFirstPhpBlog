@@ -81,7 +81,7 @@ class UserFormType
                 $roleId,
                 [
                     'required' => true,
-                    'choices' => array_map(function (   Role $role)
+                    'choices' => array_map(function (Role $role)
                     {
                         return
                         [
