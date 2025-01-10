@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use JetBrains\PhpStorm\NoReturn;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
@@ -16,6 +18,11 @@ class BasicController
 
     public function __construct(RouteManager $routerManager)
     {
+        if(session_status() === PHP_SESSION_NONE)
+        {
+            session_start();
+        }
+
         try
         {
             $this->loader = new FilesystemLoader(ROOT.'/templates');
@@ -39,5 +46,32 @@ class BasicController
 
         $this->twig->addFunction(new TwigFunction('path',
             [$this->routerManager, 'generatePath']));
+    }
+
+    #[NoReturn] protected function redirectToRoute(string $routeName, array $parameters = []) : RedirectResponse
+    {
+        $url = $this->routerManager->generatePath($routeName, $parameters);
+        header("Location: $url");
+        exit();
+    }
+
+    protected function setSession($key, $value): void
+    {
+        $_SESSION[$key] = $value;
+    }
+
+    protected function getSession(string $key)
+    {
+        return $_SESSION[$key] ?? null;
+    }
+
+    protected function destroySession(): void
+    {
+        session_destroy();
+    }
+
+    protected function clearSession(): void
+    {
+        $_SESSION = [];
     }
 }

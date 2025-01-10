@@ -75,14 +75,12 @@ class UserController extends BasicController
                 $entityManager->persist($user);
                 $entityManager->flush();
             }
-            $url .= "user";
+            $this->redirectToRoute('users');
         }
         else
         {
-            $url .= "user/add";
+            $this->redirectToRoute("users__addition");
         }
-        header($url);
-        exit();
     }
 
     public function modify(array $params) : void
@@ -112,12 +110,6 @@ class UserController extends BasicController
         $user = $userRepository->findById($userId);
         $entityManager->remove($user);
         $entityManager->flush();
-        $url = "Location: http://";
-        $host = $_SERVER["SERVER_NAME"];
-        $port = $_SERVER["SERVER_PORT"];
-        $url .= $host .":". $port . "/";
-        $url .= "user";
-        header($url);
-        exit();
+        $this->redirectToRoute('users');
     }
 }
