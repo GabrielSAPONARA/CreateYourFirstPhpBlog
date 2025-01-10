@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    {% block main %}
+        {{ parent() }}
+        <h1>Login</h1>
+        <form action="{{ path("login_process") }}" method="post">
+
+            {% for fieldname, fieldProperties in form %}
+
+                {% if not(fieldProperties["type"] is same as ("submit")) %}
+                    <label for="{{ fieldProperties["id"] }}">
+                        {{ fieldname|capitalize }}
+                    </label>
+                {% endif %}
+
+                <input
+                   {% if not(fieldProperties["type"] is same as ("submit")) %}
+                       name="{{ fieldname }}"
+                   {% endif %}
+                   {% for attribut, attributValue in fieldProperties %}
+                       {% if attributValue is iterable %}
+                           {% if attributValue|length > 0 %}
+                               {% for option, optionValue in attributValue %}
+                                   {{ option }} = "{{ optionValue }}"
+                               {% endfor %}
+                           {% endif %}
+                       {% else %}
+                           {{ attribut }}="{{ attributValue }}"
+                       {% endif %}
+                   {% endfor %}
+               >
+            {% endfor %}
+
+        </form>
+    {% endblock %}
+{% endblock %}

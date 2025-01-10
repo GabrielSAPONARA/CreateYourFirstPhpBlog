@@ -27,3 +27,7 @@ $router->map('POST', '/user/process', "UserController::process", "users_process_
 $router->map('POST', '/user/process/[uuid:id]', "UserController::process", "users_process__update");
 $router->map('GET', '/user/modify/[uuid:id]', "UserController::modify", "users_modify");
 $router->map('GET', '/user/delete/[uuid:id]', "UserController::delete", "users_delete");
+
+// routes to manage authentication
+$router->map('GET', '/login', "AuthController::login", "login");
+$router->map('POST', '/login', "AuthController::login", "login_process");

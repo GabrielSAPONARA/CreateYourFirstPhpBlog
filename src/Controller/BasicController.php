@@ -22,6 +22,7 @@ class BasicController
         {
             session_start();
         }
+        session_regenerate_id(true);
 
         try
         {
@@ -73,5 +74,13 @@ class BasicController
     protected function clearSession(): void
     {
         $_SESSION = [];
+    }
+
+    protected function checkAuth(): void
+    {
+        if(!isset($_SESSION['user_id']))
+        {
+            $this->redirectToRoute('login');
+        }
     }
 }
