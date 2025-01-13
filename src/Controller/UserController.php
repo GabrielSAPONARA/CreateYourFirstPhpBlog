@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Form\UserFormType;
+use App\Logger\LoggerManager;
+use JetBrains\PhpStorm\NoReturn;
 
 class UserController extends BasicController
 {
     public function index(): void
     {
+        $this->beforeAction('Administrator');
+
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
 
         $userRepository = $entityManager->getRepository(User::class);
@@ -34,14 +38,12 @@ class UserController extends BasicController
 
     }
 
-    public function process($params = []) : void
+    #[NoReturn] public function process($params = []) : void
     {
         $userId = $params['id'] ?? null;
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $url = "Location: http://";
-        $host = $_SERVER["SERVER_NAME"];
-        $port = $_SERVER["SERVER_PORT"];
-        $url .= $host .":". $port . "/";
+
+        $userLogger = $this->getLogger("user");
         if((isset($_POST["Last_Name"])) && (isset($_POST["First_Name"])) &&
            (isset($_POST["Email_Adress"]))  && (isset($_POST["Username"])) &&
            (isset($_POST["Password"])) && (isset($_POST["Roles"])))
@@ -60,6 +62,7 @@ class UserController extends BasicController
                 $role = $roleRepository->findById($_POST["Roles"]);
                 $user->setRole($role);
                 $entityManager->flush();
+                $userLogger->info("User " . $user->getId() . " has been modified.");
             }
             else
             {
@@ -74,11 +77,13 @@ class UserController extends BasicController
                 $user->setRole($role);
                 $entityManager->persist($user);
                 $entityManager->flush();
+                $userLogger->info("New user added: " . $user->getId());
             }
             $this->redirectToRoute('users');
         }
         else
         {
+            $userLogger->warning("Some information about user are missing.");
             $this->redirectToRoute("users__addition");
         }
     }
@@ -102,12 +107,14 @@ class UserController extends BasicController
             ]);
     }
 
-    public function delete(array $params) : void
+    #[NoReturn] public function delete(array $params) : void
     {
         $userId = $params["id"];
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $userRepository = $entityManager->getRepository(User::class);
         $user = $userRepository->findById($userId);
+        $userLogger = $this->getLogger('user');
+        $userLogger->warning("User " . $user->getId() . " has been deleted.");
         $entityManager->remove($user);
         $entityManager->flush();
         $this->redirectToRoute('users');
