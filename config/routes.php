@@ -31,3 +31,7 @@ $router->map('GET', '/user/delete/[uuid:id]', "UserController::delete", "users_d
 // routes to manage authentication
 $router->map('GET', '/login', "AuthController::login", "login");
 $router->map('POST', '/login', "AuthController::login", "login_process");
+$router->map('GET', '/logout', "AuthController::logout", "logout");
+
+// routes to manage errors
+$router->map('GET', '/forbidden', "ErrorController::forbidden", "forbidden");
