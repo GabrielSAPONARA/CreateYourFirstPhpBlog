@@ -23,4 +23,14 @@ class RoleRepository extends EntityRepository
             ->setMaxResults(1)
             ->getOneOrNullResult();
     }
+
+    public function findByName(string $name)
+    {
+        return $this->createQueryBuilder('role')
+            ->andWhere('role.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+    }
 }

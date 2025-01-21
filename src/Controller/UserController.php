@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\User;
+use App\Form\MemberFormType;
 use App\Form\UserFormType;
 use App\Logger\LoggerManager;
 use JetBrains\PhpStorm\NoReturn;
@@ -26,6 +27,7 @@ class UserController extends BasicController
 
     public function add(): void
     {
+        $this->beforeAction('Administrator');
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $roleRepository = $entityManager->getRepository(Role::class);
         $roles = $roleRepository->findAll();
@@ -40,6 +42,7 @@ class UserController extends BasicController
 
     #[NoReturn] public function process($params = []) : void
     {
+        $this->beforeAction('Administrator');
         $userId = $params['id'] ?? null;
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
 
@@ -90,6 +93,7 @@ class UserController extends BasicController
 
     public function modify(array $params) : void
     {
+        $this->beforeAction('Administrator');
         $userId = $params["id"];
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $userRepository = $entityManager->getRepository(User::class);
@@ -118,5 +122,51 @@ class UserController extends BasicController
         $entityManager->remove($user);
         $entityManager->flush();
         $this->redirectToRoute('users');
+    }
+
+    public function register() : void
+    {
+        $form = MemberFormType::buildForm();
+        $this->twig->display('user/register.html.twig',
+        [
+            'formFields' => $form->getFields(),
+        ]);
+    }
+
+    public function processToRegister()
+    {
+        $this->beforeAction('Disconnected user');
+
+        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
+        $userLogger = $this->getLogger("user");
+        $route = "";
+
+        if((isset($_POST["Last_Name"])) && (isset($_POST["First_Name"])) &&
+           (isset($_POST["Email_Adress"]))  && (isset($_POST["Username"])) &&
+           (isset($_POST["Password"])))
+        {
+            $user = new User();
+            $user->setLastName($_POST["Last_Name"]);
+            $user->setFirstName($_POST["First_Name"]);
+            $user->setEmailAddress($_POST["Email_Adress"]);
+            $user->setUsername($_POST["Username"]);
+            $user->setPassword($_POST["Password"]);
+            $roleRepository = $entityManager->getRepository(Role::class);
+            $role = $roleRepository->findByName("Member");
+            $user->setRole($role);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $userLogger->info("New user added: " . $user->getId());
+            $route = "welcome";
+            $_SESSION['user_id'] = $user->getId();
+            $_SESSION['username'] = $user->getUsername();
+            $_SESSION['role'] = $user->getRole()->getName();
+        }
+        else
+        {
+            $userLogger->warning("Some information about user are missing.");
+            $route = "register";
+        }
+        $this->redirectToRoute($route);
     }
 }
