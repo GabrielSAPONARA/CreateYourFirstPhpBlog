@@ -9,6 +9,7 @@ class RoleController extends BasicController
 {
     public function index(): void
     {
+        $this->beforeAction("Administrator");
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
 
         $roleRepository = $entityManager->getRepository(Role::class);
@@ -21,6 +22,7 @@ class RoleController extends BasicController
 
     public function add(): void
     {
+        $this->beforeAction("Administrator");
         $form = RoleFormType::buildForm();
         $this->twig->display('role/add.html.twig',
         [
@@ -31,12 +33,10 @@ class RoleController extends BasicController
 
     public function process($params = []) : void
     {
+        $this->beforeAction("Administrator");
         $roleId = $params['id'] ?? null;
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $url = "Location: http://";
-        $host = $_SERVER["SERVER_NAME"];
-        $port = $_SERVER["SERVER_PORT"];
-        $url .= $host .":". $port . "/";
+        $route = "";
         if(isset($_POST["name"]))
         {
             if($roleId !== null)
@@ -54,18 +54,18 @@ class RoleController extends BasicController
                 $entityManager->persist($role);
                 $entityManager->flush();
             }
-            $url .= "role";
+            $route = "roles";
         }
         else
         {
-            $url .= "role/add";
+            $route = "roles__addition";
         }
-        header($url);
-        exit();
+        $this->redirectToRoute($route);
     }
 
     public function modify(array $params) : void
     {
+        $this->beforeAction("Administrator");
         $roleId = $params["id"];
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $roleRepository = $entityManager->getRepository(Role::class);
@@ -82,6 +82,7 @@ class RoleController extends BasicController
 
     public function delete(array $params) : void
     {
+        $this->beforeAction("Administrator");
         $roleId = $params["id"];
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $roleRepository = $entityManager->getRepository(Role::class);

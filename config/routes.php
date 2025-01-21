@@ -27,6 +27,8 @@ $router->map('POST', '/user/process', "UserController::process", "users_process_
 $router->map('POST', '/user/process/[uuid:id]', "UserController::process", "users_process__update");
 $router->map('GET', '/user/modify/[uuid:id]', "UserController::modify", "users_modify");
 $router->map('GET', '/user/delete/[uuid:id]', "UserController::delete", "users_delete");
+$router->map('GET', '/register', "UserController::register", "register");
+$router->map('POST', '/register/process', "UserController::processToRegister", "register_process");
 
 // routes to manage authentication
 $router->map('GET', '/login', "AuthController::login", "login");
@@ -34,4 +36,4 @@ $router->map('POST', '/login', "AuthController::login", "login_process");
 $router->map('GET', '/logout', "AuthController::logout", "logout");
 
 // routes to manage errors
-$router->map('GET', '/forbidden', "ErrorController::forbidden", "forbidden");
+$router->map('GET', '/forbidden', "BasicController::forbidden", "forbidden");

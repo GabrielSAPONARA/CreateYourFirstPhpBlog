@@ -9,6 +9,7 @@ class SocialNetworkController extends BasicController
 {
     public function index(): void
     {
+        $this->beforeAction('Administrator');
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
 
         $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
@@ -21,6 +22,7 @@ class SocialNetworkController extends BasicController
 
     public function add(): void
     {
+        $this->beforeAction('Administrator');
         $form = SocialNetworkFormType::buildForm();
 
         $this->twig->display('socialNetwork/add.html.twig',
@@ -32,6 +34,7 @@ class SocialNetworkController extends BasicController
 
     public function process($params = []) : void
     {
+        $this->beforeAction('Administrator');
         $socialNetworkId = $params['id'] ?? null;
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $url = "Location: http://";
@@ -68,6 +71,7 @@ class SocialNetworkController extends BasicController
 
     public function modify(array $params) : void
     {
+        $this->beforeAction('Administrator');
         $socialNetworkId = $params["id"];
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
@@ -84,6 +88,7 @@ class SocialNetworkController extends BasicController
 
     public function delete(array $params) : void
     {
+        $this->beforeAction('Administrator');
         $socialNetworkId = $params["id"];
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
