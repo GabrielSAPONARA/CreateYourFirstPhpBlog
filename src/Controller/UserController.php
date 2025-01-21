@@ -135,8 +135,6 @@ class UserController extends BasicController
 
     public function processToRegister()
     {
-        $this->beforeAction('Disconnected user');
-
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $userLogger = $this->getLogger("user");
         $route = "";
