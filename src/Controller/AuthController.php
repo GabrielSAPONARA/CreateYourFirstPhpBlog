@@ -39,9 +39,9 @@ class AuthController extends BasicController
                     $user = $userArray[0];
                     if($user && \password_verify($data['password'], $user->getPassword()))
                     {
-                        $_SESSION['user_id'] = $user->getId();
-                        $_SESSION['username'] = $user->getUsername();
-                        $_SESSION['role'] = $user->getRole()->getName();
+                        $this->setSession('user_id', $user->getId());
+                        $this->setSession('username', $user->getUsername());
+                        $this->setSession('role', $user->getRole()->getName());
 
                         session_regenerate_id(true);
 
