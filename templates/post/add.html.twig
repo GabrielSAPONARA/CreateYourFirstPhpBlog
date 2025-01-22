@@ -1,0 +1,56 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add Post{% endblock %}
+
+{% block body %}
+    {% block main %}
+        <h1>Add Post</h1>
+        <form action="#" method="post">
+
+            {% for fieldName, fieldProperties in formFields %}
+               {% if not(fieldProperties["type"] is same as ("submit")) %}
+                   <label for="{{ fieldProperties["id"] }}">
+                       {{ fieldName|capitalize }}
+                   </label>
+               {% endif %}
+
+                {% if (fieldProperties["type"] is same as ("textarea")) %}
+                    <textarea
+                        name="{{ fieldName }}"
+
+                        {% for attribut, attributValue in fieldProperties %}
+                           {% if attributValue is iterable %}
+                               {% if attributValue|length > 0 %}
+                                   {% for option, optionValue in attributValue %}
+                                       {{ option }} = "{{ optionValue }}"
+                                   {% endfor %}
+                               {% endif %}
+                           {% else %}
+                               {{ attribut }}="{{ attributValue }}"
+                           {% endif %}
+                       {% endfor %}
+                    >
+                    </textarea>
+                {% else %}
+                   <input
+                       {% if not(fieldProperties["type"] is same as ("submit")) %}
+                           name="{{ fieldName }}"
+                       {% endif %}
+                       {% for attribut, attributValue in fieldProperties %}
+                           {% if attributValue is iterable %}
+                               {% if attributValue|length > 0 %}
+                                   {% for option, optionValue in attributValue %}
+                                       {{ option }} = "{{ optionValue }}"
+                                   {% endfor %}
+                               {% endif %}
+                           {% else %}
+                               {{ attribut }}="{{ attributValue }}"
+                           {% endif %}
+                       {% endfor %}
+                   >
+               {% endif %}
+           {% endfor %}
+        </form>
+    {% endblock %}
+
+{% endblock %}

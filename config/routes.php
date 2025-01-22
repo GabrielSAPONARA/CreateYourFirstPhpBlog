@@ -37,3 +37,6 @@ $router->map('GET', '/logout', "AuthController::logout", "logout");
 
 // routes to manage errors
 $router->map('GET', '/forbidden', "BasicController::forbidden", "forbidden");
+
+// routes to manage posts
+$router->map('GET', '/post/add', "PostController::add", "posts_addition");
