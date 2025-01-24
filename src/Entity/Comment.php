@@ -31,6 +31,9 @@ class Comment
     #[ManyToOne(targetEntity: Post::class, inversedBy: 'comments')]
     private Post $post;
 
+    #[ORM\Column(type: "boolean", nullable: true)]
+    private bool $isValidated;
+
     /**
      * @return \DateTime
      */
@@ -101,6 +104,16 @@ class Comment
     public function setPost(Post $post): void
     {
         $this->post = $post;
+    }
+
+    public function isValidated(): bool
+    {
+        return $this->isValidated;
+    }
+
+    public function setIsValidated(bool $isValidated): void
+    {
+        $this->isValidated = $isValidated;
     }
 
 

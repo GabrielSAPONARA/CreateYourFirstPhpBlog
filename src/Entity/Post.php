@@ -41,6 +41,12 @@ class Post
     #[OneToMany(targetEntity: Comment::class, mappedBy: 'post')]
     private Collection $comments;
 
+    #[ORM\Column(type: "boolean", nullable: false)]
+    private bool $isPublished;
+
+    #[ORM\Column(type: "boolean", nullable: true)]
+    private bool $isValidated;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -149,5 +155,25 @@ class Post
     public function removeComment(Comment $comment): void
     {
         $this->comments->removeElement($comment);
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): void
+    {
+        $this->isPublished = $isPublished;
+    }
+
+    public function isValidated(): bool
+    {
+        return $this->isValidated;
+    }
+
+    public function setIsValidated(bool $isValidated): void
+    {
+        $this->isValidated = $isValidated;
     }
 }

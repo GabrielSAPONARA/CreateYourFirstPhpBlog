@@ -66,6 +66,9 @@ class User implements PasswordAuthenticatedUserInterface
     #[OneToMany(targetEntity: Comment::class, mappedBy: "users")]
     private Collection $comments;
 
+    #[ORM\Column(type: "boolean", nullable: false)]
+    private bool $isActive;
+
     public function __construct()
     {
         $this->socialNetworks = new ArrayCollection();
@@ -268,6 +271,16 @@ class User implements PasswordAuthenticatedUserInterface
     public function setRole(Role $role): void
     {
         $this->role = $role;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
     }
 
     /**
