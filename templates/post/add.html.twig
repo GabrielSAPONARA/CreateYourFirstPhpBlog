@@ -5,7 +5,7 @@
 {% block body %}
     {% block main %}
         <h1>Add Post</h1>
-        <form action="#" method="post">
+        <form action="{{ path("posts_process__create") }}" method="post">
 
             {% for fieldName, fieldProperties in formFields %}
                {% if not(fieldProperties["type"] is same as ("submit")) %}

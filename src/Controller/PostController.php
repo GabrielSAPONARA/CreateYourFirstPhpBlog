@@ -3,7 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\PostFormType;
+use JetBrains\PhpStorm\NoReturn;
+use Ramsey\Uuid\Uuid;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class PostController extends BasicController
 {
@@ -12,6 +18,8 @@ class PostController extends BasicController
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $postRepository = $entityManager->getRepository(Post::class);
         $posts = $postRepository->findAll();
+//        dd($posts);
+//        dd(phpinfo());
 
         $this->twig->display('post/index.html.twig',
             [
@@ -33,38 +41,62 @@ class PostController extends BasicController
     {
         $postId = $params['id'] ?? null;
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $url = "Location: http://";
-        $host = $_SERVER["SERVER_NAME"];
-        $port = $_SERVER["SERVER_PORT"];
-        $url .= $host .":". $port . "/";
-        if(isset($_POST["title"]))
+        if(isset($_POST["Title"]) && isset($_POST["Content"]) && isset
+            ($_POST["Chapo"]))
         {
+
             if($postId !== null)
             {
                 $postRepository = $entityManager->getRepository
                 (Post::class);
                 $post = $postRepository->findById($postId);
-                $post->setTitle($_POST["title"]);
-                $post->setChapo($_POST["chapo"]);
-                $post->setContent($_POST["content"]);
+                $post->setTitle($_POST["Title"]);
+                $post->setChapo($_POST["Chapo"]);
+                $post->setContent($_POST["Content"]);
                 $entityManager->flush();
             }
             else
             {
                 $post = new Post();
-                $post->setTitle($_POST["title"]);
-                $post->setChapo($_POST["chapo"]);
-                $post->setContent($_POST["content"]);
+                $post->setTitle($_POST["Title"]);
+                $post->setChapo($_POST["Chapo"]);
+                $post->setContent($_POST["Content"]);
+                $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+                $currentDate->setTimezone(new \DateTimeZone('UTC'));
+                $post->setDateOfLastUpdate($currentDate);
+                $currentUserId = $this->getSession("user_id");
+                $userRepository = $entityManager->getRepository(User::class);
+                $currentUser = $userRepository->findById($currentUserId);
+                $post->setUser($currentUser);
                 $entityManager->persist($post);
                 $entityManager->flush();
             }
-            $url .= "post";
+            $route = "posts";
         }
         else
         {
-            $url .= "post/add";
+            $route = "posts";
         }
-        header($url);
-        exit();
+        $this->redirectToRoute($route);
+    }
+
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    #[NoReturn] public function details (array $params) : void
+    {
+        $uuid = $params["postId"];
+        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
+        $postRepository = $entityManager->getRepository(Post::class);
+        $post = $postRepository->findById($uuid)[0];
+        $author = $post->getUser();
+
+        $this->twig->display('post/detail.html.twig',
+        [
+            'post' => $post,
+            'author' => $author
+        ]);
     }
 }
