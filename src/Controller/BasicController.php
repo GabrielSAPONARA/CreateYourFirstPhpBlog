@@ -13,9 +13,9 @@ use \Twig\Extension\DebugExtension;
 
 class BasicController
 {
-    private $loader;
-    protected $twig;
-    private $routerManager;
+    private FilesystemLoader $loader;
+    protected Environment $twig;
+    private RouteManager $routerManager;
     protected array $loggers;
 
     private array $roleHierarchy =
@@ -26,8 +26,22 @@ class BasicController
         'Disconnected user' => [],
     ];
 
+    protected string $currentRoute;
+
+    protected string $previousRoute;
+
     public function __construct(RouteManager $routerManager)
     {
+        parent::__construct($routerManager);
+
+        $currentRoute = $_SERVER['REQUEST_URI'] ?? '/';
+        $previousRoute = $_SESSION['previous_route'] ?? null;
+
+        $_SESSION['previous_route'] = $currentRoute;
+
+        $this->currentRoute = $currentRoute;
+        $this->previousRoute = $previousRoute;
+
         if(session_status() === PHP_SESSION_NONE)
         {
             session_start();
@@ -142,6 +156,18 @@ class BasicController
             $this->redirectToRoute('forbidden');
         }
     }
+
+    protected function getCurrentRoute(): ?string
+    {
+        return $_SERVER['REQUEST_URI'] ?? null;
+    }
+
+    protected function getPreviousRoute(): ?string
+    {
+        return $_SESSION['previous_route'] ?? null;
+    }
+
+
 
     protected function getLogger(string $name)
     {
