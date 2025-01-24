@@ -156,9 +156,9 @@ class UserController extends BasicController
             $entityManager->flush();
             $userLogger->info("New user added: " . $user->getId());
             $route = "welcome";
-            $_SESSION['user_id'] = $user->getId();
-            $_SESSION['username'] = $user->getUsername();
-            $_SESSION['role'] = $user->getRole()->getName();
+            $this->setSession('user_id', $user->getId());
+            $this->setSession('username', $user->getUsername());
+            $this->setSession('role', $role->getName());
         }
         else
         {
