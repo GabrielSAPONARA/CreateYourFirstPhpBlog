@@ -154,3 +154,6 @@ fabric.properties
 
 # Webpack
 /node_modules/
+
+# Logs
+*.log
