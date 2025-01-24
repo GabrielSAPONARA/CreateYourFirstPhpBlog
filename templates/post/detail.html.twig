@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}{ post.title }}{% endblock %}
+
+{% block body %}
+    {% block navbar %}
+        {{ parent() }}
+    {% endblock %}
+    {% block main %}
+        <h1>{{ post.title }}</h1>
+        <div>
+            <div>
+                {{ post.chapo }}
+            </div>
+            <div>
+                {{ post.dateOfLastUpdate }}
+            </div>
+            <div>
+                {{ author.username }}
+            </div>
+            <div>
+                {{ post.content }}
+            </div>
+        </div>
+    {% endblock %}
+
+{% endblock %}

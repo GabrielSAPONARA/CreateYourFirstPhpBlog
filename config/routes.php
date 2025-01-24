@@ -39,4 +39,7 @@ $router->map('GET', '/logout', "AuthController::logout", "logout");
 $router->map('GET', '/forbidden', "BasicController::forbidden", "forbidden");
 
 // routes to manage posts
+$router->map('GET', '/post', "PostController::index", "posts");
 $router->map('GET', '/post/add', "PostController::add", "posts_addition");
+$router->map('POST', '/post/process', "PostController::process", "posts_process__create");
+$router->map('GET', '/post/details/[uuid:postId]', "PostController::details", "posts_details");
