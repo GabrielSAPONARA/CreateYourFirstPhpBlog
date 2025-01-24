@@ -4,7 +4,7 @@
     {{ parent() }}
 {% endblock %}
 
-{% block title %}{ post.title }}{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block body %}
     {% block navbar %}
@@ -25,6 +25,16 @@
             <div>
                 {{ post.content }}
             </div>
+        </div>
+        <div>
+            {% for comment in comments %}
+                <div>
+                    {{ comment.content }}
+                </div>
+            {% endfor %}
+        </div>
+        <div>
+            <a href="{{ path('comments_addition', {'postId' : post.id}) }}">Add Comment</a>
         </div>
     {% endblock %}
 

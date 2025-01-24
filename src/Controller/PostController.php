@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostFormType;
@@ -90,13 +91,16 @@ class PostController extends BasicController
         $uuid = $params["postId"];
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $postRepository = $entityManager->getRepository(Post::class);
+        $commentRepository = $entityManager->getRepository(Comment::class);
+        $comments = $commentRepository->findByPost($uuid);
         $post = $postRepository->findById($uuid)[0];
         $author = $post->getUser();
 
         $this->twig->display('post/detail.html.twig',
         [
             'post' => $post,
-            'author' => $author
+            'author' => $author,
+            'comments' => $comments
         ]);
     }
 }
