@@ -33,9 +33,6 @@ class PostController extends BasicController
         $this->beforeAction("Member");
         $form = PostFormType::buildForm();
 
-        $this->setPreviousRoute($this->getCurrentRoute());
-        $this->setCurrentRoute("posts_addition");
-
         $this->twig->display('post/add.html.twig',
         [
             'formFields' => $form->getFields(),
