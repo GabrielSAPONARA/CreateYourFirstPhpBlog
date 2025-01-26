@@ -47,7 +47,7 @@ class AuthController extends BasicController
 
                         $authLogger->info("Logged in user : " .
                                           $user->getUsername() . ", user id : " . $user->getId());
-                        $this->redirectToRoute("users");
+                        $this->redirectToRoute("posts");
                     }
                     else
                     {
