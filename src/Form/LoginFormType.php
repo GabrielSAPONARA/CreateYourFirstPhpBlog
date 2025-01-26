@@ -16,6 +16,7 @@ class LoginFormType
                 "text",
                 "username",
                 "",
+                'Username',
                 [
                     "required" => true,
                     "placeholder" => "Username",
@@ -27,6 +28,7 @@ class LoginFormType
                 "password",
                 "password",
                 "",
+                'Password',
                 [
                     "required" => true,
                     "placeholder" => "***********",
@@ -38,6 +40,7 @@ class LoginFormType
                 "submit",
                 "signIn",
                 "Sign in",
+                '',
             )
             ;
 

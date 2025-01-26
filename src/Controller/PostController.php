@@ -32,6 +32,10 @@ class PostController extends BasicController
     {
         $this->beforeAction("Member");
         $form = PostFormType::buildForm();
+
+        $this->setPreviousRoute($this->getCurrentRoute());
+        $this->setCurrentRoute("posts_addition");
+
         $this->twig->display('post/add.html.twig',
         [
             'formFields' => $form->getFields(),
@@ -42,9 +46,15 @@ class PostController extends BasicController
     {
         $postId = $params['id'] ?? null;
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        if(isset($_POST["Title"]) && isset($_POST["Content"]) && isset
+
+        if(isset($_POST["Title"]) && strlen($_POST["Content"]) && isset
             ($_POST["Chapo"]))
         {
+            $isPublished = false;
+            if(!isset($_POST["IsPublished"]))
+            {
+                $isPublished = true;
+            }
 
             if($postId !== null)
             {
@@ -54,6 +64,7 @@ class PostController extends BasicController
                 $post->setTitle($_POST["Title"]);
                 $post->setChapo($_POST["Chapo"]);
                 $post->setContent($_POST["Content"]);
+                $post->setIsPublished($isPublished);
                 $entityManager->flush();
             }
             else
@@ -62,6 +73,7 @@ class PostController extends BasicController
                 $post->setTitle($_POST["Title"]);
                 $post->setChapo($_POST["Chapo"]);
                 $post->setContent($_POST["Content"]);
+                $post->setIsPublished($isPublished);
                 $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
                 $currentDate->setTimezone(new \DateTimeZone('UTC'));
                 $post->setDateOfLastUpdate($currentDate);
@@ -76,7 +88,7 @@ class PostController extends BasicController
         }
         else
         {
-            $route = "posts";
+            $route = "posts_addition";
         }
         $this->redirectToRoute($route);
     }

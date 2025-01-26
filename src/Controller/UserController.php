@@ -47,8 +47,8 @@ class UserController extends BasicController
         $entityManager = require_once __DIR__ . '/../../bootstrap.php';
 
         $userLogger = $this->getLogger("user");
-        if((isset($_POST["Last_Name"])) && (isset($_POST["First_Name"])) &&
-           (isset($_POST["Email_Adress"]))  && (isset($_POST["Username"])) &&
+        if((isset($_POST["Lastname"])) && (isset($_POST["Firstname"])) &&
+           (isset($_POST["Email_Address"]))  && (isset($_POST["Username"])) &&
            (isset($_POST["Password"])) && (isset($_POST["Roles"])))
         {
             if($userId !== null)
@@ -56,9 +56,9 @@ class UserController extends BasicController
                 $userRepository = $entityManager->getRepository
                 (User::class);
                 $user = $userRepository->findById($userId);
-                $user->setLastName($_POST["Last_Name"]);
-                $user->setFirstName($_POST["First_Name"]);
-                $user->setEmailAddress($_POST["Email_Adress"]);
+                $user->setLastName($_POST["Lastname"]);
+                $user->setFirstName($_POST["Firstname"]);
+                $user->setEmailAddress($_POST["Email_Address"]);
                 $user->setUsername($_POST["Username"]);
                 $user->setPassword($_POST["Password"]);
                 $roleRepository = $entityManager->getRepository(Role::class);
@@ -70,14 +70,15 @@ class UserController extends BasicController
             else
             {
                 $user = new User();
-                $user->setLastName($_POST["Last_Name"]);
-                $user->setFirstName($_POST["First_Name"]);
-                $user->setEmailAddress($_POST["Email_Adress"]);
+                $user->setLastName($_POST["Lastname"]);
+                $user->setFirstName($_POST["Firstname"]);
+                $user->setEmailAddress($_POST["Email_Address"]);
                 $user->setUsername($_POST["Username"]);
                 $user->setPassword($_POST["Password"]);
                 $roleRepository = $entityManager->getRepository(Role::class);
                 $role = $roleRepository->findById($_POST["Roles"]);
                 $user->setRole($role);
+                $user->setIsActive(true);
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $userLogger->info("New user added: " . $user->getId());
@@ -139,19 +140,20 @@ class UserController extends BasicController
         $userLogger = $this->getLogger("user");
         $route = "";
 
-        if((isset($_POST["Last_Name"])) && (isset($_POST["First_Name"])) &&
-           (isset($_POST["Email_Adress"]))  && (isset($_POST["Username"])) &&
+        if((isset($_POST["Lastname"])) && (isset($_POST["Firstname"])) &&
+           (isset($_POST["Email_Address"]))  && (isset($_POST["Username"])) &&
            (isset($_POST["Password"])))
         {
             $user = new User();
-            $user->setLastName($_POST["Last_Name"]);
-            $user->setFirstName($_POST["First_Name"]);
-            $user->setEmailAddress($_POST["Email_Adress"]);
+            $user->setLastName($_POST["Lastname"]);
+            $user->setFirstName($_POST["Firstname"]);
+            $user->setEmailAddress($_POST["Email_Address"]);
             $user->setUsername($_POST["Username"]);
             $user->setPassword($_POST["Password"]);
             $roleRepository = $entityManager->getRepository(Role::class);
             $role = $roleRepository->findByName("Member");
             $user->setRole($role);
+            $user->setIsActive(true);
             $entityManager->persist($user);
             $entityManager->flush();
             $userLogger->info("New user added: " . $user->getId());

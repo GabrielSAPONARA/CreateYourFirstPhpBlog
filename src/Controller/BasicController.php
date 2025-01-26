@@ -26,27 +26,25 @@ class BasicController
         'Disconnected user' => [],
     ];
 
-    protected string $currentRoute;
+    protected string|null $currentRoute;
 
-    protected string $previousRoute;
+    protected string|null $previousRoute;
 
     public function __construct(RouteManager $routerManager)
     {
-        parent::__construct($routerManager);
-
-        $currentRoute = $_SERVER['REQUEST_URI'] ?? '/';
-        $previousRoute = $_SESSION['previous_route'] ?? null;
-
-        $_SESSION['previous_route'] = $currentRoute;
-
-        $this->currentRoute = $currentRoute;
-        $this->previousRoute = $previousRoute;
-
         if(session_status() === PHP_SESSION_NONE)
         {
             session_start();
         }
         session_regenerate_id(true);
+
+        $currentRoute = $_SERVER['REQUEST_URI'] ?? '/';
+        $previousRoute = $_SESSION['previous_route'] ?? null;
+
+//        $_SESSION['previous_route'] = $currentRoute;
+
+        $this->setCurrentRoute($currentRoute);
+        $this->setPreviousRoute($previousRoute);
 
         try
         {
@@ -84,6 +82,8 @@ class BasicController
             'system' => LoggerManager::getLogger('system_errors'),
         ];
     }
+
+
 
     #[NoReturn] protected function redirectToRoute(string $routeName, array $parameters = []) : RedirectResponse
     {
@@ -162,12 +162,21 @@ class BasicController
         return $_SERVER['REQUEST_URI'] ?? null;
     }
 
+    public function setCurrentRoute(?string $currentRoute): void
+    {
+        $this->currentRoute = $currentRoute;
+        $_SESSION['current_route'] = $currentRoute;
+    }
+
     protected function getPreviousRoute(): ?string
     {
         return $_SESSION['previous_route'] ?? null;
     }
-
-
+    public function setPreviousRoute(?string $previousRoute): void
+    {
+        $this->previousRoute = $previousRoute;
+        $_SESSION['previous_route'] = $previousRoute;
+    }
 
     protected function getLogger(string $name)
     {

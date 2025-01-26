@@ -15,10 +15,11 @@ class MemberFormType
         $form
             ->addField
             (
-                'First Name',
+                'Firstname',
                 'text',
-                'firstName',
+                'firstname',
                 '',
+                'Firstname',
                 [
                     'required' => true,
                     'placeholder' => 'Martin',
@@ -26,10 +27,11 @@ class MemberFormType
             )
             ->addField
             (
-                'Last Name',
+                'Lastname',
                 'text',
-                'lastName',
+                'lastname',
                 '',
+                'Lastname',
                 [
                     'required' => true,
                     'placeholder' => 'MARTIN',
@@ -37,10 +39,11 @@ class MemberFormType
             )
             ->addField
             (
-                'Email Adress',
+                'Email Address',
                 'email',
-                'emailAdress',
+                'emailAddress',
                 '',
+                'Email Address',
                 [
                     'required' => true,
                     'placeholder' => 'martin.martin@gmail.com',
@@ -52,6 +55,7 @@ class MemberFormType
                 'text',
                 'username',
                 '',
+                'Username',
                 [
                     'required' => true,
                     'placeholder' => 'RikuKing',
@@ -63,6 +67,7 @@ class MemberFormType
                 'password',
                 'password',
                 '',
+                'Password',
                 [
                     'required' => true,
                     'placeholder' => '********************************',
@@ -73,7 +78,8 @@ class MemberFormType
                 'submit',
                 'submit',
                 'submit',
-                'Submit'
+                'Submit',
+                '',
             )
         ;
 

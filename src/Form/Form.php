@@ -12,13 +12,14 @@ class Form
     {
         return $this->fields;
     }
-    public function addField($name, $type, $id, $value, $options = [])
+    public function addField($name, $type, $id, $value, $label, $options = [])
     {
         $this->fields[$name] =
             [
                 'type' => $type,
                 'id' => $id,
                 'value' => $value,
+                'label' => $label,
                 'options' => $options
             ];
 

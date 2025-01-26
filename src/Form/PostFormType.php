@@ -18,6 +18,7 @@ class PostFormType
                 'text',
                 'title',
                 '',
+                'Title',
                 [
                     'required' => true,
                     'placeholder' => 'Title of the post',
@@ -30,6 +31,7 @@ class PostFormType
                 'text',
                 'chapo',
                 '',
+                'Chapo',
                 [
                     'required' => true,
                     'placeholder' => 'Chapo of the post',
@@ -42,17 +44,27 @@ class PostFormType
                 'textarea',
                 'content',
                 '',
+                'Content',
                 [
                     'required' => true,
-                    'placeholder' => 'Content of the post',
+                    'placeholder' => '',
                 ]
+            )
+            ->addField
+            (
+                'IsPublished',
+                'checkbox',
+                'isPublished',
+                'isPublished',
+                'Publish ?',
             )
             ->addField
             (
                 'submit',
                 'submit',
                 'submit',
-                'Submit'
+                'Submit',
+                ''
             )
             ;
 

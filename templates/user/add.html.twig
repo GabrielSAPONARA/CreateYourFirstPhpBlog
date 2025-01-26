@@ -15,11 +15,11 @@
 
         {% for fieldname, fieldProperties in formFields %}
 
-            {% if not(fieldProperties["type"] is same as ("submit")) and not(fieldProperties["type"] is same as ("radio"))%}
-                <label for="{{ fieldProperties["id"] }}">
-                    {{ fieldname|capitalize }}
-                </label>
-            {% endif %}
+            {% if not(fieldProperties["label"] is same as ("")) %}
+               <label for="{{ fieldProperties["id"] }}">
+                   {{ fieldProperties["label"]|capitalize }}
+               </label>
+           {% endif %}
 
             {% if fieldProperties["type"] is same as ("radio") %}
                 <fieldset>

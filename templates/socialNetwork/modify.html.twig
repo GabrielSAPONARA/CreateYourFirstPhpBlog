@@ -14,11 +14,11 @@
     <form action="{{ path("social_networks_process__update", { 'id' : socialNetwork.id}) }}" method="post">
 
         {% for fieldName, fieldProperties in formFields %}
-            {% if not(fieldProperties["type"] is same as ("submit")) %}
-                <label for="{{ fieldProperties["id"] }}">
-                    {{ fieldName|capitalize }}
-                </label>
-            {% endif %}
+            {% if not(fieldProperties["label"] is same as ("")) %}
+               <label for="{{ fieldProperties["id"] }}">
+                   {{ fieldProperties["label"]|capitalize }}
+               </label>
+           {% endif %}
 
             <input
                 {% if not(fieldProperties["type"] is same as ("submit")) %}

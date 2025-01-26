@@ -14,6 +14,7 @@ class CommentFormType
                 'textarea',
                 'content',
                 '',
+                'Content',
                 [
                     'required' => true,
                     'placeholder' => 'Content of the comment',
@@ -24,7 +25,8 @@ class CommentFormType
                 'submit',
                 'submit',
                 'submit',
-                'Submit'
+                'Submit',
+                '',
             )
         ;
 

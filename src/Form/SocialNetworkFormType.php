@@ -16,6 +16,7 @@ class SocialNetworkFormType
                 'text',
                 'name',
                 $socialNetwork ? $socialNetwork->getName() : '',
+                'Name',
                 [
                     'required' => true,
                     'placeholder' => $socialNetwork ? '' : 'Facebook'
@@ -26,7 +27,8 @@ class SocialNetworkFormType
                 'submit',
                 'submit',
                 'submit',
-                'Submit'
+                'Submit',
+                '',
             )
         ;
         return $form;

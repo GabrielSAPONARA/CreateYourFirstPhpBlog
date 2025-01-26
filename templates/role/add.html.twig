@@ -14,9 +14,9 @@
     <form action="{{ path("roles_process__create") }}" method="post">
 
         {% for fieldName, fieldProperties in formFields %}
-           {% if not(fieldProperties["type"] is same as ("submit")) %}
+           {% if not(fieldProperties["label"] is same as ("")) %}
                <label for="{{ fieldProperties["id"] }}">
-                   {{ fieldName|capitalize }}
+                   {{ fieldProperties["label"]|capitalize }}
                </label>
            {% endif %}
 

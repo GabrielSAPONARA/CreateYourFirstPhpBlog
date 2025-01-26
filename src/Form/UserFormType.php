@@ -15,10 +15,11 @@ class UserFormType
         $form
             ->addField
             (
-                'First Name',
+                'Firstname',
                 'text',
-                'firstName',
+                'firstname',
                 $user ? $user->getFirstName() : '',
+                'Firstname',
                 [
                     'required' => true,
                     'placeholder' => $user ? '' : 'Martin',
@@ -26,10 +27,11 @@ class UserFormType
             )
             ->addField
             (
-                'Last Name',
+                'Lastname',
                 'text',
-                'lastName',
+                'lastname',
                 $user ? $user->getLastName() : '',
+                'Lastname',
                 [
                     'required' => true,
                     'placeholder' => $user ? '' : 'MARTIN',
@@ -37,10 +39,11 @@ class UserFormType
             )
             ->addField
             (
-                'Email Adress',
+                'Email Address',
                 'email',
-                'emailAdress',
+                'emailAddress',
                 $user ? $user->getEmailAddress() : '',
+                'Email address',
                 [
                     'required' => true,
                     'placeholder' => $user ? '' : 'martin.martin@gmail.com',
@@ -52,6 +55,7 @@ class UserFormType
                 'text',
                 'username',
                 $user ? $user->getUsername() : '',
+                'Username',
                 [
                     'required' => true,
                     'placeholder' => $user ? '' : 'RikuKing',
@@ -63,6 +67,7 @@ class UserFormType
                 'password',
                 'password',
                 $user ? $user->getPassword() : '',
+                'Password',
                 [
                     'required' => true,
                     'placeholder' => $user ? '' : '********************************',
@@ -79,6 +84,7 @@ class UserFormType
                 'radio',
                 'roles',
                 $roleId,
+                'Roles',
                 [
                     'required' => true,
                     'choices' => array_map(function (Role $role)
@@ -97,7 +103,8 @@ class UserFormType
                 'submit',
                 'submit',
                 'submit',
-                'Submit'
+                'Submit',
+                '',
             )
         ;
 
