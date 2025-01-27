@@ -2,38 +2,32 @@
 
 namespace App\Controller;
 
-use App\Logger\LoggerManager;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-use Twig\TwigFunction;
 use App\Router\RouteManager;
-use \Twig\Extension\DebugExtension;
 
 class BasicController
 {
-    private FilesystemLoader $loader;
     protected Environment $twig;
     private RouteManager $routerManager;
     protected array $loggers;
 
     private array $roleHierarchy =
-    [
-        'Administrator' => ['Moderator', 'Member', 'Disconnected user'],
-        'Moderator' => ['Member', 'Disconnected user'],
-        'Member' => ['Disconnected user'],
-        'Disconnected user' => [],
-    ];
+        [
+            'Administrator' => ['Moderator', 'Member', 'Disconnected user'],
+            'Moderator' => ['Member', 'Disconnected user'],
+            'Member' => ['Disconnected user'],
+            'Disconnected user' => [],
+        ];
 
     protected string|null $currentRoute;
 
     protected string|null $previousRoute;
 
-    public function __construct(RouteManager $routerManager)
+    public function __construct(Environment $twig, RouteManager $routerManager, array $loggers)
     {
-        if(session_status() === PHP_SESSION_NONE)
-        {
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         session_regenerate_id(true);
@@ -41,51 +35,16 @@ class BasicController
         $currentRoute = $_SERVER['REQUEST_URI'] ?? '/';
         $previousRoute = $_SESSION['previous_route'] ?? null;
 
-//        $_SESSION['previous_route'] = $currentRoute;
-
         $this->setCurrentRoute($currentRoute);
         $this->setPreviousRoute($previousRoute);
 
-        try
-        {
-            $this->loader = new FilesystemLoader(ROOT.'/templates');
-
-            $this->twig = new Environment($this->loader, [
-                'cache' => false,
-                'debug' => true,
-            ]);
-        }
-        catch (\Exception $e)
-        {
-            dump($e->getMessage());
-        }
-
+        $this->twig = $twig; // Twig est maintenant injecté et déjà configuré
         $this->routerManager = $routerManager;
-
-        $this->twig->addFunction(new TwigFunction('asset', function ($path) {
-            return "/" . ltrim($path, '/');
-        }));
-        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
-
-        $this->twig->addFunction(new TwigFunction('path',
-            [$this->routerManager, 'generatePath']));
-
-        $this->loggers =
-        [
-            'app' => LoggerManager::getLogger('app'),
-            'user' => LoggerManager::getLogger('user'),
-            'authentication' => LoggerManager::getLogger('authentication'),
-            'database' => LoggerManager::getLogger('database'),
-            'post' => LoggerManager::getLogger('post_management'),
-            'comment' => LoggerManager::getLogger('comment_management'),
-            'admin' => LoggerManager::getLogger('admin_actions'),
-            'system' => LoggerManager::getLogger('system_errors'),
-        ];
+        $this->loggers = $loggers; // Injecté pour éviter la redondance
     }
 
-
-
-    #[NoReturn] protected function redirectToRoute(string $routeName, array $parameters = []) : RedirectResponse
+    #[NoReturn]
+    protected function redirectToRoute(string $routeName, array $parameters = []): RedirectResponse
     {
         $url = $this->routerManager->generatePath($routeName, $parameters);
         header("Location: $url");
@@ -127,8 +86,7 @@ class BasicController
 
     protected function checkAuth(string $requiredRole = null): void
     {
-        if (!$this->getSession('user_id') && $requiredRole !== 'Disconnected user')
-        {
+        if (!$this->getSession('user_id') && $requiredRole !== 'Disconnected user') {
             $this->redirectToRoute('login');
         }
     }
@@ -136,8 +94,6 @@ class BasicController
     protected function isGranted(array|string $roles): bool
     {
         $userRole = $this->getSession('role') ?? 'Disconnected user';
-
-//        dd($userRole);
         $allRoles = $this->getAllRoles($userRole);
 
         if (is_string($roles)) {
@@ -151,8 +107,7 @@ class BasicController
     {
         $this->checkAuth($requiredRole);
 
-        if ($requiredRole && !$this->isGranted($requiredRole))
-        {
+        if ($requiredRole && !$this->isGranted($requiredRole)) {
             $this->redirectToRoute('forbidden');
         }
     }
@@ -172,6 +127,7 @@ class BasicController
     {
         return $_SESSION['previous_route'] ?? null;
     }
+
     public function setPreviousRoute(?string $previousRoute): void
     {
         $this->previousRoute = $previousRoute;

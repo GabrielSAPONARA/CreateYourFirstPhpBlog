@@ -7,7 +7,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
 
-require_once "vendor/autoload.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR. "..". DIRECTORY_SEPARATOR. "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
 
 // Create a simple "default" Doctrine ORM configuration for Attributes
 $config = ORMSetup::createAttributeMetadataConfiguration(

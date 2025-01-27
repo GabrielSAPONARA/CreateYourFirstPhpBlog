@@ -2,11 +2,13 @@
 
 namespace App\Router;
 
+use AltoRouter;
+
 class RouteManager
 {
-    private $router;
+    private AltoRouter $router;
 
-    public function __construct($router)
+    public function __construct(AltoRouter $router)
     {
         $this->router = $router;
     }
@@ -19,13 +21,10 @@ class RouteManager
             throw new \InvalidArgumentException(sprintf('The route "%s" is not defined.', $name));
         }
 
-        $url = $route[1];
+        $url = $route['target'];
         foreach ($parameters as $key => $value) {
-            $url = preg_replace('/\[(?:[^\:]+):' . preg_quote($key) . '\]/', $value, $url);
+            $url = preg_replace('/\[' . preg_quote($key, '/') . '\]/', $value, $url);
         }
-
-        $url = preg_replace('/\[[^\]]+\]/', '', $url);
-
 
         return $url;
     }
@@ -33,8 +32,7 @@ class RouteManager
     private function findRouteByName($name)
     {
         foreach ($this->router->getRoutes() as $route) {
-//            dump($route);
-            if (isset($route[3]) && $route[3] === $name) {
+            if ($route['name'] === $name) {
                 return $route;
             }
         }
@@ -42,3 +40,4 @@ class RouteManager
         return null;
     }
 }
+
