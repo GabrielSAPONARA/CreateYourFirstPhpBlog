@@ -20,6 +20,10 @@ $container = $containerFactory();
 $router = $container->get(RouteManager::class);
 $match = $router->match();
 
+//dump($_SERVER["REQUEST_URI"]);
+//dump($router);
+//dump($match);
+
 if (is_array($match))
 {
     list($controller, $action) = explode('::', $match['target']);
