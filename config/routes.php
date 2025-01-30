@@ -49,3 +49,4 @@ $router->map('GET', '/post/byUser', "PostController::postByUser", "posts__byUser
 // routes to manage comments
 $router->map('GET', '/comment/add/[uuid:postId]', "CommentController::add", "comments__addition");
 $router->map('POST', '/comment/process/[uuid:postId]', "CommentController::process", "comments_process__create");
+$router->map('GET', '/comment/byUser', "CommentController::commentByUser", "comments__byUser");

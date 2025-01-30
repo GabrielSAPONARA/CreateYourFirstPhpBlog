@@ -83,4 +83,23 @@ class CommentController extends BasicController
         }
         $this->redirectToRoute($route, ["postId" => $postId]);
     }
+
+    public function commentByUser(): void
+    {
+        $userId = $this->getSession("user_id");
+        $commentRepository = $this->entityManager->getRepository(Comment::class);
+        $comments = $commentRepository->findBy(["user" => $userId]);
+
+        $postIds = [];
+        foreach($comments as $comment)
+        {
+            $postIds[] = $comment->getPost()->getId();
+        }
+
+        $this->twig->display("comment/byUser.html.twig",
+        [
+            "comments" => $comments,
+            "postIds" => $postIds
+        ]);
+    }
 }
