@@ -2,12 +2,29 @@
 
 namespace App\Controller;
 
+use App\Router\RouteManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 class WelcomeController extends BasicController
 {
+    protected Environment $twig;
+    private RouteManager $routeManager;
+    protected array $loggers;
+
+    public function __construct
+    (
+        \Twig\Environment $twig,
+        \App\Router\RouteManager $routeManager,
+        array $loggers
+    )
+    {
+        parent::__construct($twig, $routeManager, $loggers);
+    }
+
     /**
      * @throws RuntimeError
      * @throws SyntaxError

@@ -1,9 +1,14 @@
 <?php
 
+use App\Controller\AuthController;
+use App\Controller\CommentController;
 use App\Controller\PostController;
+use App\Controller\RoleController;
+use App\Controller\SocialNetworkController;
+use App\Controller\UserController;
+use App\Controller\WelcomeController;
 use App\Service\PostService;
 use DI\ContainerBuilder;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -16,7 +21,7 @@ return function (): \DI\Container {
 
     $containerBuilder->useAutowiring(true);
 
-    $entityManager = require __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
+    $entityManager = require __DIR__ . '/bootstrap.php';
     // EntityManager setup
     $containerBuilder->addDefinitions([
         EntityManagerInterface::class => DI\value($entityManager),
@@ -32,29 +37,22 @@ return function (): \DI\Container {
                 'debug' => true,
             ])
             ->method('addExtension', DI\get(DebugExtension::class))
-            ->method('addFunction', DI\factory(function (RouteManager $routeManager) {
-                return new Twig\TwigFunction('path', [$routeManager, 'generatePath']);
-            }))
-
             ->method('addFunction', new Twig\TwigFunction('asset', function ($path) {
                 return '/' . ltrim($path, '/');
             }))
-
+            ->method('addFunction', new Twig\TwigFunction('path', function ($routeName, $parameters = []) use ($containerBuilder) {
+                $routeManager = $containerBuilder->build()->get(RouteManager::class);
+                return $routeManager->generatePath($routeName, $parameters);
+            }))
     ]);
 
     // RouteManager
     $containerBuilder->addDefinitions([
-        // Instancier le routeur AltoRouter
         'router' => DI\factory(function () {
             $router = new AltoRouter();
-
-            // Charger le fichier contenant les définitions des routes
             require __DIR__ . '/routes.php';
-
             return $router;
         }),
-
-        // RouteManager qui dépend du routeur
         RouteManager::class => DI\create(RouteManager::class)
             ->constructor(DI\get('router')),
     ]);
@@ -73,13 +71,23 @@ return function (): \DI\Container {
         ],
     ]);
 
+    // Services and controllers
     $containerBuilder->addDefinitions([
         PostService::class => DI\autowire(PostService::class),
-    ]);
-
-    $containerBuilder->addDefinitions([
         PostController::class => DI\autowire(PostController::class)
-            ->constructorParameter('loggers', DI\get('loggers'))
+            ->constructorParameter('loggers', DI\get('loggers')),
+        WelcomeController::class => DI\autowire(WelcomeController::class)
+            ->constructorParameter('loggers', DI\get('loggers')),
+        AuthController::class => DI\autowire(AuthController::class)
+            ->constructorParameter('loggers', DI\get('loggers')),
+        CommentController::class => DI\autowire(CommentController::class)
+            ->constructorParameter('loggers', DI\get('loggers')),
+        RoleController::class => DI\autowire(RoleController::class)
+            ->constructorParameter('loggers', DI\get('loggers')),
+        SocialNetworkController::class => DI\autowire(SocialNetworkController::class)
+            ->constructorParameter('loggers', DI\get('loggers')),
+        UserController::class => DI\autowire(UserController::class)
+            ->constructorParameter('loggers', DI\get('loggers')),
     ]);
 
     return $containerBuilder->build();

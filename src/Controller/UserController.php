@@ -7,17 +7,37 @@ use App\Entity\User;
 use App\Form\MemberFormType;
 use App\Form\UserFormType;
 use App\Logger\LoggerManager;
+use App\Router\RouteManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
+use Twig\Environment;
 
 class UserController extends BasicController
 {
+
+    private EntityManagerInterface $entityManager;
+    protected Environment $twig;
+    private RouteManager $routeManager;
+    protected array $loggers;
+
+
+    public function __construct
+    (
+        EntityManagerInterface $entityManager,
+        \Twig\Environment $twig,
+        \App\Router\RouteManager $routeManager,
+        array $loggers
+    )
+    {
+        parent::__construct($twig, $routeManager, $loggers);
+        $this->entityManager = $entityManager;
+    }
+
     public function index(): void
     {
         $this->beforeAction('Administrator');
 
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-
-        $userRepository = $entityManager->getRepository(User::class);
+        $userRepository = $this->entityManager->getRepository(User::class);
         $users = $userRepository->findAll();
         $this->twig->display('user/index.html.twig',
             [
@@ -28,8 +48,7 @@ class UserController extends BasicController
     public function add(): void
     {
         $this->beforeAction('Administrator');
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $roleRepository = $entityManager->getRepository(Role::class);
+        $roleRepository = $this->entityManager->getRepository(Role::class);
         $roles = $roleRepository->findAll();
 
         $form = UserFormType::buildForm(null, $roles);
@@ -44,7 +63,6 @@ class UserController extends BasicController
     {
         $this->beforeAction('Administrator');
         $userId = $params['id'] ?? null;
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
 
         $userLogger = $this->getLogger("user");
         if((isset($_POST["Lastname"])) && (isset($_POST["Firstname"])) &&
@@ -53,7 +71,7 @@ class UserController extends BasicController
         {
             if($userId !== null)
             {
-                $userRepository = $entityManager->getRepository
+                $userRepository = $this->entityManager->getRepository
                 (User::class);
                 $user = $userRepository->findById($userId);
                 $user->setLastName($_POST["Lastname"]);
@@ -61,10 +79,10 @@ class UserController extends BasicController
                 $user->setEmailAddress($_POST["Email_Address"]);
                 $user->setUsername($_POST["Username"]);
                 $user->setPassword($_POST["Password"]);
-                $roleRepository = $entityManager->getRepository(Role::class);
+                $roleRepository = $this->entityManager->getRepository(Role::class);
                 $role = $roleRepository->findById($_POST["Roles"]);
                 $user->setRole($role);
-                $entityManager->flush();
+                $this->entityManager->flush();
                 $userLogger->info("User " . $user->getId() . " has been modified.");
             }
             else
@@ -75,12 +93,12 @@ class UserController extends BasicController
                 $user->setEmailAddress($_POST["Email_Address"]);
                 $user->setUsername($_POST["Username"]);
                 $user->setPassword($_POST["Password"]);
-                $roleRepository = $entityManager->getRepository(Role::class);
+                $roleRepository = $this->entityManager->getRepository(Role::class);
                 $role = $roleRepository->findById($_POST["Roles"]);
                 $user->setRole($role);
                 $user->setIsActive(true);
-                $entityManager->persist($user);
-                $entityManager->flush();
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
                 $userLogger->info("New user added: " . $user->getId());
             }
             $this->redirectToRoute('users');
@@ -96,10 +114,9 @@ class UserController extends BasicController
     {
         $this->beforeAction('Administrator');
         $userId = $params["id"];
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $userRepository = $entityManager->getRepository(User::class);
+        $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->find($userId);
-        $roleRepository = $entityManager->getRepository(Role::class);
+        $roleRepository = $this->entityManager->getRepository(Role::class);
         $roles = $roleRepository->findAll();
         $roleIdOfUser = $user->getRole()->getId();
 
@@ -115,13 +132,12 @@ class UserController extends BasicController
     #[NoReturn] public function delete(array $params) : void
     {
         $userId = $params["id"];
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $userRepository = $entityManager->getRepository(User::class);
+        $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->findById($userId);
         $userLogger = $this->getLogger('user');
         $userLogger->warning("User " . $user->getId() . " has been deleted.");
-        $entityManager->remove($user);
-        $entityManager->flush();
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
         $this->redirectToRoute('users');
     }
 
@@ -136,7 +152,6 @@ class UserController extends BasicController
 
     public function processToRegister()
     {
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $userLogger = $this->getLogger("user");
         $route = "";
 
@@ -150,12 +165,12 @@ class UserController extends BasicController
             $user->setEmailAddress($_POST["Email_Address"]);
             $user->setUsername($_POST["Username"]);
             $user->setPassword($_POST["Password"]);
-            $roleRepository = $entityManager->getRepository(Role::class);
+            $roleRepository = $this->entityManager->getRepository(Role::class);
             $role = $roleRepository->findByName("Member");
             $user->setRole($role);
             $user->setIsActive(true);
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
             $userLogger->info("New user added: " . $user->getId());
             $route = "welcome";
             $this->setSession('user_id', $user->getId());

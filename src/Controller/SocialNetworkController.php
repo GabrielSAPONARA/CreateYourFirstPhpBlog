@@ -4,15 +4,35 @@ namespace App\Controller;
 
 use App\Entity\SocialNetwork;
 use App\Form\SocialNetworkFormType;
+use App\Router\RouteManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Twig\Environment;
 
 class SocialNetworkController extends BasicController
 {
+    private EntityManagerInterface $entityManager;
+    protected Environment $twig;
+    private RouteManager $routeManager;
+    protected array $loggers;
+
+
+    public function __construct
+    (
+        EntityManagerInterface $entityManager,
+        \Twig\Environment $twig,
+        \App\Router\RouteManager $routeManager,
+        array $loggers
+    )
+    {
+        parent::__construct($twig, $routeManager, $loggers);
+        $this->entityManager = $entityManager;
+    }
     public function index(): void
     {
         $this->beforeAction('Administrator');
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
 
-        $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
+        $socialNetworkRepository = $this->entityManager->getRepository
+        (SocialNetwork::class);
         $socialNetworks = $socialNetworkRepository->findAll();
         $this->twig->display('socialNetwork/index.html.twig',
         [
@@ -36,7 +56,6 @@ class SocialNetworkController extends BasicController
     {
         $this->beforeAction('Administrator');
         $socialNetworkId = $params['id'] ?? null;
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $url = "Location: http://";
         $host = $_SERVER["SERVER_NAME"];
         $port = $_SERVER["SERVER_PORT"];
@@ -45,18 +64,19 @@ class SocialNetworkController extends BasicController
         {
             if($socialNetworkId !== null)
             {
-                $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
+                $socialNetworkRepository = $this->entityManager->getRepository
+                (SocialNetwork::class);
                 $socialNetwork = $socialNetworkRepository->findById($socialNetworkId);
                 $socialNetwork->setName($_POST["name"]);
-                $entityManager->flush();
+                $this->entityManager->flush();
             }
             else
             {
 
                 $socialNetwork = new SocialNetwork();
                 $socialNetwork->setName($_POST["name"]);
-                $entityManager->persist($socialNetwork);
-                $entityManager->flush();
+                $this->entityManager->persist($socialNetwork);
+                $this->entityManager->flush();
             }
             $url .= "social/network";
         }
@@ -73,8 +93,8 @@ class SocialNetworkController extends BasicController
     {
         $this->beforeAction('Administrator');
         $socialNetworkId = $params["id"];
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
+        $socialNetworkRepository = $this->entityManager->getRepository
+        (SocialNetwork::class);
         $socialNetwork = $socialNetworkRepository->find($socialNetworkId);
 
         $form = SocialNetworkFormType::buildForm($socialNetwork);
@@ -90,11 +110,11 @@ class SocialNetworkController extends BasicController
     {
         $this->beforeAction('Administrator');
         $socialNetworkId = $params["id"];
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $socialNetworkRepository = $entityManager->getRepository(SocialNetwork::class);
+        $socialNetworkRepository = $this->entityManager->getRepository
+        (SocialNetwork::class);
         $socialNetwork = $socialNetworkRepository->findById($socialNetworkId);
-        $entityManager->remove($socialNetwork);
-        $entityManager->flush();
+        $this->entityManager->remove($socialNetwork);
+        $this->entityManager->flush();
         $url = "Location: http://";
         $host = $_SERVER["SERVER_NAME"];
         $port = $_SERVER["SERVER_PORT"];

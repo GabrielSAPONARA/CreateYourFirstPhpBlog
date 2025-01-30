@@ -6,10 +6,30 @@ use App\Controller\BasicController;
 use App\Entity\User;
 use App\Form\LoginFormType;
 use App\Logger\LoggerManager;
+use App\Router\RouteManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
+use Twig\Environment;
 
 class AuthController extends BasicController
 {
+    private EntityManagerInterface $entityManager;
+    protected Environment $twig;
+    private RouteManager $routeManager;
+    protected array $loggers;
+
+
+    public function __construct
+    (
+        EntityManagerInterface $entityManager,
+        \Twig\Environment $twig,
+        \App\Router\RouteManager $routeManager,
+        array $loggers
+    )
+    {
+        parent::__construct($twig, $routeManager, $loggers);
+        $this->entityManager = $entityManager;
+    }
     public function login() : void
     {
         $this->beforeAction("Disconnected user");
@@ -24,9 +44,8 @@ class AuthController extends BasicController
             {
                 $data = $form->getData();
 
-                $entityManager = require_once __DIR__ . '/../../bootstrap.php';
                 $authLogger = $this->getLogger('authentication');
-                $userRepository = $entityManager->getRepository(User::class);
+                $userRepository = $this->entityManager->getRepository(User::class);
                 $userArray = $userRepository->findByUsername($data['username']);
                 if($userArray === null)
                 {
@@ -37,16 +56,18 @@ class AuthController extends BasicController
                 else
                 {
                     $user = $userArray[0];
+
                     if($user && \password_verify($data['password'], $user->getPassword()))
                     {
                         $this->setSession('user_id', $user->getId());
                         $this->setSession('username', $user->getUsername());
                         $this->setSession('role', $user->getRole()->getName());
 
+
                         session_regenerate_id(true);
 
                         $authLogger->info("Logged in user : " .
-                                          $user->getUsername() . ", user id : " . $user->getId());
+                        $user->getUsername() . ", user id : " . $user->getId());
                         $this->redirectToRoute("posts");
                     }
                     else

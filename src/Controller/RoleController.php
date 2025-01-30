@@ -4,15 +4,35 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Form\RoleFormType;
+use App\Router\RouteManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Twig\Environment;
 
 class RoleController extends BasicController
 {
+    private EntityManagerInterface $entityManager;
+    protected Environment $twig;
+    private RouteManager $routeManager;
+    protected array $loggers;
+
+
+    public function __construct
+    (
+        EntityManagerInterface $entityManager,
+        \Twig\Environment $twig,
+        \App\Router\RouteManager $routeManager,
+        array $loggers
+    )
+    {
+        parent::__construct($twig, $routeManager, $loggers);
+        $this->entityManager = $entityManager;
+    }
+
     public function index(): void
     {
         $this->beforeAction("Administrator");
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
 
-        $roleRepository = $entityManager->getRepository(Role::class);
+        $roleRepository = $this->entityManager->getRepository(Role::class);
         $roles = $roleRepository->findAll();
         $this->twig->display('role/index.html.twig',
             [
@@ -35,24 +55,23 @@ class RoleController extends BasicController
     {
         $this->beforeAction("Administrator");
         $roleId = $params['id'] ?? null;
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
         $route = "";
         if(isset($_POST["name"]))
         {
             if($roleId !== null)
             {
-                $roleRepository = $entityManager->getRepository
+                $roleRepository = $this->entityManager->getRepository
                 (Role::class);
                 $role = $roleRepository->findById($roleId);
                 $role->setName($_POST["name"]);
-                $entityManager->flush();
+                $this->entityManager->flush();
             }
             else
             {
                 $role = new Role();
                 $role->setName($_POST["name"]);
-                $entityManager->persist($role);
-                $entityManager->flush();
+                $this->entityManager->persist($role);
+                $this->entityManager->flush();
             }
             $route = "roles";
         }
@@ -67,8 +86,7 @@ class RoleController extends BasicController
     {
         $this->beforeAction("Administrator");
         $roleId = $params["id"];
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $roleRepository = $entityManager->getRepository(Role::class);
+        $roleRepository = $this->entityManager->getRepository(Role::class);
         $role = $roleRepository->find($roleId);
 
         $form = RoleFormType::buildForm($role);
@@ -84,11 +102,10 @@ class RoleController extends BasicController
     {
         $this->beforeAction("Administrator");
         $roleId = $params["id"];
-        $entityManager = require_once __DIR__ . '/../../bootstrap.php';
-        $roleRepository = $entityManager->getRepository(Role::class);
+        $roleRepository = $this->entityManager->getRepository(Role::class);
         $role = $roleRepository->findById($roleId);
-        $entityManager->remove($role);
-        $entityManager->flush();
+        $this->entityManager->remove($role);
+        $this->entityManager->flush();
         $url = "Location: http://";
         $host = $_SERVER["SERVER_NAME"];
         $port = $_SERVER["SERVER_PORT"];

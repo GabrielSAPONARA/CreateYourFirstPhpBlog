@@ -13,31 +13,41 @@ class RouteManager
         $this->router = $router;
     }
 
-    public function generatePath($name, $parameters = [])
+    public function generatePath(string $routeName, array $parameters = []): string
     {
-        $route = $this->findRouteByName($name);
+        $route = $this->findRouteByName($routeName);
 
         if (!$route) {
-            throw new \InvalidArgumentException(sprintf('The route "%s" is not defined.', $name));
+            throw new \InvalidArgumentException("Route with name '{$routeName}' not found.");
         }
 
-        $url = $route['target'];
+        $url = $route[1];
+
         foreach ($parameters as $key => $value) {
-            $url = preg_replace('/\[' . preg_quote($key, '/') . '\]/', $value, $url);
+            $url = preg_replace('/\[' . preg_quote("uuid:$key", '/') . '\]/',
+                $value, $url);
         }
 
-        return $url;
+        $queryString = http_build_query(array_diff_key($parameters, array_flip(array_keys($route['params'] ?? []))));
+
+        return $url . ($queryString ? '?' . $queryString : '');
     }
+
 
     private function findRouteByName($name)
     {
         foreach ($this->router->getRoutes() as $route) {
-            if ($route['name'] === $name) {
+            if ($route[3] === $name) {
                 return $route;
             }
         }
 
         return null;
+    }
+
+    public function match(): bool|array
+    {
+        return $this->router->match();
     }
 }
 
