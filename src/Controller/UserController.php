@@ -184,4 +184,16 @@ class UserController extends BasicController
         }
         $this->redirectToRoute($route);
     }
+
+    public function profile()
+    {
+        $userId = $this->getSession('user_id');
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $user = $userRepository->findById($userId);
+
+        $this->twig->display('user/profile.html.twig',
+        [
+            'user' => $user,
+        ]);
+    }
 }
