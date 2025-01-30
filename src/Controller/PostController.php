@@ -76,7 +76,7 @@ class PostController extends BasicController
         }
         catch (\Exception $exception)
         {
-            $this->getLogger('post')->error("Error processing post form: " . $e->getMessage());
+            $this->getLogger('post')->error("Error processing post form: " . $exception->getMessage());
             $route = "posts__addition";
         }
 
@@ -102,6 +102,18 @@ class PostController extends BasicController
             'post' => $post,
             'author' => $author,
             'comments' => $comments
+        ]);
+    }
+
+    public function postByUser() : void
+    {
+        $userId = $this->getSession("user_id");
+        $postRepository = $this->entityManager->getRepository(Post::class);
+        $posts = $postRepository->findByUser($userId);
+
+        $this->twig->display('post/byUser.html.twig',
+        [
+            'posts' => $posts
         ]);
     }
 }

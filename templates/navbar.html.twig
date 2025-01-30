@@ -5,35 +5,39 @@
     <a href="{{ path('posts') }}">
         All post
     </a>
-    <a href="#">
-        My Posts
-    </a>
     {% if is_granted('Member') %}
+        <a href="{{ path('posts__byUser') }}">
+            My Posts
+        </a>
         <a href="{{ path('posts__addition') }}">
             Add Post
         </a>
+        <a href="#">
+            My Comments
+        </a>
+        <a href="#">
+            My profile
+        </a>
     {% endif %}
-    <a href="#">
-        My Comments
-    </a>
-    <a href="#">
-        My profile
-    </a>
-    <a href="#">
-        Posts to validate
-    </a>
-    <a href="#">
-        Comments to validate
-    </a>
-    <a href="/user">
-        Manage Users
-    </a>
-    <a href="/social/network">
-        Social Networks
-    </a>
-    <a href="/role">
-        Roles
-    </a>
+    {% if is_granted('Moderator') %}
+        <a href="#">
+            Posts to validate
+        </a>
+        <a href="#">
+            Comments to validate
+        </a>
+    {% endif %}
+    {% if is_granted('Administrator') %}
+        <a href="/user">
+            Manage Users
+        </a>
+        <a href="/social/network">
+            Social Networks
+        </a>
+        <a href="/role">
+            Roles
+        </a>
+    {% endif %}
     <a href="{{ path("logout") }}">
         Déconnexion
     </a>
