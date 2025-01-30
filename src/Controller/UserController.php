@@ -196,4 +196,42 @@ class UserController extends BasicController
             'user' => $user,
         ]);
     }
+
+    public function modifyProfile() : void
+    {
+        $userId = $this->getSession('user_id');
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $user = $userRepository->findById($userId);
+
+        $form = MemberFormType::buildForm($user);
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $form->bind($_POST);
+
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                $user->setLastName($data["Lastname"]);
+                $user->setFirstName($data["Firstname"]);
+                $user->setEmailAddress($data["Email_Address"]);
+                $user->setUsername($data["Username"]);
+                $user->setPassword($data["Password"]);
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+                $route = "profile";
+            }
+            else
+            {
+                $route = "profile__modify";
+            }
+            $this->redirectToRoute($route);
+        }
+        else
+        {
+            $this->twig->display('user/modify_profile.html.twig',
+            [
+                'formFields' => $form->getFields(),
+            ]);
+        }
+    }
 }

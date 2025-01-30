@@ -30,6 +30,8 @@ $router->map('GET', '/user/delete/[uuid:id]', "UserController::delete", "users_d
 $router->map('GET', '/register', "UserController::register", "register");
 $router->map('POST', '/register/process', "UserController::processToRegister", "register__process");
 $router->map('GET', '/user/profile', "UserController::profile", "profile");
+$router->map('GET', '/user/profile/modify', 'UserController::modifyProfile', "profile__modify");
+$router->map('POST', '/user/profile/modify', 'UserController::modifyProfile', "profile__modify__process");
 
 // routes to manage authentication
 $router->map('GET', '/login', "AuthController::login", "login");

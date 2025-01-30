@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\TextType;
 
 class MemberFormType
 {
-    public static function buildForm(): Form
+    public static function buildForm(?User $user = null): Form
     {
         $form = new Form();
         $form
@@ -18,7 +18,7 @@ class MemberFormType
                 'Firstname',
                 'text',
                 'firstname',
-                '',
+                $user ? $user->getFirstName() : '',
                 'Firstname',
                 [
                     'required' => true,
@@ -30,7 +30,7 @@ class MemberFormType
                 'Lastname',
                 'text',
                 'lastname',
-                '',
+                $user ? $user->getLastName() : '',
                 'Lastname',
                 [
                     'required' => true,
@@ -42,7 +42,7 @@ class MemberFormType
                 'Email Address',
                 'email',
                 'emailAddress',
-                '',
+                $user ? $user->getEmailAddress() : '',
                 'Email Address',
                 [
                     'required' => true,
@@ -54,7 +54,7 @@ class MemberFormType
                 'Username',
                 'text',
                 'username',
-                '',
+                $user ? $user->getUsername() : '',
                 'Username',
                 [
                     'required' => true,
@@ -66,7 +66,7 @@ class MemberFormType
                 'Password',
                 'password',
                 'password',
-                '',
+                $user ? $user->getPassword() : '',
                 'Password',
                 [
                     'required' => true,
