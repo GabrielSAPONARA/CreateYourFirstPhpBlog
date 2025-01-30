@@ -75,11 +75,11 @@ class CommentController extends BasicController
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
             }
-            $route = "posts_details";
+            $route = "posts__details";
         }
         else
         {
-            $route = "posts_details";
+            $route = "posts__details";
         }
         $this->redirectToRoute($route, ["postId" => $postId]);
     }

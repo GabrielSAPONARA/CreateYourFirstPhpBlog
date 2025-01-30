@@ -77,7 +77,7 @@ class PostController extends BasicController
         catch (\Exception $exception)
         {
             $this->getLogger('post')->error("Error processing post form: " . $e->getMessage());
-            $route = "posts_addition";
+            $route = "posts__addition";
         }
 
         $this->redirectToRoute($route);

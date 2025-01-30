@@ -91,7 +91,7 @@ class BasicController
         }
     }
 
-    protected function isGranted(array|string $roles): bool
+    public function isGranted(array|string $roles): bool
     {
         $userRole = $this->getSession('role') ?? 'Disconnected user';
         $allRoles = $this->getAllRoles($userRole);

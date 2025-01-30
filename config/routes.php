@@ -28,7 +28,7 @@ $router->map('POST', '/user/process/[uuid:id]', "UserController::process", "user
 $router->map('GET', '/user/modify/[uuid:id]', "UserController::modify", "users_modify");
 $router->map('GET', '/user/delete/[uuid:id]', "UserController::delete", "users_delete");
 $router->map('GET', '/register', "UserController::register", "register");
-$router->map('POST', '/register/process', "UserController::processToRegister", "register_process");
+$router->map('POST', '/register/process', "UserController::processToRegister", "register__process");
 
 // routes to manage authentication
 $router->map('GET', '/login', "AuthController::login", "login");
@@ -40,10 +40,11 @@ $router->map('GET', '/forbidden', "BasicController::forbidden", "forbidden");
 
 // routes to manage posts
 $router->map('GET', '/post', "PostController::index", "posts");
-$router->map('GET', '/post/add', "PostController::add", "posts_addition");
+$router->map('GET', '/post/add', "PostController::add", "posts__addition");
 $router->map('POST', '/post/process', "PostController::process", "posts_process__create");
-$router->map('GET', '/post/details/[uuid:postId]', "PostController::details", "posts_details");
+$router->map('GET', '/post/details/[uuid:postId]', "PostController::details", "posts__details");
+$router->map('GET', '/post/modify/[uuid:postId]', "PostController::modify", "posts__modify");
 
 // routes to manage comments
-$router->map('GET', '/comment/add/[uuid:postId]', "CommentController::add", "comments_addition");
+$router->map('GET', '/comment/add/[uuid:postId]', "CommentController::add", "comments__addition");
 $router->map('POST', '/comment/process/[uuid:postId]', "CommentController::process", "comments_process__create");

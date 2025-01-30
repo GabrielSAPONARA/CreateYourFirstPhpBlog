@@ -8,9 +8,11 @@
     <a href="#">
         My Posts
     </a>
-    <a href="{{ path('posts_addition') }}">
-        Add Post
-    </a>
+    {% if is_granted('Member') %}
+        <a href="{{ path('posts__addition') }}">
+            Add Post
+        </a>
+    {% endif %}
     <a href="#">
         My Comments
     </a>

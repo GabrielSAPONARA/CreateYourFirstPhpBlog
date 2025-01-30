@@ -11,7 +11,7 @@
 {% block body %}
     {{ parent() }}
     <h1>Register</h1>
-    <form action="{{ path('register_process') }}" method="post">
+    <form action="{{ path('register__process') }}" method="post">
 
         {% for fieldname, fieldProperties in formFields %}
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Controller\AuthController;
+use App\Controller\BasicController;
 use App\Controller\CommentController;
 use App\Controller\PostController;
 use App\Controller\RoleController;
@@ -15,6 +16,7 @@ use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
 use App\Router\RouteManager;
 use App\Logger\LoggerManager;
+use Twig\TwigFunction;
 
 return function (): \DI\Container {
     $containerBuilder = new ContainerBuilder();
@@ -37,13 +39,17 @@ return function (): \DI\Container {
                 'debug' => true,
             ])
             ->method('addExtension', DI\get(DebugExtension::class))
-            ->method('addFunction', new Twig\TwigFunction('asset', function ($path) {
+            ->method('addFunction', new TwigFunction('asset', function ($path) {
                 return '/' . ltrim($path, '/');
             }))
-            ->method('addFunction', new Twig\TwigFunction('path', function ($routeName, $parameters = []) use ($containerBuilder) {
+            ->method('addFunction', new TwigFunction('path', function ($routeName, $parameters = []) use ($containerBuilder) {
                 $routeManager = $containerBuilder->build()->get(RouteManager::class);
                 return $routeManager->generatePath($routeName, $parameters);
             }))
+            ->method('addFunction', new TwigFunction('is_granted', function ($roles) use ($containerBuilder) {
+                $basicController = $containerBuilder->build()->get(BasicController::class);
+                return $basicController->isGranted($roles);
+            })),
     ]);
 
     // RouteManager
@@ -71,7 +77,11 @@ return function (): \DI\Container {
         ],
     ]);
 
-    // Services and controllers
+    $containerBuilder->addDefinitions([
+        LoggerManager::class => DI\create(LoggerManager::class),
+    ]);
+
+    // Services et controllers
     $containerBuilder->addDefinitions([
         PostService::class => DI\autowire(PostService::class),
         PostController::class => DI\autowire(PostController::class)
@@ -79,7 +89,7 @@ return function (): \DI\Container {
         WelcomeController::class => DI\autowire(WelcomeController::class)
             ->constructorParameter('loggers', DI\get('loggers')),
         AuthController::class => DI\autowire(AuthController::class)
-            ->constructorParameter('loggers', DI\get('loggers')),
+            ->constructorParameter('loggers', DI\get('loggers')),  // Passer le tableau des loggers
         CommentController::class => DI\autowire(CommentController::class)
             ->constructorParameter('loggers', DI\get('loggers')),
         RoleController::class => DI\autowire(RoleController::class)
@@ -88,6 +98,8 @@ return function (): \DI\Container {
             ->constructorParameter('loggers', DI\get('loggers')),
         UserController::class => DI\autowire(UserController::class)
             ->constructorParameter('loggers', DI\get('loggers')),
+        BasicController::class => DI\autowire(BasicController::class)
+            ->constructorParameter('loggers', DI\get('loggers')),  // Injection de l'objet LoggerManager
     ]);
 
     return $containerBuilder->build();
