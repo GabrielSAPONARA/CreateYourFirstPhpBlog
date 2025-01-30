@@ -1,7 +1,5 @@
 <div>
     <div>
-        fghghgeh
-
         {{ post.title }}
     </div>
     <div>
@@ -11,9 +9,6 @@
         {{ post.chapo }}
     </div>
     <div>
-        {{ post.id }}
-    </div>
-    <div>
-        <a href="{{ path('posts_details', {'postId' : post.id}) }}">Detail about post</a>
+        <a href="{{ path('posts_details', {'postId' : post.id.toString()}) }}">Detail about post</a>
     </div>
 </div>
