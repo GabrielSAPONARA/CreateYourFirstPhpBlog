@@ -28,6 +28,15 @@ class BasicController
     public function __construct(Environment $twig, RouteManager $routerManager, array $loggers)
     {
         if (session_status() === PHP_SESSION_NONE) {
+            session_set_cookie_params([
+                'lifetime' => 0,
+                'path' => '/',
+                'domain' => '', // Laisse vide ou mets ton domaine si nécessaire
+                'secure' => false,
+//                'secure' => isset($_SERVER['HTTPS']), // Doit être `true` si tu es en HTTPS
+                'httponly' => true,
+                'samesite' => 'Lax' // Mets 'None' si besoin et en HTTPS
+            ]);
             session_start();
         }
         session_regenerate_id(true);
