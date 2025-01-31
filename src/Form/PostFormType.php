@@ -8,7 +8,7 @@ use Doctrine\DBAL\Types\TextType;
 
 class PostFormType
 {
-    public static function buildForm(): Form
+    public static function buildForm(?Post $post = null): Form
     {
         $form = new Form();
         $form
@@ -17,7 +17,7 @@ class PostFormType
                 'Title',
                 'text',
                 'title',
-                '',
+                $post ? $post->getTitle() : '',
                 'Title',
                 [
                     'required' => true,
@@ -30,7 +30,7 @@ class PostFormType
                 'Chapo',
                 'text',
                 'chapo',
-                '',
+                $post ? $post->getChapo() : '',
                 'Chapo',
                 [
                     'required' => true,
@@ -43,7 +43,7 @@ class PostFormType
                 'Content',
                 'textarea',
                 'content',
-                '',
+                $post ? $post->getContent() : '',
                 'Content',
                 [
                     'required' => true,
@@ -57,6 +57,11 @@ class PostFormType
                 'isPublished',
                 'isPublished',
                 'Publish ?',
+                $post ? ($post->isPublished() ?
+                    [
+                        'checked' => 'checked'
+                    ]: [] ) : []
+
             )
             ->addField
             (

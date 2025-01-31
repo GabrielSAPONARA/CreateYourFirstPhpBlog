@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\Uuid;
+
 class PostService
 {
     private EntityManagerInterface $entityManager;
@@ -19,7 +21,9 @@ class PostService
         return $this->entityManager->getRepository(Post::class)->findAll();
     }
 
-    public function savePost(array $data, ?int $postId, User $currentUser): Post
+    public function savePost(array $data, ?string $postId = null, ?User
+    $currentUser = null):
+    Post
     {
         if((empty($data["Title"])) || (empty($data["Content"])) || (empty
             ($data["Chapo"])))
@@ -31,7 +35,7 @@ class PostService
 
         if($postId !== null)
         {
-            $post = $postRepository->findById($postId);
+            $post = $postRepository->findById($postId)[0];
             if(!$post)
             {
                 throw new \Exception("The post with id {$postId} does not exist.");
@@ -46,8 +50,14 @@ class PostService
         $post->setContent($data["Content"]);
         $post->setChapo($data["Chapo"]);
         $post->setDateOfLastUpdate(new \DateTime('now', new \DateTimeZone('UTC')));
-        $post->setIsPublished(isset($data["IsPublished"]) &&
-                              (bool)$data['IsPublished']);
+        if(!array_key_exists("IsPublished", $data))
+        {
+            $post->setIspublished(false);
+        }
+        else
+        {
+            $post->setIspublished(true);
+        }
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();

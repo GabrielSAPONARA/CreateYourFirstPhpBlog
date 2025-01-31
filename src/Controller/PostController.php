@@ -116,4 +116,42 @@ class PostController extends BasicController
             'posts' => $posts
         ]);
     }
+
+    /**
+     * @throws \DateMalformedStringException
+     */
+    public function modify(array $params) : void
+    {
+        $postId = $params["postId"];
+        $postRepository = $this->entityManager->getRepository(Post::class);
+        $post = $postRepository->findById($postId)[0];
+
+        $form = PostFormType::buildForm($post);
+        if($_SERVER['REQUEST_METHOD'] === 'POST')
+        {
+            $form->bind($_POST);
+            $route = "";
+            $routeParams = [];
+
+            if ($form->isValid())
+            {
+                $this->postService->savePost($_POST, $postId, null);
+                $route = "posts__details";
+                $routeParams["postId"] = $postId;
+            }
+            else
+            {
+                $route = "posts__modify";
+            }
+            $this->redirectToRoute($route, $routeParams);
+        }
+        else
+        {
+            $this->twig->display('post/modify.html.twig',
+            [
+                'formFields' => $form->getFields(),
+                "postId" => $postId,
+            ]);
+        }
+    }
 }
