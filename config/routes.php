@@ -49,6 +49,7 @@ $router->map('GET', '/post/details/[uuid:postId]', "PostController::details", "p
 $router->map('GET', '/post/modify/[uuid:postId]', "PostController::modify", "posts__modify");
 $router->map('POST', '/post/modify/[uuid:postId]', "PostController::modify", "posts__modify__process");
 $router->map('GET', '/post/byUser', "PostController::postByUser", "posts__byUser");
+$router->map('GET', '/post/delete/[uuid:postId]', "PostController::delete", "posts__delete");
 
 // routes to manage comments
 $router->map('GET', '/comment/add/[uuid:postId]', "CommentController::add", "comments__addition");

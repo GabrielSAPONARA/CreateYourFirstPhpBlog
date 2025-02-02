@@ -154,4 +154,25 @@ class PostController extends BasicController
             ]);
         }
     }
+
+    public function delete (array $params) : void
+    {
+        $postId = $params["postId"];
+        $postRepository = $this->entityManager->getRepository(Post::class);
+        $post = $postRepository->findById($postId)[0];
+        $commentRepository = $this->entityManager->getRepository(Comment::class);
+        $comments = $commentRepository->findByPost($postId);
+        $commentLogger = $this->loggers["comment"];
+        foreach($comments as $comment)
+        {
+            $commentLogger->warning("Comment deleted: " . $comment->getId());
+            $this->entityManager->remove($comment);
+            $this->entityManager->flush();
+        }
+        $postLogger = $this->loggers["post"];
+        $postLogger->warning("Deleted post with id: " . $post->getId());
+        $this->entityManager->remove($post);
+        $this->entityManager->flush();
+        $this->redirectToRoute("posts");
+    }
 }

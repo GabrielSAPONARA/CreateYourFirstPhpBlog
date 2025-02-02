@@ -14,4 +14,7 @@
     <div>
         <a href="{{ path('posts__modify', {'postId' : post.id.toString()}) }}">Modify This Post</a>
     </div>
+    <div>
+        <a href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
+    </div>
 </div>
