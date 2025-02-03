@@ -15,4 +15,13 @@ class CommentRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findById($id)
+    {
+        return $this->createQueryBuilder('comment')
+            ->where('comment.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

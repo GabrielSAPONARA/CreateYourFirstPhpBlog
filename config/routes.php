@@ -55,3 +55,5 @@ $router->map('GET', '/post/delete/[uuid:postId]', "PostController::delete", "pos
 $router->map('GET', '/comment/add/[uuid:postId]', "CommentController::add", "comments__addition");
 $router->map('POST', '/comment/process/[uuid:postId]', "CommentController::process", "comments_process__create");
 $router->map('GET', '/comment/byUser', "CommentController::commentByUser", "comments__byUser");
+$router->map('GET', '/comment/modify/[uuid:commentId]/post/[uuid:postId]', "CommentController::modify", "comments__modify");
+$router->map('POST', '/comment/modify/[uuid:commentId]/post/[uuid:postId]', "CommentController::modify", "comments__modify__process");

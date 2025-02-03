@@ -8,6 +8,7 @@ use App\Controller\RoleController;
 use App\Controller\SocialNetworkController;
 use App\Controller\UserController;
 use App\Controller\WelcomeController;
+use App\Service\CommentService;
 use App\Service\PostService;
 use DI\ContainerBuilder;
 use Doctrine\ORM\EntityManagerInterface;
@@ -84,6 +85,7 @@ return function (): \DI\Container {
     // Services et controllers
     $containerBuilder->addDefinitions([
         PostService::class => DI\autowire(PostService::class),
+        CommentService::class => DI\autowire(CommentService::class),
         PostController::class => DI\autowire(PostController::class)
             ->constructorParameter('loggers', DI\get('loggers')),
         WelcomeController::class => DI\autowire(WelcomeController::class)

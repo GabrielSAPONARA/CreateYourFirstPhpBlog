@@ -34,6 +34,9 @@ class Comment
     #[ORM\Column(type: "boolean", nullable: true)]
     private bool $isValidated;
 
+    #[ORM\Column(type: "boolean", nullable: false)]
+    private bool $isPublished;
+
     /**
      * @return \DateTime
      */
@@ -114,6 +117,16 @@ class Comment
     public function setIsValidated(bool $isValidated): void
     {
         $this->isValidated = $isValidated;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): void
+    {
+        $this->isPublished = $isPublished;
     }
 
 

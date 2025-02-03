@@ -26,10 +26,14 @@
                 {{ post.content }}
             </div>
         </div>
+        <h4>Comments</h4>
         <div>
             {% for comment in comments %}
                 <div>
                     {{ comment.content }}
+                </div>
+                <div>
+                    <a href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
                 </div>
             {% endfor %}
         </div>

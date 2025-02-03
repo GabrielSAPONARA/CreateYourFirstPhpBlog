@@ -8,6 +8,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentFormType;
 use App\Router\RouteManager;
+use App\Service\CommentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Environment;
 
@@ -18,24 +19,28 @@ class CommentController extends BasicController
     private RouteManager $routeManager;
     protected array $loggers;
 
+    private CommentService $commentService;
+
 
     public function __construct
     (
         EntityManagerInterface $entityManager,
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers
+        array $loggers,
+        CommentService $commentService
     )
     {
         parent::__construct($twig, $routeManager, $loggers);
         $this->entityManager = $entityManager;
+        $this->commentService = $commentService;
     }
     public function add($params)
     {
         $postId = $params['postId'];
         $this->beforeAction("Member");
         $form = CommentFormType::buildForm();
-//        dd($form);
+
         $this->twig->display("comment/add.html.twig",
         [
             'formFields' => $form->getFields(),
@@ -72,6 +77,15 @@ class CommentController extends BasicController
                 $postRepository = $this->entityManager->getRepository(Post::class);
                 $post = $postRepository->findById($postId)[0];
                 $comment->setPost($post);
+                if(!array_key_exists("IsPublished", $_POST) || ($_POST["IsPublished"]
+                                                                === null))
+                {
+                    $comment->setIsPublished(false);
+                }
+                else
+                {
+                    $comment->setIsPublished(true);
+                }
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
             }
@@ -101,5 +115,43 @@ class CommentController extends BasicController
             "comments" => $comments,
             "postIds" => $postIds
         ]);
+    }
+
+    public function modify(array $params)
+    {
+        $commentId = $params['commentId'];
+        $postId = $params['postId'];
+        $commentRepository = $this->entityManager->getRepository(Comment::class);
+        $comment = $commentRepository->findById($commentId)[0];
+
+        $form = CommentFormType::buildForm($comment);
+        if($_SERVER["REQUEST_METHOD"] === "POST")
+        {
+            $form->bind($_POST);
+            $route = "";
+            $routeParams = [];
+
+            if($form->isValid())
+            {
+                $this->commentService->saveComment($form->getData(), $commentId, null);
+                $route = "posts__details";
+                $routeParams["postId"] = $postId;
+            }
+            else
+            {
+                $route = "comments__modify";
+                $routeParams["commentId"] = $commentId;
+            }
+            $this->redirectToRoute($route, $routeParams);
+        }
+        else
+        {
+            $this->twig->display("comment/modify.html.twig",
+            [
+                "formFields" => $form->getFields(),
+                "commentId" => $commentId,
+                "postId" => $postId
+            ]);
+        }
     }
 }
