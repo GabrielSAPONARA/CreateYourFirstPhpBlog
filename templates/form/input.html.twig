@@ -1,0 +1,16 @@
+<input
+    {% if not(fieldProperties["type"] is same as ("submit")) %}
+        name="{{ fieldName }}"
+    {% endif %}
+    {% for attribut, attributValue in fieldProperties %}
+       {% if attributValue is iterable %}
+           {% if attributValue|length > 0 %}
+               {% for option, optionValue in attributValue %}
+                   {{ option }} = "{{ optionValue }}"
+                {% endfor %}
+           {% endif %}
+       {% else %}
+           {{ attribut }}="{{ attributValue }}"
+       {% endif %}
+    {% endfor %}
+>
