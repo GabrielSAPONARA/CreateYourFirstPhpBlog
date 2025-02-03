@@ -26,10 +26,12 @@
                                    {% endfor %}
                                {% endif %}
                            {% else %}
-                               {{ attribut }}="{{ attributValue }}"
+                                {% if not(attribut is same as ("value")) %}
+                                    {{ attribut }}="{{ attributValue }}"
+                               {% endif %}
                            {% endif %}
                        {% endfor %}
-                    ></textarea>
+                    >{{ fieldProperties["value"]|e }}</textarea>
                 {% else %}
                    <input
                        {% if not(fieldProperties["type"] is same as ("submit")) %}
