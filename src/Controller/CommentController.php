@@ -154,4 +154,28 @@ class CommentController extends BasicController
             ]);
         }
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function delete(array $params)
+    {
+        $commentId = $params['commentId'];
+        $commentRepository = $this->entityManager->getRepository(Comment::class);
+        $commentLogger = $this->getLogger("comment");
+        if($commentId === null)
+        {
+            $commentLogger->error("Comment id $commentId not found");
+            throw new \Exception("Comment id $commentId not found");
+        }
+        $comment = $commentRepository->findById($commentId)[0];
+        $postId = $comment->getPost()->getId();
+
+
+        $commentLogger->warning("Comment with id $commentId deleted");
+        $this->entityManager->remove($comment);
+        $this->entityManager->flush();
+
+        $this->redirectToRoute("posts__details", ["postId" => $postId]);
+    }
 }
