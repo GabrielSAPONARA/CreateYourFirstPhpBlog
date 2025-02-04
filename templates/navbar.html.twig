@@ -38,7 +38,13 @@
             Roles
         </a>
     {% endif %}
-    <a href="{{ path("logout") }}">
-        Disconnection
-    </a>
+    {% if is_granted('Member') %}
+        <a href="{{ path("logout") }}">
+            Disconnection
+        </a>
+    {% endif %}
+    {% if (is_granted('Disconnected user')) and (not(is_granted('Member')))%}
+        <a href="{{ path('login') }}">Sign in</a>
+        <a href="{{ path('register') }}">Sign up</a>
+    {% endif %}
 </nav>
