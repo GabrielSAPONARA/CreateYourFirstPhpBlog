@@ -44,7 +44,7 @@ $router->map('GET', '/forbidden', "BasicController::forbidden", "forbidden");
 // routes to manage posts
 $router->map('GET', '/post', "PostController::index", "posts");
 $router->map('GET', '/post/add', "PostController::add", "posts__addition");
-$router->map('POST', '/post/process', "PostController::process", "posts_process__create");
+$router->map('POST', '/post/add', "PostController::add", "posts__addition__process");
 $router->map('GET', '/post/details/[uuid:postId]', "PostController::details", "posts__details");
 $router->map('GET', '/post/modify/[uuid:postId]', "PostController::modify", "posts__modify");
 $router->map('POST', '/post/modify/[uuid:postId]', "PostController::modify", "posts__modify__process");

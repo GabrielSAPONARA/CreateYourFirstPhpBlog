@@ -22,8 +22,7 @@ class PostService
     }
 
     public function savePost(array $data, ?string $postId = null, ?User
-    $currentUser = null):
-    Post
+    $currentUser = null): Post
     {
         if((empty($data["Title"])) || (empty($data["Content"])) || (empty
             ($data["Chapo"])))

@@ -53,34 +53,37 @@ class PostController extends BasicController
         $this->beforeAction("Member");
         $form = PostFormType::buildForm();
 
-        $this->twig->display('post/add.html.twig',
-        [
-            'formFields' => $form->getFields(),
-        ]);
-    }
-
-    #[NoReturn] public function process($params =
-    []) : void
-    {
-        $this->beforeAction("Member");
-
-        $postId = $params['id'] ?? null;
-        $currentUser = $this->entityManager->getRepository(User::class)->findById
-        ($this->getSession("user_id"));
-
-
-        try
+        if($_SERVER['REQUEST_METHOD'] === 'POST')
         {
-            $this->postService->savePost($_POST, $postId, $currentUser);
-            $route = "posts";
-        }
-        catch (\Exception $exception)
-        {
-            $this->getLogger('post')->error("Error processing post form: " . $exception->getMessage());
-            $route = "posts__addition";
-        }
+            $form->bind($_POST);
+            $route = "";
+            $routeParams = [];
 
-        $this->redirectToRoute($route);
+
+            if ($form->isValid())
+            {
+                $userId = $this->getSession("user_id");
+                $userRepository = $this->entityManager->getRepository(User::class);
+                $currentUser = $userRepository->find($userId);
+                $post = $this->postService->savePost($form->getData(), null,
+                    $currentUser);
+                $postLogger = $this->getLogger('post');
+                $postLogger->info("Post ". $post->getId() . " has been created");
+                $route = "posts";
+            }
+            else
+            {
+                $route = "posts__addition";
+            }
+            $this->redirectToRoute($route, $routeParams);
+        }
+        else
+        {
+            $this->twig->display('post/add.html.twig',
+            [
+                'formFields' => $form->getFields(),
+            ]);
+        }
     }
 
     /**
@@ -135,7 +138,16 @@ class PostController extends BasicController
 
             if ($form->isValid())
             {
-                $this->postService->savePost($_POST, $postId, null);
+                $postLogger = $this->getLogger('post');
+                try
+                {
+                    $post = $this->postService->savePost($_POST, $postId, null);
+                }
+                catch (\Exception $exception)
+                {
+                    $postLogger->error($exception->getMessage());
+                }
+                $postLogger->info("Post ". $post->getId() . " has been updated");
                 $route = "posts__details";
                 $routeParams["postId"] = $postId;
             }
