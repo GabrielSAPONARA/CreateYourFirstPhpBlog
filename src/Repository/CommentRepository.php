@@ -9,7 +9,8 @@ class CommentRepository extends EntityRepository
     public function findByPost($postId)
     {
         return $this->createQueryBuilder('comment')
-            ->where('post.id = :post')
+            ->where('comment.isPublished = true')
+            ->andWhere('post.id = :post')
             ->join('comment.post', 'post')
             ->setParameter('post', $postId)
             ->getQuery()
