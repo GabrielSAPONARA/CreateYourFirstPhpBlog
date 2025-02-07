@@ -97,6 +97,6 @@ class AuthController extends BasicController
         $this->clearSession();
         $this->destroySession();
 
-        $this->redirectToRoute("login");
+        $this->redirectToRoute("welcome");
     }
 }
