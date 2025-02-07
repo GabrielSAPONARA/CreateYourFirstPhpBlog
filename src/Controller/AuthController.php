@@ -83,7 +83,7 @@ class AuthController extends BasicController
 
         $this->twig->display('auth/login.html.twig',
         [
-            'form' => $form->getFields(),
+            'formFields' => $form->getFields(),
             'error' => $error ?? null,
         ]);
     }

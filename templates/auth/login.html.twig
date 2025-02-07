@@ -7,33 +7,7 @@
         {{ parent() }}
         <h1>Login</h1>
         <form action="{{ path("login_process") }}" method="post">
-
-            {% for fieldname, fieldProperties in form %}
-
-                {% if not(fieldProperties["label"] is same as ("")) %}
-                   <label for="{{ fieldProperties["id"] }}">
-                       {{ fieldProperties["label"]|capitalize }}
-                   </label>
-               {% endif %}
-
-                <input
-                   {% if not(fieldProperties["type"] is same as ("submit")) %}
-                       name="{{ fieldname }}"
-                   {% endif %}
-                   {% for attribut, attributValue in fieldProperties %}
-                       {% if attributValue is iterable %}
-                           {% if attributValue|length > 0 %}
-                               {% for option, optionValue in attributValue %}
-                                   {{ option }} = "{{ optionValue }}"
-                               {% endfor %}
-                           {% endif %}
-                       {% else %}
-                           {{ attribut }}="{{ attributValue }}"
-                       {% endif %}
-                   {% endfor %}
-               >
-            {% endfor %}
-
+            {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
         </form>
     {% endblock %}
 {% endblock %}
