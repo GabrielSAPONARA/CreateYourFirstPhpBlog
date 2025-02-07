@@ -18,7 +18,8 @@ class PostService
 
     public function getAllPosts(): array
     {
-        $posts = $this->entityManager->getRepository(Post::class)->findAll();
+        $posts = $this->entityManager->getRepository(Post::class)
+                                     ->findByIsPublished(true);
         usort($posts, function ($postA, $postB) {
             return $postB->getDateOfLastUpdate() <=> $postA->getDateOfLastUpdate();
         });
@@ -36,6 +37,7 @@ class PostService
 
         $postRepository = $this->entityManager->getRepository(Post::class);
 
+        $dateOfLastUpdate = new \DateTime('now', new \DateTimeZone('UTC'));
         if($postId !== null)
         {
             $post = $postRepository->findById($postId)[0];
@@ -43,16 +45,20 @@ class PostService
             {
                 throw new \Exception("The post with id {$postId} does not exist.");
             }
+            if(($data["Title"] !== $post->getTitle()) || ($data["Content"] !== $post->getContent()) || ($data["Chapo"] !== $post->getChapo()) )
+            {
+                $post->setDateOfLastUpdate($dateOfLastUpdate);
+            }
         }
         else
         {
             $post = new Post();
             $post->setUser($currentUser);
+            $post->setDateOfLastUpdate($dateOfLastUpdate);
         }
         $post->setTitle($data["Title"]);
         $post->setContent($data["Content"]);
         $post->setChapo($data["Chapo"]);
-        $post->setDateOfLastUpdate(new \DateTime('now', new \DateTimeZone('UTC')));
         if(!array_key_exists("IsPublished", $data))
         {
             $post->setIspublished(false);
