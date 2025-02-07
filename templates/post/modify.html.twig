@@ -6,51 +6,7 @@
     {% block main %}
         <h1>Modify This Post</h1>
         <form action="{{ path("posts__modify__process", {'postId' : postId}) }}" method="post">
-
-            {% for fieldName, fieldProperties in formFields %}
-               {% if not(fieldProperties["label"] is same as ("")) %}
-                   <label for="{{ fieldProperties["id"] }}">
-                       {{ fieldProperties["label"]|capitalize }}
-                   </label>
-               {% endif %}
-
-                {% if (fieldProperties["type"] is same as ("textarea")) %}
-                    <textarea
-                        name="{{ fieldName }}"
-
-                        {% for attribut, attributValue in fieldProperties %}
-                           {% if attributValue is iterable %}
-                               {% if attributValue|length > 0 %}
-                                   {% for option, optionValue in attributValue %}
-                                       {{ option }} = "{{ optionValue }}"
-                                   {% endfor %}
-                               {% endif %}
-                           {% else %}
-                                {% if not(attribut is same as ("value")) %}
-                                    {{ attribut }}="{{ attributValue }}"
-                               {% endif %}
-                           {% endif %}
-                       {% endfor %}
-                    >{{ fieldProperties["value"]|e }}</textarea>
-                {% else %}
-                   <input
-                       {% if not(fieldProperties["type"] is same as ("submit")) %}
-                           name="{{ fieldName }}"
-                       {% endif %}
-                       {% for attribut, attributValue in fieldProperties %}
-                           {% if attributValue is iterable %}
-                               {% if attributValue|length > 0 %}
-                                   {% for option, optionValue in attributValue %}
-                                       {{ option }} = "{{ optionValue }}"
-                                   {% endfor %}
-                               {% endif %}
-                           {% else %}
-                               {{ attribut }}="{{ attributValue }}"
-                           {% endif %}
-                       {% endfor %}
-                   >
-               {% endif %}
-           {% endfor %}
+            {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
         </form>
     {% endblock %}
 
