@@ -1,0 +1,24 @@
+{#<fieldset>#}
+{#    <legend>#}
+{#        {{ fieldName|capitalize }}#}
+{#    </legend>#}
+
+    {% set roleIterator = 0 %}
+    {% for choice in fieldProperties["options"]["choices"] %}
+        <label for="role-{{ roleIterator }}">
+            {{ choice["label"] }}
+        </label>
+
+        <input
+                type="{{ fieldProperties["type"] }}"
+                name="{{ fieldName }}"
+                id="role-{{ roleIterator }}"
+                value="{{ choice["value"] }}"
+                {% if choice["value"] is same as (fieldProperties["value"]) %}
+                    checked
+                {% endif %}
+        >
+
+        {% set roleIterator = roleIterator + 1 %}
+    {% endfor %}
+{#</fieldset>#}

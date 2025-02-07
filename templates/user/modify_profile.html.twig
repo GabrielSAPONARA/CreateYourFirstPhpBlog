@@ -12,59 +12,7 @@
     {{ parent() }}
     <h1>Modify my profile</h1>
     <form action="{{ path('profile__modify__process') }}" method="post">
-
-        {% for fieldname, fieldProperties in formFields %}
-
-             {% if not(fieldProperties["label"] is same as ("")) %}
-                <label for="{{ fieldProperties["id"] }}">
-                    {{ fieldProperties["label"]|capitalize }}
-                </label>
-            {% endif %}
-
-             {% if fieldProperties["type"] is same as ("radio") %}
-                 <fieldset>
-                     <legend>
-                         {{ fieldname|capitalize }}
-                     </legend>
-
-                 {% set roleIterator = 0 %}
-                 {% for choice in fieldProperties["options"]["choices"] %}
-                     <label for="role-{{ roleIterator }}">
-                         {{ choice["label"] }}
-                     </label>
-
-                     <input
-                         type="{{ fieldProperties["type"] }}"
-                         name="{{ fieldname }}"
-                         id="role-{{ roleIterator }}"
-                         value="{{ choice["value"] }}"
-                     >
-
-                     {% set roleIterator = roleIterator + 1 %}
-                 {% endfor %}
-                 </fieldset>
-             {% else %}
-                 <input
-                     {% if not(fieldProperties["type"] is same as ("submit")) %}
-                         name="{{ fieldname }}"
-                     {% endif %}
-
-                         {% for attribut, attributValue in fieldProperties %}
-                             {% if attributValue is iterable %}
-                                 {% if attributValue|length > 0 %}
-                                     {% for option, optionValue in attributValue %}
-                                         {{ option }} = "{{ optionValue }}"
-                                     {% endfor %}
-                                 {% endif %}
-                             {% else %}
-                                 {{ attribut }}="{{ attributValue }}"
-                             {% endif %}
-                         {% endfor %}
-
-                 >
-             {% endif %}
-         {% endfor %}
-
+        {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>
 {% endblock %}
 
