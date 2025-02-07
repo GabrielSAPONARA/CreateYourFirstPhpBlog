@@ -8,38 +8,31 @@
     {{ parent() }}
 {% endblock %}
 
-{% block body %}
-    {% block navbar %}
-        {{ parent() }}
-    {% endblock %}
-
-    {% block main %}
-        <h1>My Profile</h1>
-        <div>
-            <div>Last Name</div>
-            <div>{{ user.lastName }}</div>
-        </div>
-        <div>
-            <div>First Name</div>
-            <div>{{ user.firstName }}</div>
-        </div>
-        <div>
-            <div>username</div>
-            <div>{{ user.username }}</div>
-        </div>
-        <div>
-            <div>Email Adress</div>
-            <div>{{ user.emailAddress }}</div>
-        </div>
-        <div>
-            {#        <a href="{{ path("users__addition") }}">Add User</a>#}
-        </div>
-        <div>
-            <a href="{{ path( 'profile__modify') }}">Modify My Profile</a>
-        </div>
-        <div>
+{% block main %}
+    <h1>My Profile</h1>
+    <div>
+        <div>Last Name</div>
+        <div>{{ user.lastName }}</div>
+    </div>
+    <div>
+        <div>First Name</div>
+        <div>{{ user.firstName }}</div>
+    </div>
+    <div>
+        <div>username</div>
+        <div>{{ user.username }}</div>
+    </div>
+    <div>
+        <div>Email Adress</div>
+        <div>{{ user.emailAddress }}</div>
+    </div>
+    <div>
+        {#        <a href="{{ path("users__addition") }}">Add User</a>#}
+    </div>
+    <div>
+        <a href="{{ path( 'profile__modify') }}">Modify My Profile</a>
+    </div>
+    <div>
 {#            <a href="{{ path( 'users_delete', {'id' :user.id}) }}">Delete</a>#}
-        </div>
-    {% endblock %}
-
+    </div>
 {% endblock %}

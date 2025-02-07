@@ -6,17 +6,11 @@
 
 {% block title %}My Posts{% endblock %}
 
-{% block body %}
-    {% block navbar %}
-        {{ parent() }}
-    {% endblock %}
-    {% block main %}
-        <h1>My Posts</h1>
-        <div>
-            {% for post in posts %}
-                {% include 'post/post.html.twig' with {'post': post} only %}
-            {% endfor %}
-        </div>
-    {% endblock %}
-
+{% block main %}
+    <h1>My Posts</h1>
+    <div>
+        {% for post in posts %}
+            {% include 'post/post.html.twig' with {'post': post} only %}
+        {% endfor %}
+    </div>
 {% endblock %}

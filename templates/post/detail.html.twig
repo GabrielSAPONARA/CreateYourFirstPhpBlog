@@ -6,50 +6,44 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
-{% block body %}
-    {% block navbar %}
-        {{ parent() }}
-    {% endblock %}
-    {% block main %}
-        <h1>{{ post.title }}</h1>
+{% block main %}
+    <h1>{{ post.title }}</h1>
+    <div>
         <div>
+            {{ post.chapo }}
+        </div>
+        <div>
+            {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
+        </div>
+        <div>
+            {{ author.username }}
+        </div>
+        <div>
+            {{ post.content }}
+        </div>
+    </div>
+    <h4>Comments</h4>
+    <div>
+        {% for comment in comments %}
             <div>
-                {{ post.chapo }}
+                {{ comment.content }}
             </div>
             <div>
-                {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
+                {{ comment.publishedDate|date("d/m/Y H:i:s") }}
             </div>
             <div>
-                {{ author.username }}
+                <a href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
+                <a href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
             </div>
-            <div>
-                {{ post.content }}
-            </div>
-        </div>
-        <h4>Comments</h4>
-        <div>
-            {% for comment in comments %}
-                <div>
-                    {{ comment.content }}
-                </div>
-                <div>
-                    {{ comment.publishedDate|date("d/m/Y H:i:s") }}
-                </div>
-                <div>
-                    <a href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
-                    <a href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
-                </div>
-            {% endfor %}
-        </div>
-        <div>
-            <a href="{{ path('comments__addition', {'postId' : post.id}) }}">Add Comment</a>
-        </div>
-        <div>
-            <a href="{{ path('posts__modify', {'postId' : post.id}) }}">Modify this post</a>
-        </div>
-        <div>
-            <a href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
-        </div>
-    {% endblock %}
-
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{{ path('comments__addition', {'postId' : post.id}) }}">Add Comment</a>
+    </div>
+    <div>
+        <a href="{{ path('posts__modify', {'postId' : post.id}) }}">Modify this post</a>
+    </div>
+    <div>
+        <a href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
+    </div>
 {% endblock %}

@@ -6,20 +6,14 @@
 
 {% block title %}My Comments{% endblock %}
 
-{% block body %}
-    {% block navbar %}
-        {{ parent() }}
-    {% endblock %}
-    {% block main %}
-        <h1>My Comments</h1>
-        <div>
-            {% set postIdIterator = 0 %}
+{% block main %}
+    <h1>My Comments</h1>
+    <div>
+        {% set postIdIterator = 0 %}
 {#            {{ dump(comments) }}#}
-            {% for comment in comments %}
-                {% include 'comment/comment.html.twig' with {'comment': comment, 'postId' : postIds[postIdIterator].toString()} only %}
-                {% set postIdIterator = postIdIterator + 1 %}
-            {% endfor %}
-        </div>
-    {% endblock %}
-
+        {% for comment in comments %}
+            {% include 'comment/comment.html.twig' with {'comment': comment, 'postId' : postIds[postIdIterator].toString()} only %}
+            {% set postIdIterator = postIdIterator + 1 %}
+        {% endfor %}
+    </div>
 {% endblock %}

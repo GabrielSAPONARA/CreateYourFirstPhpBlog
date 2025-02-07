@@ -8,16 +8,9 @@
     {{ parent() }}
 {% endblock %}
 
-{% block body %}
-    {% block navbar %}
-        {{ parent() }}
-    {% endblock %}
-
-    {% block main %}
-        <h1>Error 403 - Forbidden access</h1>
-        <div>
-            {{ message }}
-        </div>
-    {% endblock %}
-
+{% block main %}
+    <h1>Error 403 - Forbidden access</h1>
+    <div>
+        {{ message }}
+    </div>
 {% endblock %}

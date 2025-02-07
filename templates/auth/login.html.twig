@@ -2,12 +2,10 @@
 
 {% block title %}Login{% endblock %}
 
-{% block body %}
-    {% block main %}
-        {{ parent() }}
-        <h1>Login</h1>
-        <form action="{{ path("login_process") }}" method="post">
-            {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
-        </form>
-    {% endblock %}
+
+{% block main %}
+    <h1>Login</h1>
+    <form action="{{ path("login_process") }}" method="post">
+        {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
+    </form>
 {% endblock %}

@@ -8,8 +8,7 @@
     {{ parent() }}
 {% endblock %}
 
-{% block body %}
-    {{ parent() }}
+{% block main %}
     <h1>Modify {{ user.username }}</h1>
     <form action="{{ path('users_process__update' , {'id' : user.id}) }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}

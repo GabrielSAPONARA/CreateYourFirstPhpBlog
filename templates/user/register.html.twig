@@ -8,8 +8,7 @@
     {{ parent() }}
 {% endblock %}
 
-{% block body %}
-    {{ parent() }}
+{% block main %}
     <h1>Register</h1>
     <form action="{{ path('register__process') }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}

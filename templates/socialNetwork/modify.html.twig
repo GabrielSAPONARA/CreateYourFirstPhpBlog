@@ -8,8 +8,7 @@
     {{ parent() }}
 {% endblock %}
 
-{% block body %}
-    {{ parent() }}
+{% block main %}
     <h1>Modify Social Network</h1>
     <form action="{{ path("social_networks_process__update", { 'id' : socialNetwork.id}) }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}

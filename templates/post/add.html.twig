@@ -2,12 +2,9 @@
 
 {% block title %}Add Post{% endblock %}
 
-{% block body %}
-    {% block main %}
-        <h1>Add Post</h1>
-        <form action="{{ path("posts__addition__process") }}" method="post">
-            {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
-        </form>
-    {% endblock %}
-
+{% block main %}
+    <h1>Add Post</h1>
+    <form action="{{ path("posts__addition__process") }}" method="post">
+        {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
+    </form>
 {% endblock %}
