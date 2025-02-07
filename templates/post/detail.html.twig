@@ -17,7 +17,7 @@
                 {{ post.chapo }}
             </div>
             <div>
-                {{ post.dateOfLastUpdate }}
+                {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
             </div>
             <div>
                 {{ author.username }}

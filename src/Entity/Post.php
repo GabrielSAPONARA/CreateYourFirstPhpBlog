@@ -109,13 +109,12 @@ class Post
     }
 
     /**
-     * @return string
+     * @return DateTime
      */
-    public function getDateOfLastUpdate(): string
+    public function getDateOfLastUpdate(): DateTime
     {
         return $this->dateOfLastUpdate
-            ->setTimezone(new \DateTimeZone('Europe/Paris'))
-            ->format('d/m/Y H:i:s');
+            ->setTimezone(new \DateTimeZone('Europe/Paris'));
     }
 
     /**

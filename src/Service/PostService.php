@@ -18,7 +18,11 @@ class PostService
 
     public function getAllPosts(): array
     {
-        return $this->entityManager->getRepository(Post::class)->findAll();
+        $posts = $this->entityManager->getRepository(Post::class)->findAll();
+        usort($posts, function ($postA, $postB) {
+            return $postB->getDateOfLastUpdate() <=> $postA->getDateOfLastUpdate();
+        });
+        return $posts;
     }
 
     public function savePost(array $data, ?string $postId = null, ?User
