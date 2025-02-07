@@ -33,6 +33,9 @@
                     {{ comment.content }}
                 </div>
                 <div>
+                    {{ comment.publishedDate|date("d/m/Y H:i:s") }}
+                </div>
+                <div>
                     <a href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
                     <a href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
                 </div>

@@ -97,6 +97,9 @@ class PostController extends BasicController
         $postRepository = $this->entityManager->getRepository(Post::class);
         $commentRepository = $this->entityManager->getRepository(Comment::class);
         $comments = $commentRepository->findByPost($uuid);
+        usort($comments, function ($commentA, $commentB) {
+            return $commentB->getPublishedDate() <=> $commentA->getPublishedDate();
+        });
         $post = $postRepository->findById($uuid)[0];
         $author = $post->getUser();
 
