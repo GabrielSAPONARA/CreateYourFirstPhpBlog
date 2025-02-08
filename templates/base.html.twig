@@ -10,6 +10,7 @@
     </title>
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('assets/style/navbar.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/style/flashMessages.css') }}">
         <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}"
     {% endblock %}
 </head>
@@ -29,7 +30,7 @@
     {% endblock %}
 
     {% block scripts %}
-
+        <script type="text/javascript" src="{{asset('assets/javascript/flashMessages.js') }}"></script>
     {% endblock %}
 {% endblock %}
 

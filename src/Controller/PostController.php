@@ -107,11 +107,13 @@ class PostController extends BasicController
         $post = $postRepository->findById($uuid)[0];
         $author = $post->getUser();
 
-        $this->twig->display('post/detail.html.twig',
+        $flashMessages = $this->getFlashMessages();
+        $this->render('post/detail.html.twig',
         [
             'post' => $post,
             'author' => $author,
-            'comments' => $comments
+            'comments' => $comments,
+            'flashMessages' => $flashMessages,
         ]);
     }
 
@@ -153,23 +155,28 @@ class PostController extends BasicController
                 catch (\Exception $exception)
                 {
                     $postLogger->error($exception->getMessage());
+                    $this->addFlashMessage('error', $exception->getMessage());
                 }
                 $postLogger->info("Post ". $post->getId() . " has been updated");
+                $this->addFlashMessage('success', 'Post has been updated');
                 $route = "posts__details";
                 $routeParams["postId"] = $postId;
             }
             else
             {
                 $route = "posts__modify";
+                $this->addFlashMessage('error', 'You have an error in your field');
             }
             $this->redirectToRoute($route, $routeParams);
         }
         else
         {
-            $this->twig->display('post/modify.html.twig',
+            $flashMessages = $this->getFlashMessages();
+            $this->render('post/modify.html.twig',
             [
                 'formFields' => $form->getFields(),
                 "postId" => $postId,
+                "flashMessages" => $flashMessages,
             ]);
         }
     }

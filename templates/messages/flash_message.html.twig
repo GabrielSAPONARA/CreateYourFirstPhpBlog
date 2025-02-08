@@ -1,0 +1,7 @@
+{% for type, informationsTable in flashMessages %}
+    {% for index, messageAndExpirationDate  in informationsTable %}
+        <div class="alert alert-{{ type }} flash-message">
+            {{ informationsTable[index]["message"] }}
+        </div>
+    {% endfor %}
+{% endfor %}

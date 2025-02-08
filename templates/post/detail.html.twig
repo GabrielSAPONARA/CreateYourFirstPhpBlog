@@ -7,6 +7,7 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block main %}
+    {% include 'messages/flash_message.html.twig' with {'flashMessages' : flashMessages} only %}
     <h1>{{ post.title }}</h1>
     <div>
         <div>

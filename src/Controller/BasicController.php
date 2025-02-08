@@ -31,11 +31,11 @@ class BasicController
             session_set_cookie_params([
                 'lifetime' => 0,
                 'path' => '/',
-                'domain' => '', // Laisse vide ou mets ton domaine si nécessaire
+                'domain' => '', // Change if you have a domain name
                 'secure' => false,
-//                'secure' => isset($_SERVER['HTTPS']), // Doit être `true` si tu es en HTTPS
+//                'secure' => isset($_SERVER['HTTPS']), // Have to true if you use HTTPS
                 'httponly' => true,
-                'samesite' => 'Lax' // Mets 'None' si besoin et en HTTPS
+                'samesite' => 'Lax' // Put 'None' if you need and if you use HTTPS
             ]);
             session_start();
         }
@@ -78,6 +78,13 @@ class BasicController
     protected function clearSession(): void
     {
         $_SESSION = [];
+    }
+
+    protected function removeSessionValue(string $key): void
+    {
+        if (isset($_SESSION[$key])) {
+            unset($_SESSION[$key]);
+        }
     }
 
     protected function getAllRoles(string $role): array
@@ -153,5 +160,69 @@ class BasicController
         $this->twig->display('error/error403.html.twig', [
             'message' => 'Vous n’avez pas les permissions nécessaires pour accéder à cette page.',
         ]);
+    }
+
+    protected function addFlashMessage(string $type, string $message, $duration = 5): void
+    {
+        if ($this->getSession('flash_messages') === null)
+        {
+            $this->setSession('flash_messages', []);
+        }
+        $_SESSION['flash_messages'][$type][] =
+            [
+                'message' => $message,
+                'expiresAt' => $duration
+            ];
+    }
+
+    protected function clearFlashMessages(): array
+    {
+        $now = time();
+        foreach ($this->getSession('flash_messages') as $type => $messages)
+        {
+            foreach ($messages as $index => $msg)
+            {
+                if ($msg['expiresAt'] < $now)
+                {
+                    unset($this->getSession('flash_messages')[$type][$index]);
+                }
+            }
+            if (empty($this->getSession('flash_messages')[$type]))
+            {
+                unset($this->getSession('flash_messages')[$type]);
+            }
+        }
+
+
+        $flashMessages = $this->getSession('flash_messages') ?? [];
+        unset($_SESSION['flash_messages']);
+
+        return $flashMessages;
+    }
+
+    protected function getFlashMessages(): array
+    {
+        if (!isset($_SESSION['flash_messages']))
+        {
+            return [];
+        }
+
+        return $this->clearFlashMessages();
+    }
+
+    protected function removeFlashMessage(int $index): void
+    {
+        if (isset($this->getSession('flash_messages')[$index])) {
+            unset($this->getSession('flash_messages')[$index]);
+            $this->setSession('flash_messages', array_values($this->getSession('flash_messages')));
+        }
+    }
+
+    protected function render(string $template, array $data = []): void
+    {
+        $data['flash_messages'] = $this->getFlashMessages();
+        $this->twig->display($template, $data);
+
+        $this->removeSessionValue('flash_messages');
     }
 }
