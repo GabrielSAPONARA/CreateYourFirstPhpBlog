@@ -26,7 +26,7 @@ class Form
         return $this;
     }
 
-    public function bind(array $data)
+    public function bind(array $data): void
     {
         $this->data = $data;
         foreach ($this->fields as $name => $field) {
@@ -42,9 +42,8 @@ class Form
     {
         foreach ($this->fields as $name => $field) {
             if (isset($field['options']['required']) && $field['options']['required'] && empty($this->data[$name])) {
-                $this->errors[$name] = 'Ce champ est requis.';
+                $this->errors[$name] = 'The field ' . $name . ' is required.';
             }
-            // Ajouter d'autres règles de validation ici
         }
     }
 
@@ -61,5 +60,11 @@ class Form
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    public function handleRequest(array $requestData): void
+    {
+        $this->bind($requestData);
+        $this->validate();
     }
 }
