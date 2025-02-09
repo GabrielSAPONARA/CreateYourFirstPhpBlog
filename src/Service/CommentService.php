@@ -38,6 +38,7 @@ class CommentService
             $comment = new Comment();
             $comment->setUser($currentUser);
             $comment->setPublishedDate(new \DateTime('now', new \DateTimeZone('UTC')));
+            $comment->setIsValidated(false);
         }
         $comment->setContent($data["Content"]);
         if(!array_key_exists("IsPublished", $data) || ($data["IsPublished"]
