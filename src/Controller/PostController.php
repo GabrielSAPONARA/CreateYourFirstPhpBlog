@@ -7,6 +7,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostFormType;
 use App\Router\RouteManager;
+use App\Service\CommentService;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
 use Ramsey\Uuid\Uuid;
@@ -24,6 +25,8 @@ class PostController extends BasicController
     private RouteManager $routeManager;
     protected array $loggers;
 
+    private CommentService $commentService;
+
 
     public function __construct
     (
@@ -31,12 +34,14 @@ class PostController extends BasicController
         EntityManagerInterface $entityManager,
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers
+        array $loggers,
+        CommentService $commentService
     )
     {
         parent::__construct($twig, $routeManager, $loggers);
         $this->entityManager = $entityManager;
         $this->postService = $postService;
+        $this->commentService = $commentService;
     }
     public function index() : void
     {
@@ -131,12 +136,13 @@ class PostController extends BasicController
 
     /**
      * @throws \DateMalformedStringException
+     * @throws \Exception
      */
     public function modify(array $params) : void
     {
         $postId = $params["postId"];
-        $postRepository = $this->entityManager->getRepository(Post::class);
-        $post = $postRepository->findById($postId)[0];
+
+        $post = $this->postService->findByPostId($postId);
 
         $form = PostFormType::buildForm($post);
         if($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -184,10 +190,8 @@ class PostController extends BasicController
     public function delete (array $params) : void
     {
         $postId = $params["postId"];
-        $postRepository = $this->entityManager->getRepository(Post::class);
-        $post = $postRepository->findById($postId)[0];
-        $commentRepository = $this->entityManager->getRepository(Comment::class);
-        $comments = $commentRepository->findByPost($postId);
+        $post = $this->postService->findByPostId($postId);
+        $comments = $this->commentService->findByPostId($postId);
         $commentLogger = $this->loggers["comment"];
         foreach($comments as $comment)
         {
@@ -197,6 +201,7 @@ class PostController extends BasicController
         }
         $postLogger = $this->loggers["post"];
         $postLogger->warning("Deleted post with id: " . $post->getId());
+        $this->addFlashMessage('success', 'Post has been deleted');
         $this->entityManager->remove($post);
         $this->entityManager->flush();
         $this->redirectToRoute("posts");

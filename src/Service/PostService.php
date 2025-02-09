@@ -73,4 +73,20 @@ class PostService
 
         return $post;
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function findByPostId(string $postId): ?Post
+    {
+        $postRepository = $this->entityManager->getRepository(Post::class);
+        $post = $postRepository->findById($postId)[0];
+
+        if(!$post)
+        {
+            throw new \Exception("The post with id {$postId} does not exist.");
+        }
+
+        return $post;
+    }
 }

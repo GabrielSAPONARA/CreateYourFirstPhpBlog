@@ -55,4 +55,10 @@ class CommentService
 
         return $comment;
     }
+
+    public function findByPostId(string $postId): array
+    {
+        $commentRepository = $this->entityManager->getRepository(Comment::class);
+        return $commentRepository->findByPost($postId);
+    }
 }
