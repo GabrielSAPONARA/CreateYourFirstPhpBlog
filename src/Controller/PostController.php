@@ -206,4 +206,14 @@ class PostController extends BasicController
         $this->entityManager->flush();
         $this->redirectToRoute("posts");
     }
+
+    public function postToValidate() : void
+    {
+        $postsToValidate = $this->postService->findPostToValidate();
+
+        $this->render("post/toValidate.html.twig",
+        [
+            "posts" => $postsToValidate
+        ]);
+    }
 }

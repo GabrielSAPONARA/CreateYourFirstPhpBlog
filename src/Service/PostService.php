@@ -55,6 +55,7 @@ class PostService
             $post = new Post();
             $post->setUser($currentUser);
             $post->setDateOfLastUpdate($dateOfLastUpdate);
+            $post->setIsValidated(false);
         }
         $post->setTitle($data["Title"]);
         $post->setContent($data["Content"]);
@@ -88,5 +89,11 @@ class PostService
         }
 
         return $post;
+    }
+
+    public function findPostToValidate() : ?array
+    {
+        $postRepository = $this->entityManager->getRepository(Post::class);
+        return $postRepository->findByIsValidated(false);
     }
 }

@@ -43,4 +43,13 @@ class PostRepository extends EntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    public function findByIsValidated($isValidated = false)
+    {
+        return $this->createQueryBuilder('post')
+            ->where('post.isValidated = false')
+            ->orderBy('post.dateOfLastUpdate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

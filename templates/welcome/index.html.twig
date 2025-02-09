@@ -1,13 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    Welcome
-{% endblock %}
-
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
 
-{% block main %}
-    <h1>Welcome</h1>
+{% block body %}
+    {{ parent() }}
 {% endblock %}
