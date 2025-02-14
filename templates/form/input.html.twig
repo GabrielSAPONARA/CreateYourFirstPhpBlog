@@ -6,7 +6,9 @@
        {% if attributValue is iterable %}
            {% if attributValue|length > 0 %}
                {% for option, optionValue in attributValue %}
-                   {{ option }} = "{{ optionValue }}"
+                    {% if not(optionValue is same as (false)) %}
+                        {{ option }} = "{{ optionValue }}"
+                    {% endif %}
                 {% endfor %}
            {% endif %}
        {% else %}

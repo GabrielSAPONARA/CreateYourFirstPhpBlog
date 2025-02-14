@@ -2,16 +2,18 @@
         name="{{ fieldName }}"
 
 {% for attribut, attributValue in fieldProperties %}
-   {% if attributValue is iterable %}
+    {% if attributValue is iterable %}
        {% if attributValue|length > 0 %}
            {% for option, optionValue in attributValue %}
-               {{ option }} = "{{ optionValue }}"
+                {% if not(optionValue is same as (false)) %}
+                    {{ option }} = "{{ optionValue }}"
+                {% endif %}
             {% endfor %}
        {% endif %}
-   {% else %}
-       {% if not(attribut is same as ("value")) %}
+    {% else %}
+        {% if not(attribut is same as ("value")) %}
            {{ attribut }}="{{ attributValue }}"
-       {% endif %}
-   {% endif %}
+        {% endif %}
+    {% endif %}
 {% endfor %}
 >{{ fieldProperties["value"]|e }}</textarea>
