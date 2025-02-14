@@ -27,6 +27,7 @@ class BasicController
 
     public function __construct(Environment $twig, RouteManager $routerManager, array $loggers)
     {
+        ob_start();
         if (session_status() === PHP_SESSION_NONE) {
             session_set_cookie_params([
                 'lifetime' => 0,
