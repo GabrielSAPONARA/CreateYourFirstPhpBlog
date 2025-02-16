@@ -19,7 +19,7 @@ class PostService
     public function getAllPosts(): array
     {
         $posts = $this->entityManager->getRepository(Post::class)
-                                     ->findByIsPublished(true);
+                                     ->findAll();
         usort($posts, function ($postA, $postB) {
             return $postB->getDateOfLastUpdate() <=> $postA->getDateOfLastUpdate();
         });
@@ -55,19 +55,10 @@ class PostService
             $post = new Post();
             $post->setUser($currentUser);
             $post->setDateOfLastUpdate($dateOfLastUpdate);
-            $post->setIsValidated(false);
         }
         $post->setTitle($data["Title"]);
         $post->setContent($data["Content"]);
         $post->setChapo($data["Chapo"]);
-        if(!array_key_exists("IsPublished", $data))
-        {
-            $post->setIspublished(false);
-        }
-        else
-        {
-            $post->setIspublished(true);
-        }
 
         $this->entityManager->persist($post);
         $this->entityManager->flush();

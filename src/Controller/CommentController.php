@@ -11,6 +11,9 @@ use App\Router\RouteManager;
 use App\Service\CommentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class CommentController extends BasicController
 {
@@ -77,15 +80,6 @@ class CommentController extends BasicController
                 $postRepository = $this->entityManager->getRepository(Post::class);
                 $post = $postRepository->findById($postId)[0];
                 $comment->setPost($post);
-                if(!array_key_exists("IsPublished", $_POST) || ($_POST["IsPublished"]
-                                                                === null))
-                {
-                    $comment->setIsPublished(false);
-                }
-                else
-                {
-                    $comment->setIsPublished(true);
-                }
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
             }
@@ -117,6 +111,11 @@ class CommentController extends BasicController
         ]);
     }
 
+    /**
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
     public function modify(array $params)
     {
         $commentId = $params['commentId'];
@@ -158,7 +157,7 @@ class CommentController extends BasicController
     /**
      * @throws \Exception
      */
-    public function delete(array $params)
+    public function delete(array $params): void
     {
         $commentId = $params['commentId'];
         $commentRepository = $this->entityManager->getRepository(Comment::class);

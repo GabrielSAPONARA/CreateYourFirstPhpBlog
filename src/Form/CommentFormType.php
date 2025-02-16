@@ -24,19 +24,6 @@ class CommentFormType
             )
             ->addField
             (
-                'IsPublished',
-                'checkbox',
-                'isPublished',
-                'isPublished',
-                'Publish ?',
-                $comment ? ($comment->isPublished() ?
-                    [
-                        'checked' => 'checked'
-                    ]: [] ) : []
-
-            )
-            ->addField
-            (
                 'submit',
                 'submit',
                 'submit',

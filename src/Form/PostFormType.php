@@ -52,19 +52,6 @@ class PostFormType
             )
             ->addField
             (
-                'IsPublished',
-                'checkbox',
-                'isPublished',
-                'isPublished',
-                'Publish ?',
-                $post ? ($post->isPublished() ?
-                    [
-                        'checked' => 'checked'
-                    ]: [] ) : []
-
-            )
-            ->addField
-            (
                 'submit',
                 'submit',
                 'submit',

@@ -15,15 +15,6 @@ class PostRepository extends EntityRepository
                     ->getResult();
     }
 
-    public function findByIsPublished($isPublished = true) : array
-    {
-        return $this->createQueryBuilder('post')
-                    ->where('post.isPublished = true')
-                    ->orderBy('post.dateOfLastUpdate', 'DESC')
-                    ->getQuery()
-                    ->getResult();
-    }
-
     public function findById(string $id)
     {
         return $this->createQueryBuilder('post')
@@ -42,14 +33,5 @@ class PostRepository extends EntityRepository
                     ->setParameter('id', $id)
                     ->getQuery()
                     ->getResult();
-    }
-
-    public function findByIsValidated($isValidated = false)
-    {
-        return $this->createQueryBuilder('post')
-            ->where('post.isValidated = false')
-            ->orderBy('post.dateOfLastUpdate', 'DESC')
-            ->getQuery()
-            ->getResult();
     }
 }

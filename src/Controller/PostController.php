@@ -102,10 +102,6 @@ class PostController extends BasicController
         $postRepository = $this->entityManager->getRepository(Post::class);
         $commentRepository = $this->entityManager->getRepository(Comment::class);
         $comments = $commentRepository->findByPost($uuid);
-        $comments = array_filter($comments, function (Comment $comment)
-        {
-            return $comment->isPublished();
-        });
         usort($comments, function ($commentA, $commentB) {
             return $commentB->getPublishedDate() <=> $commentA->getPublishedDate();
         });
@@ -207,13 +203,4 @@ class PostController extends BasicController
         $this->redirectToRoute("posts");
     }
 
-    public function postToValidate() : void
-    {
-        $postsToValidate = $this->postService->findPostToValidate();
-
-        $this->render("post/toValidate.html.twig",
-        [
-            "posts" => $postsToValidate
-        ]);
-    }
 }

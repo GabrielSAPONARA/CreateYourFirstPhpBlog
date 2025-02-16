@@ -41,15 +41,6 @@ class CommentService
             $comment->setIsValidated(false);
         }
         $comment->setContent($data["Content"]);
-        if(!array_key_exists("IsPublished", $data) || ($data["IsPublished"]
-                                                       === null))
-        {
-            $comment->setIsPublished(false);
-        }
-        else
-        {
-            $comment->setIsPublished(true);
-        }
 
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
