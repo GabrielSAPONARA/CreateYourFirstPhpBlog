@@ -58,3 +58,4 @@ $router->map('GET', '/comment/byUser', "CommentController::commentByUser", "comm
 $router->map('GET', '/comment/modify/[uuid:commentId]/post/[uuid:postId]', "CommentController::modify", "comments__modify");
 $router->map('POST', '/comment/modify/[uuid:commentId]/post/[uuid:postId]', "CommentController::modify", "comments__modify__process");
 $router->map('GET', '/comment/delete/[uuid:commentId]', "CommentController::delete", "comments__delete");
+$router->map('GET', '/comment/toValidate', "CommentController::getCommentsToValidate", "comments__toValidate");

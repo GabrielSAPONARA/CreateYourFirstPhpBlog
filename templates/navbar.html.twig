@@ -20,7 +20,7 @@
         </a>
     {% endif %}
     {% if is_granted('Moderator') %}
-        <a href="#">
+        <a href="{{ path("comments__toValidate") }}">
             Comments to validate
         </a>
     {% endif %}

@@ -9,7 +9,7 @@ class CommentRepository extends EntityRepository
     public function findByPost($postId)
     {
         return $this->createQueryBuilder('comment')
-            ->where('comment.isPublished = true')
+            ->where('comment.isValidated = true')
             ->andWhere('post.id = :post')
             ->join('comment.post', 'post')
             ->setParameter('post', $postId)
@@ -24,5 +24,14 @@ class CommentRepository extends EntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findByIsValidated($isValidated = false)
+    {
+        return $this->createQueryBuilder('comment')
+            ->where('comment.isValidated = :isValidated')
+            ->setParameter('isValidated', $isValidated)
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -177,4 +177,23 @@ class CommentController extends BasicController
 
         $this->redirectToRoute("posts__details", ["postId" => $postId]);
     }
+
+    public function getCommentsToValidate()
+    {
+        $this->beforeAction("Moderator");
+        $commentRepository = $this->entityManager->getRepository(Comment::class);
+        $comments = $commentRepository->findByIsValidated(false);
+
+        $postIds = [];
+        foreach($comments as $comment)
+        {
+            $postIds[] = $comment->getPost()->getId();
+        }
+
+        $this->render("comment/toValidate.html.twig",
+        [
+            "comments" => $comments,
+            "postIds" => $postIds
+        ]);
+    }
 }
