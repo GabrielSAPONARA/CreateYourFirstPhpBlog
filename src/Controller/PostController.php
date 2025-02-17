@@ -102,6 +102,10 @@ class PostController extends BasicController
         $postRepository = $this->entityManager->getRepository(Post::class);
         $commentRepository = $this->entityManager->getRepository(Comment::class);
         $comments = $commentRepository->findByPost($uuid);
+        $comments = array_filter($comments, function (Comment $comment)
+        {
+            return $comment->isValidated();
+        });
         usort($comments, function ($commentA, $commentB) {
             return $commentB->getPublishedDate() <=> $commentA->getPublishedDate();
         });
