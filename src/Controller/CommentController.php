@@ -196,4 +196,31 @@ class CommentController extends BasicController
             "postIds" => $postIds
         ]);
     }
+
+    public function validateComment(array $params)
+    {
+        $commentId = $params['commentId'];
+        $commentRepository = $this->entityManager->getRepository(Comment::class);
+        $comment = $commentRepository->findById($commentId)[0];
+        $options = [];
+        $options["disabled"] = true;
+
+        $form = CommentFormType::buildForm($comment, $options);
+
+        $form
+            ->addField
+            (
+                "IsValidated",
+                'checkbox',
+                "isValidated",
+                "isValidated",
+                "Is validate ?"
+            )
+        ;
+
+        $this->render('comment/validateComment.html.twig',
+        [
+            "formFields" => $form->getFields(),
+        ]);
+    }
 }

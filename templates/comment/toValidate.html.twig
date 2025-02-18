@@ -12,7 +12,7 @@
         {% set postIdIterator = 0 %}
 
         {% for comment in comments %}
-            {% include 'comment/comment.html.twig' with {'comment': comment, 'postId' : postIds[postIdIterator].toString()} only %}
+            {% include 'comment/commentToValidate.html.twig' with {'comment': comment, 'postId' : postIds[postIdIterator].toString()} only %}
             {% set postIdIterator = postIdIterator + 1 %}
         {% endfor %}
     </div>

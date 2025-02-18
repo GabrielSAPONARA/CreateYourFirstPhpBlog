@@ -6,8 +6,10 @@ use App\Entity\Comment;
 
 class CommentFormType
 {
-    public static function buildForm(?Comment $comment = null): Form
+    public static function buildForm(?Comment $comment = null, array $options
+    = []): Form
     {
+        $isDisabled = $options['disabled'] ?? false;
         $form = new Form();
         $form
             ->addField
@@ -20,6 +22,7 @@ class CommentFormType
                 [
                     'required' => true,
                     'placeholder' => 'Content of the comment',
+                    'disabled' => $isDisabled,
                 ]
             )
             ->addField
