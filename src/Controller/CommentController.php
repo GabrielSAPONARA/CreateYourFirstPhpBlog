@@ -218,9 +218,22 @@ class CommentController extends BasicController
             )
         ;
 
+        if($_SERVER["REQUEST_METHOD"] === "POST")
+        {
+            $form->bind($_POST);
+            $data = $form->getData();
+            if($data["IsValidated"] !== null)
+            {
+                $comment->setIsValidated(true);
+                $this->entityManager->flush();
+            }
+            $this->redirectToRoute("comments__toValidate");
+        }
+
         $this->render('comment/validateComment.html.twig',
         [
             "formFields" => $form->getFields(),
+            "commentId" => $commentId,
         ]);
     }
 }
