@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block main %}
+    <h1>Contact Us</h1>
+    <form action="{{ path("contact__process") }}" method="post">
+        {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
+    </form>
+{% endblock %}

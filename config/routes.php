@@ -61,3 +61,7 @@ $router->map('GET', '/comment/delete/[uuid:commentId]', "CommentController::dele
 $router->map('GET', '/comment/toValidate', "CommentController::getCommentsToValidate", "comments__toValidate");
 $router->map('GET', '/comment/validateComment/[uuid:commentId]', "CommentController::validateComment", "validate__comment");
 $router->map('POST', '/comment/validateComment/[uuid:commentId]', "CommentController::validateComment", "process__to__validate__comment");
+
+// routes to contact
+$router->map('GET', '/contact', "ContactController::contact", "contact");
+$router->map('POST', '/contact', "ContactController::contact", "contact__process");

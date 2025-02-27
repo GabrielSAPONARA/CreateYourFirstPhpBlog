@@ -18,6 +18,9 @@
         <a href="{{ path("profile") }}">
             My profile
         </a>
+        <a href="{{ path("contact") }}">
+            Contact Us
+        </a>
     {% endif %}
     {% if is_granted('Moderator') %}
         <a href="{{ path("comments__toValidate") }}">
