@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}All Posts{% endblock %}
+
+
+{% block main %}
+    {% block pageTitle %}
+        <h1>All Posts</h1>
+    {% endblock %}
+    <div>
+    {% for post in posts %}
+        {% include 'post/post.html.twig' with {'post': post} only %}
+    {% endfor %}
+    </div>
+{% endblock %}

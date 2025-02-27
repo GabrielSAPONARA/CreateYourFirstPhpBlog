@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            Mail
+        {% endblock %}
+    </title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/style/navbar.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/style/flashMessages.css') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}"
+    {% endblock %}
+</head>
+<body>
+
+{% block body %}
+
+    <section>
+        <h1>
+            {% block pageTitle %}
+                Mail
+            {% endblock %}
+        </h1>
+        {% block main %}
+            <p>
+                {% block content %}
+
+                {% endblock %}
+            </p>
+        {% endblock %}
+    </section>
+    <footer>
+        {% block footer %}
+
+        {% endblock %}
+    </footer>
+
+{% endblock %}
+
+
+</body>
+</html>

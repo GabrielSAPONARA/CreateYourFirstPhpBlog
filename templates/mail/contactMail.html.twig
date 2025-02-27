@@ -1,0 +1,26 @@
+{% extends "mail/mailBase.html.twig" %}
+
+{% block title %}{{ subject }}{% endblock %}
+
+{% block pageTitle %}
+    {{ subject }}
+{% endblock %}
+
+{% block content %}
+    {{ content }}
+{% endblock %}
+
+{% block footer %}
+    <div>
+        {{ userMail }}
+    </div>
+    <div>
+        {{ firstname }}
+    </div>
+    <div>
+        {{ lastname }}
+    </div>
+    <div>
+        {{ username }}
+    </div>
+{% endblock %}

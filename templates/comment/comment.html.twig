@@ -1,0 +1,11 @@
+<div>
+    <div>
+        {{ comment.content }}
+    </div>
+    <div>
+        {{ comment.publishedDate|date("H:i:s m/d/Y", "Europe/Paris") }}
+    </div>
+    <div>
+        <a href="{{ path('posts__details', {'postId' : postId}) }}">Detail about post</a>
+    </div>
+</div>

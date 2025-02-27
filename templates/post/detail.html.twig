@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block main %}
+    {% include 'messages/flash_message.html.twig' with {'flashMessages' : flashMessages} only %}
+    <h1>{{ post.title }}</h1>
+    <div>
+        <div>
+            {{ post.chapo }}
+        </div>
+        <div>
+            {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
+        </div>
+        <div>
+            {{ author.username }}
+        </div>
+        <div>
+            {{ post.content }}
+        </div>
+    </div>
+    <h4>Comments</h4>
+    <div>
+        {% for comment in comments %}
+            <div>
+                {{ comment.content }}
+            </div>
+            <div>
+                {{ comment.publishedDate|date("d/m/Y H:i:s") }}
+            </div>
+            {% if is_granted('Member') %}
+                <div>
+                    <a href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
+                    <a href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% if is_granted('Member') %}
+        <div>
+            <a href="{{ path('comments__addition', {'postId' : post.id}) }}">Add Comment</a>
+        </div>
+        <div>
+            <a href="{{ path('posts__modify', {'postId' : post.id}) }}">Modify this post</a>
+        </div>
+        <div>
+            <a href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
+        </div>
+    {% endif %}
+{% endblock %}

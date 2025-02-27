@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modify This Post{% endblock %}
+
+{% block main %}
+    <h1>Modify This Post</h1>
+    {% include 'messages/flash_message.html.twig' with {'flashMessages' : flashMessages} only %}
+    <form action="{{ path("posts__modify__process", {'postId' : postId}) }}" method="post">
+        {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
+    </form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Modify Role
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <h1>Modify Role</h1>
+    <form action="{{ path('roles_process__update', { 'id' : role.id }) }}" method="post">
+        {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
+    </form>
+{% endblock %}

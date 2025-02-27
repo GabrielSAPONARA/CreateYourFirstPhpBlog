@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            Welcome
+        {% endblock %}
+    </title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/style/navbar.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/style/flashMessages.css') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}"
+    {% endblock %}
+</head>
+<body>
+
+{% block body %}
+    {% block navbar %}
+        {% include("navbar.html.twig") only %}
+    {% endblock %}
+
+    {% block main %}
+        {% block pageTitle %}
+            <h1> Welcome</h1>
+        {% endblock %}
+    {% endblock %}
+
+    {% block footer %}
+
+    {% endblock %}
+
+    {% block scripts %}
+        <script type="text/javascript" src="{{asset('assets/javascript/flashMessages.js') }}"></script>
+    {% endblock %}
+{% endblock %}
+
+
+</body>
+</html>

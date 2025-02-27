@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}My Comments{% endblock %}
+
+{% block main %}
+    <h1>My Comments</h1>
+    <div>
+        {% set postIdIterator = 0 %}
+{#            {{ dump(comments) }}#}
+        {% for comment in comments %}
+            {% include 'comment/comment.html.twig' with {'comment': comment, 'postId' : postIds[postIdIterator].toString()} only %}
+            {% set postIdIterator = postIdIterator + 1 %}
+        {% endfor %}
+    </div>
+{% endblock %}

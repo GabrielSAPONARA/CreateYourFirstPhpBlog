@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modify this Comment{% endblock %}
+
+{% block main %}
+    <h1>Modify this Comment</h1>
+    <form action="{{ path("comments__modify__process", {'commentId' : commentId, 'postId' : postId}) }}" method="post">
+        {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
+    </form>
+{% endblock %}

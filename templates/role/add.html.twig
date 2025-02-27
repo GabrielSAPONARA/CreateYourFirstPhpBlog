@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Add Role
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <h1>Add Role</h1>
+    <form action="{{ path("roles_process__create") }}" method="post">
+        {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
+    </form>
+{% endblock %}
+
