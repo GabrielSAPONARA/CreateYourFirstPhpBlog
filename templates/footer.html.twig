@@ -1,0 +1,16 @@
+<footer>
+    <a href="{{ path("contact") }}">
+        Contact Us
+    </a>
+    {% if is_granted('Administrator') %}
+        <a href="/user">
+            Manage Users
+        </a>
+        <a href="/social/network">
+            Social Networks
+        </a>
+        <a href="/role">
+            Roles
+        </a>
+    {% endif %}
+</footer>
