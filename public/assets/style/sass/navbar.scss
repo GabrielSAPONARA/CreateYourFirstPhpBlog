@@ -1,0 +1,134 @@
+*
+{
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+}
+
+*,
+*:before,
+*:after
+{
+  box-sizing: border-box;
+}
+
+$light-blue: #209cee;
+$dark-blue: #0b5c8e;
+
+$bar-width: 60px;
+$bar-height: 8px;
+$hamburger-gap: 6px;
+$hamburger-margin: 8px;
+$animation-timing: 200ms ease-in-out;
+$hamburger-height: ($bar-height * 3) + ($hamburger-gap * 2);
+$x-width: $hamburger-height * 1.41421356237;
+
+:root
+{
+  --foreground: #333;
+  --background: white;
+}
+
+.hamburger-menu {
+  display: grid;
+  gap: $hamburger-gap;
+  width: max-content;
+  position: absolute;
+  top: $hamburger-margin;
+  left: $hamburger-margin;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.hamburger-menu:has(input:checked) {
+  --foreground: white;
+  --background: #333;
+}
+
+.hamburger-menu:has(input:focus-visible)::before,
+.hamburger-menu:has(input:focus-visible)::after,
+.hamburger-menu input:focus-visible
+{
+  border: 1px solid var(--background);
+  box-shadow: 0 0 0 1px var(--foreground);
+}
+
+.hamburger-menu::before,
+.hamburger-menu::after,
+.hamburger-menu input
+{
+  content: "";
+  width: $bar-width;
+  height: $bar-height;
+  background-color: var(--foreground);
+  border-radius: 9999px;
+  transform-origin: left center;
+  transition: opacity $animation-timing, width $animation-timing,
+  rotate $animation-timing, translate $animation-timing,
+  background-color $animation-timing;
+}
+
+.hamburger-menu input
+{
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  pointer-events: none;
+}
+
+.hamburger-menu:has(input:checked)::before
+{
+  rotate: 45deg;
+  width: $x-width;
+  translate: 0 calc($bar-height / -2);
+}
+
+.hamburger-menu:has(input:checked)::after
+{
+  rotate: -45deg;
+  width: $x-width;
+  translate: 0 calc($bar-height / 2);
+}
+
+.hamburger-menu input:checked
+{
+  opacity: 0;
+  width: 0;
+}
+
+.sidebar
+{
+  transition: translate $animation-timing;
+  translate: -100%;
+  padding: 0.5rem 1rem;
+  padding-top: $hamburger-height + $hamburger-margin + 16px;
+  background-color: var(--foreground);
+  max-width: 10rem;
+  min-height: 100dvh;
+}
+
+.hamburger-menu:has(input:checked) + .sidebar
+{
+  translate: 0;
+}
+
+.navbar
+{
+  padding: 3%;
+}
+.navbar a
+{
+  color: $light-blue;
+}
+
+.navbar a:hover
+{
+  color: $dark-blue;
+}
+
+.logo
+{
+  width: 25%;
+}

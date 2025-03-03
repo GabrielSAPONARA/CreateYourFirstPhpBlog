@@ -1,50 +1,63 @@
-<nav class="navbar">
-    <a href="/">
-        Welcome
-    </a>
-    <a href="{{ path('posts') }}">
-        All post
-    </a>
-    {% if is_granted('Member') %}
-        <a href="{{ path('posts__byUser') }}">
-            My Posts
+<label class="hamburger-menu">
+    <input type="checkbox">
+</label>
+<aside class="sidebar">
+    <nav class="navbar">
+        <a href="{{ path('welcome') }}">
+            <img class="logo" src="{{ asset('assets/images/logo-android-chrome-192x192.png') }}" alt="site's icon">
         </a>
-        <a href="{{ path('posts__addition') }}">
-            Add Post
-        </a>
-        <a href="{{ path("comments__byUser") }}">
-            My Comments
-        </a>
-        <a href="{{ path("profile") }}">
-            My profile
-        </a>
-        <a href="{{ path("contact") }}">
-            Contact Us
-        </a>
-    {% endif %}
-    {% if is_granted('Moderator') %}
-        <a href="{{ path("comments__toValidate") }}">
-            Comments to validate
-        </a>
-    {% endif %}
-    {% if is_granted('Administrator') %}
-        <a href="/user">
-            Manage Users
-        </a>
-        <a href="/social/network">
-            Social Networks
-        </a>
-        <a href="/role">
-            Roles
-        </a>
-    {% endif %}
-    {% if is_granted('Member') %}
-        <a href="{{ path("logout") }}">
-            Disconnection
-        </a>
-    {% endif %}
-    {% if (is_granted('Disconnected user')) and (not(is_granted('Member')))%}
-        <a href="{{ path('login') }}">Sign in</a>
-        <a href="{{ path('register') }}">Sign up</a>
-    {% endif %}
-</nav>
+        <div class="nav-links">
+            <ul>
+                <li>
+                    <a href="{{ path('posts') }}">
+                        All post
+                    </a>
+                </li>
+                {% if is_granted('Member') %}
+                    <li>
+                        <a href="{{ path('posts__byUser') }}">
+                            My Posts
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('posts__addition') }}">
+                            Add Post
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path("comments__byUser") }}">
+                            My Comments
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path("profile") }}">
+                            My profile
+                        </a>
+                    </li>
+                {% endif %}
+                {% if is_granted('Moderator') %}
+                    <li>
+                        <a href="{{ path("comments__toValidate") }}">
+                            Comments to validate
+                        </a>
+                    </li>
+                {% endif %}
+                {% if is_granted('Member') %}
+                    <li>
+                        <a href="{{ path("logout") }}">
+                            Disconnection
+                        </a>
+                    </li>
+                {% endif %}
+                {% if (is_granted('Disconnected user')) and (not(is_granted('Member')))%}
+                    <li>
+                        <a href="{{ path('login') }}">Sign in</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('register') }}">Sign up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</aside>
