@@ -172,7 +172,7 @@ class UserController extends BasicController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             $userLogger->info("New user added: " . $user->getId());
-            $route = "welcome";
+            $route = "profile";
             $this->setSession('user_id', $user->getId());
             $this->setSession('username', $user->getUsername());
             $this->setSession('role', $role->getName());
