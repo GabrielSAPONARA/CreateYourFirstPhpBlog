@@ -2,12 +2,16 @@
     <input type="checkbox">
 </label>
 <aside class="sidebar">
+
     <nav class="navbar">
-        <a href="{{ path('welcome') }}">
-            <img class="logo" src="{{ asset('assets/images/logo-android-chrome-192x192.png') }}" alt="site's icon">
-        </a>
+
         <div class="nav-links">
             <ul>
+                <li>
+                    <a href="{{ path('welcome') }}">
+                        Welcome
+                    </a>
+                </li>
                 <li>
                     <a href="{{ path('posts') }}">
                         All post
