@@ -2,8 +2,18 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/welcome/index.css') }}">
 {% endblock %}
 
-{% block body %}
-    {{ parent() }}
+
+{% block main %}
+    {% block pageTitle %}
+        <h1 class="title">Welcome</h1>
+    {% endblock %}
+    <img class="logo" src="{{ asset('assets/images/logo-android-chrome-192x192.png') }}" alt="site's icon">
+    <section>
+        <img class="photo" src="{{ asset('assets/images/photoCv.png') }}" alt="photo owner's blog">
+        <p>Gabriel SAPONARA</p>
+        <p>Découvrons ensemble de nouvelles technologies !</p>
+    </section>
 {% endblock %}

@@ -10,7 +10,11 @@
     </title>
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('assets/style/css/navbar.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/style/css/footer.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/style/css/base.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/style/flashMessages.css') }}">
+    {% endblock %}
+    {% block favicon %}
         <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}"
     {% endblock %}
 </head>
@@ -23,7 +27,7 @@
 
     {% block main %}
         {% block pageTitle %}
-            <h1> Welcome</h1>
+            <h1 class="title"> Welcome</h1>
         {% endblock %}
     {% endblock %}
 
