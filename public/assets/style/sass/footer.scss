@@ -1,0 +1,24 @@
+@import "variables";
+
+footer
+{
+  display: grid;
+  padding: 0 0 3% 3%;
+  background: $grey-light;
+  font-size: 1.5rem;
+}
+.footer__bloc
+{
+  display: grid;
+}
+.footer__line
+{
+  border: 1px solid black;
+  width: 97%;
+  display: grid;
+  background: black;
+}
+footer a
+{
+  color: $dark-blue;
+}

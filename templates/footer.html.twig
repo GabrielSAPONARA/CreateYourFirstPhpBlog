@@ -1,8 +1,12 @@
 <footer>
-    <a href="{{ path("contact") }}">
-        Contact Us
-    </a>
+    <div class="footer__bloc">
+        <a href="{{ path("contact") }}">
+            Contact Us
+        </a>
+    </div>
     {% if is_granted('Administrator') %}
+    <div class="footer__line"></div>
+    <div class="footer__bloc">
         <a href="/user">
             Manage Users
         </a>
@@ -12,5 +16,6 @@
         <a href="/role">
             Roles
         </a>
+    </div>
     {% endif %}
 </footer>
