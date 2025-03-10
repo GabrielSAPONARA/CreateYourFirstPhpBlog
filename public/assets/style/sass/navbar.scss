@@ -1,3 +1,5 @@
+@import "variables";
+
 *
 {
   margin: 0;
@@ -13,8 +15,7 @@
   box-sizing: border-box;
 }
 
-$light-blue: #209cee;
-$dark-blue: #0b5c8e;
+
 
 $bar-width: 60px;
 $bar-height: 8px;
@@ -26,8 +27,8 @@ $x-width: $hamburger-height * 1.41421356237;
 
 :root
 {
-  --foreground: #333;
-  --background: white;
+  --foreground: #8e8c8c;
+  --background: $white;
 }
 
 .hamburger-menu {
@@ -43,7 +44,7 @@ $x-width: $hamburger-height * 1.41421356237;
 
 .hamburger-menu:has(input:checked) {
   --foreground: white;
-  --background: #333;
+  --background: $grey-light;
 }
 
 .hamburger-menu:has(input:focus-visible)::before,
@@ -122,15 +123,5 @@ $x-width: $hamburger-height * 1.41421356237;
 .navbar a
 {
   color: $light-blue;
-  font-size: 2rem;
-}
-
-.navbar a:hover
-{
-  color: $dark-blue;
-}
-
-.logo
-{
-  width: 25%;
+  font-size: 1.5rem;
 }
