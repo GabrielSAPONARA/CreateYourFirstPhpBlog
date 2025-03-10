@@ -38,18 +38,6 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "string", length: 255, nullable: false)]
     private $username;
 
-    #[ORM\Column(type: "text", length: 1000, nullable: true)]
-    private  $photoPath;
-
-    #[ORM\Column(type: "text", length: 1000, nullable: true)]
-    private $logoPath;
-
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private $catchPhrase;
-
-    #[ORM\Column(type: "text", nullable: true)]
-    private $cvLink;
-
     #[ORM\Column(type: "string", length: 255, nullable: false)]
     private $password;
 
@@ -146,70 +134,6 @@ class User implements PasswordAuthenticatedUserInterface
     public function setUsername($username): void
     {
         $this->username = $username;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPhotoPath()
-    {
-        return $this->photoPath;
-    }
-
-    /**
-     * @param mixed $photoPath
-     */
-    public function setPhotoPath($photoPath): void
-    {
-        $this->photoPath = $photoPath;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLogoPath()
-    {
-        return $this->logoPath;
-    }
-
-    /**
-     * @param mixed $logoPath
-     */
-    public function setLogoPath($logoPath): void
-    {
-        $this->logoPath = $logoPath;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCatchPhrase()
-    {
-        return $this->catchPhrase;
-    }
-
-    /**
-     * @param mixed $catchPhrase
-     */
-    public function setCatchPhrase($catchPhrase): void
-    {
-        $this->catchPhrase = $catchPhrase;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCvLink()
-    {
-        return $this->cvLink;
-    }
-
-    /**
-     * @param mixed $cvLink
-     */
-    public function setCvLink($cvLink): void
-    {
-        $this->cvLink = $cvLink;
     }
 
     /**
