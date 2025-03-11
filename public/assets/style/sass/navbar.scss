@@ -27,7 +27,7 @@ $x-width: $hamburger-height * 1.41421356237;
 
 :root
 {
-  --foreground: #8e8c8c;
+  --foreground: #716f6f;
   --background: $white;
 }
 
@@ -124,4 +124,9 @@ $x-width: $hamburger-height * 1.41421356237;
 {
   color: $light-blue;
   font-size: 1.5rem;
+}
+
+.navbar a:hover
+{
+  color: $white;
 }
