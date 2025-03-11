@@ -35,7 +35,7 @@ $x-width: $hamburger-height * 1.41421356237;
   display: grid;
   gap: $hamburger-gap;
   width: max-content;
-  position: absolute;
+  position: fixed;
   top: $hamburger-margin;
   left: $hamburger-margin;
   z-index: 2;
@@ -108,7 +108,7 @@ $x-width: $hamburger-height * 1.41421356237;
   background-color: var(--foreground);
   max-width: 12rem;
   min-height: 100dvh;
-  position: absolute;
+  position: fixed;
 }
 
 .hamburger-menu:has(input:checked) + .sidebar
