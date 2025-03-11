@@ -1,19 +1,19 @@
 <footer>
     <div class="footer__bloc">
-        <a href="{{ path("contact") }}">
+        <a class="pill" href="{{ path("contact") }}">
             Contact Us
         </a>
     </div>
     {% if is_granted('Administrator') %}
     <div class="footer__line"></div>
     <div class="footer__bloc">
-        <a href="/user">
+        <a class="pill" href="/user">
             Manage Users
         </a>
-        <a href="/social/network">
+        <a class="pill" href="/social/network">
             Social Networks
         </a>
-        <a href="/role">
+        <a class="pill" href="/role">
             Roles
         </a>
     </div>

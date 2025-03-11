@@ -4,8 +4,8 @@ footer
 {
   display: grid;
   padding: 0 0 3% 3%;
-  background: $grey-light;
   font-size: 1.5rem;
+  row-gap: 3%;
 }
 .footer__bloc
 {
@@ -13,12 +13,15 @@ footer
 }
 .footer__line
 {
-  border: 1px solid black;
+  border: 1px solid $grey-light;
   width: 97%;
   display: grid;
-  background: black;
+  align-self: center;
+  background: $grey-light;
+  height: 1px;
 }
 footer a
 {
   color: $dark-blue;
+  padding: 1%;
 }
