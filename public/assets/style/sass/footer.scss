@@ -3,7 +3,7 @@
 footer
 {
   display: grid;
-  padding: 0 0 3% 3%;
+  padding: 3%;
   font-size: 1.5rem;
   row-gap: 3%;
 }
@@ -14,7 +14,6 @@ footer
 .footer__line
 {
   border: 1px solid $grey-light;
-  width: 97%;
   display: grid;
   align-self: center;
   background: $grey-light;
