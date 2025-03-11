@@ -9,6 +9,9 @@
         {% endblock %}
     </title>
     {% block stylesheets %}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Carrois+Gothic&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('assets/style/css/navbar.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/style/css/footer.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/style/css/base.css') }}">
@@ -18,7 +21,7 @@
         <link rel="icon" type="image/png" href="{{ asset('assets/images/logo.png') }}"
     {% endblock %}
 </head>
-<body>
+<body class="advent-pro-400">
 
 {% block body %}
     {% block navbar %}

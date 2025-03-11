@@ -7,6 +7,22 @@ body
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
+.advent-pro-400
+{
+ font-family: "Advent Pro", sans-serif;
+ font-optical-sizing: auto;
+ font-weight: 400;
+ font-style: normal;
+ font-variation-settings:
+         "wdth" 100;
+}
+.carrois-gothic-regular
+{
+  font-family: "Carrois Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .title
 {
   display: grid;
@@ -19,9 +35,12 @@ body
   width: 13.5%;
   position: absolute;
 }
-.pill:hover
+.link
 {
-  background: $grey-light;
-  border-radius: 3rem;
-  width: fit-content;
+  color: $grey;
+}
+.link:hover
+{
+  color: $white;
+  background-color: $grey-light;
 }
