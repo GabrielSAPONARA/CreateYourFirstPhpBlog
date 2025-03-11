@@ -1,4 +1,27 @@
-.photo
+@import "../variables";
+
+.main-content
 {
-  width: 50%;
+  display: grid;
+  grid-template-columns: repeat(2, 45%);
+  margin: 20% 2.5%;
+  column-gap: 5%;
+  .main-content__photo,
+  .main-content__logo
+  {
+    width: 100%;
+  }
+  .main-content__photo
+  {
+    border-radius: 50%;
+  }
+  .main-content__catch-sentence
+  {
+    grid-column: span 2;
+  }
+  .main-content__cv-link
+  {
+    color: $dark-blue;
+    padding: 5%;
+  }
 }

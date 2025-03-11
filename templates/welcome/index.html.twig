@@ -7,13 +7,13 @@
 
 
 {% block main %}
-    {% block pageTitle %}
-        <h1 class="title">Welcome</h1>
-    {% endblock %}
-    <img class="logo" src="{{ asset('assets/images/logo-android-chrome-192x192.png') }}" alt="site's icon">
-    <section>
-        <img class="photo" src="{{ asset('assets/images/photoCv.png') }}" alt="photo owner's blog">
-        <p>Gabriel SAPONARA</p>
-        <p>Découvrons ensemble de nouvelles technologies !</p>
+{#    {% block pageTitle %}#}
+{#        <h1 class="title">Welcome</h1>#}
+{#    {% endblock %}#}
+    <section class="main-content">
+        <img class="main-content__photo" src="{{ asset('assets/images/photoCv.png') }}" alt="photo owner's blog">
+        <img class="main-content__logo" src="{{ asset('assets/images/logo.svg') }}" alt="site's icon">
+        <p class="main-content__catch-sentence">Découvrons ensemble de nouvelles technologies !</p>
+        <a class="main-content__cv-link pill" href="{{ asset('assets/documents/cv.pdf') }}" alt="link to CV">Mon CV</a>
     </section>
 {% endblock %}
