@@ -6,6 +6,8 @@
   grid-template-columns: repeat(2, 45%);
   margin: 20% 2.5%;
   column-gap: 5%;
+  height: inherit;
+  grid-auto-rows: 30%;
   .main-content__photo,
   .main-content__logo
   {
@@ -15,13 +17,30 @@
   {
     border-radius: 50%;
   }
-  .main-content__catch-sentence
+
+  .main-content__one-line
   {
     grid-column: span 2;
   }
-  .main-content__cv-link
+  .social-networks
   {
-    color: $dark-blue;
-    padding: 5%;
+    display: grid;
+    grid-column: span 2;
+    row-gap: 5%;
+  }
+  .social-logo
+  {
+    width: 100%;
+  }
+  .social-network
+  {
+    display: grid;
+    grid-template-columns: 20% auto;
+    align-items: center;
+  }
+  .catch-phrase
+  {
+    display: grid;
+    align-self: center;
   }
 }
