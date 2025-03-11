@@ -1,3 +1,5 @@
+@import "variables";
+
 body
 {
   height: 100dvh;
@@ -16,4 +18,10 @@ body
   right: 1%;
   width: 13.5%;
   position: absolute;
+}
+.pill:hover
+{
+  background: $grey-light;
+  border-radius: 3rem;
+  width: fit-content;
 }
