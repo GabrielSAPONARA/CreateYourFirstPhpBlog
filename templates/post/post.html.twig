@@ -8,9 +8,7 @@
     <div class="posts__post__element">
         {{ post.chapo }}
     </div>
-    <div class="posts__post__element">
-        <a href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">Detail about post</a>
-    </div>
+    <a class="posts__post__element" href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">Detail about post</a>
     {% if is_granted('Member') %}
         <div>
             <a href="{{ path('posts__modify', {'postId' : post.id.toString()}) }}">Modify This Post</a>
