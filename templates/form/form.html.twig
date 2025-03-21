@@ -1,11 +1,13 @@
 {% for fieldName, fieldProperties in formFields %}
-    {% include 'form/label.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
+    <div class="form__field">
+        {% include 'form/label.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
 
-    {% if (fieldProperties["type"] is same as ("textarea")) %}
-        {% include 'form/textarea.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
-    {% elseif (fieldProperties["type"] is same as ("radio")) %}
-        {% include 'form/radio.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
-    {% else %}
-        {% include 'form/input.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
-    {% endif %}
+        {% if (fieldProperties["type"] is same as ("textarea")) %}
+            {% include 'form/textarea.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
+        {% elseif (fieldProperties["type"] is same as ("radio")) %}
+            {% include 'form/radio.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
+        {% else %}
+            {% include 'form/input.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
+        {% endif %}
+    </div>
 {% endfor %}
