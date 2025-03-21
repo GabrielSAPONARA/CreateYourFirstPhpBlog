@@ -1,3 +1,5 @@
+@import "../variables";
+
 .posts
 {
   display: grid;
@@ -9,6 +11,13 @@
   {
     display: grid;
     position: relative;
+    border: 1px solid $grey;
+  }
+  .posts__post:hover
+  {
+    background: $grey;
+    color: $light-blue;
+    font-weight: bold;
   }
 
   .posts__post__element
@@ -24,4 +33,5 @@
     left: 0;
     color: transparent;
   }
+
 }
