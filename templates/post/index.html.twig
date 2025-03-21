@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/post/index.css') }}">
 {% endblock %}
 
 {% block title %}All Posts{% endblock %}
@@ -11,7 +12,7 @@
     {% block pageTitle %}
         <h1>All Posts</h1>
     {% endblock %}
-    <div>
+    <div class="posts">
     {% for post in posts %}
         {% include 'post/post.html.twig' with {'post': post} only %}
     {% endfor %}

@@ -1,14 +1,14 @@
-<div>
-    <div>
+<div class="posts__post">
+    <div class="posts__post__element">
         {{ post.title }}
     </div>
-    <div>
+    <div class="posts__post__element">
         {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
     </div>
-    <div>
+    <div class="posts__post__element">
         {{ post.chapo }}
     </div>
-    <div>
+    <div class="posts__post__element">
         <a href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">Detail about post</a>
     </div>
     {% if is_granted('Member') %}
