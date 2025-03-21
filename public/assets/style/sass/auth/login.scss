@@ -1,0 +1,8 @@
+.form-login
+{
+  display: grid;
+  grid-template-rows: repeat(2, 20%) 1fr;
+  height: inherit;
+  padding: 0 3%;
+  margin-top: 10%;
+}

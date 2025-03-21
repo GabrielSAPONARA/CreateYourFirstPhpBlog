@@ -1,11 +1,16 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/auth/login.css') }}">
+{% endblock %}
+
 {% block title %}Login{% endblock %}
 
 
 {% block main %}
     <h1>Login</h1>
-    <form action="{{ path("login_process") }}" method="post">
+    <form class="form-login" action="{{ path("login_process") }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>
 {% endblock %}
