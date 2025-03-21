@@ -1,5 +1,18 @@
 @import "variables";
 
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 body
 {
   height: 100dvh;
@@ -43,4 +56,26 @@ body
 {
   color: $white;
   background-color: $grey-light;
+}
+h1
+{
+  display: grid;
+  justify-self: center;
+}
+.form__field
+{
+  display: grid;
+  grid-template-rows: repeat(2, 50%);
+  height: min-content;
+}
+.label
+{
+  display: grid;
+  align-self: flex-end;
+  font-size: 1.5rem;
+}
+.input
+{
+  font-size: 1.5rem;
+  width: 100%;
 }
