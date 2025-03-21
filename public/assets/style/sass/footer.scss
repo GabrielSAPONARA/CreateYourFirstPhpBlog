@@ -5,7 +5,18 @@ footer
   display: grid;
   padding: 3%;
   font-size: 1.5rem;
-  row-gap: 3%;
+
+  .social-network
+  {
+    display: grid;
+    grid-template-columns: 20% auto;
+    align-items: center;
+  }
+
+  .social-logo
+  {
+    width: 100%;
+  }
 }
 .footer__bloc
 {
