@@ -80,6 +80,7 @@ class CommentController extends BasicController
                 $postRepository = $this->entityManager->getRepository(Post::class);
                 $post = $postRepository->findById($postId)[0];
                 $comment->setPost($post);
+                $comment->setIsValidated(false);
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
             }
