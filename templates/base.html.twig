@@ -23,15 +23,17 @@
 </head>
 <body class="advent-pro-400">
 
+    <h1 class="title post__title">
+        {% block pageTitle %}
+        {% endblock %}
+    </h1>
+
 {% block body %}
     {% block navbar %}
         {% include("navbar.html.twig") only %}
     {% endblock %}
 
     {% block main %}
-        {% block pageTitle %}
-            <h1 class="title"> Welcome</h1>
-        {% endblock %}
     {% endblock %}
 
     {% block footer %}
