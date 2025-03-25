@@ -10,28 +10,26 @@
   .posts__post
   {
     display: grid;
-    position: relative;
     border: 1px solid $grey;
-  }
-  .posts__post:hover
-  {
-    background: $grey;
-    color: $light-blue;
-    font-weight: bold;
   }
 
   .posts__post__element
   {
     padding: 0 2.5%;
   }
-  a.posts__post__element
+  .posts__post__buttons
   {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    color: transparent;
+    margin-top: 5%;
+    display: grid;
+    row-gap: 20px;
   }
-
+  .posts_post__title
+  {
+    font-weight: bold;
+    font-size: 1.6rem;
+  }
+  .posts_post__chapo
+  {
+    font-style: italic;
+  }
 }
