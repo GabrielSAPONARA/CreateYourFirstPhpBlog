@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="{{ asset('assets/style/css/user/register.css') }}">
 {% endblock %}
 
+{% block pageTitle %}
+    Register
+{% endblock %}
+
 {% block main %}
-    <h1>Register</h1>
     <form class="form-register" action="{{ path('register__process') }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>

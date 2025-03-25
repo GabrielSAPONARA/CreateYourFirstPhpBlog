@@ -7,9 +7,10 @@
 
 {% block title %}Login{% endblock %}
 
-
+{% block pageTitle %}
+    Login
+{% endblock %}
 {% block main %}
-    <h1>Login</h1>
     <form class="form-login" action="{{ path("login_process") }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>

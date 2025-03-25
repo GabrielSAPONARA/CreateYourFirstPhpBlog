@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="{{ asset('assets/style/css/400px/welcome/index.css') }}">
 {% endblock %}
 
-
+{% block pageTitle %}
+    Welcome
+{% endblock %}
 {% block main %}
-{#    {% block pageTitle %}#}
-{#        <h1 class="title">Welcome</h1>#}
-{#    {% endblock %}#}
+
     <section class="main-content">
         <div class="main-content__people">
             <img class="main-content__photo" src="{{ asset('assets/images/photoCv.png') }}" alt="photo owner's blog">
