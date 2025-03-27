@@ -8,8 +8,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block pageTitle %}
+    Roles
+{% endblock %}
 {% block main %}
-    <h1>Roles</h1>
     <a href="{{ path("roles__addition") }}">Add Role</a>
     {% for role in roles %}
         <div>

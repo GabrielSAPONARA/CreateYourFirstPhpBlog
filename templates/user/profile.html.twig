@@ -8,8 +8,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block pageTitle %}
+    My profile
+{% endblock %}
 {% block main %}
-    <h1>My Profile</h1>
     <div>
         <div>Last Name</div>
         <div>{{ user.lastName }}</div>

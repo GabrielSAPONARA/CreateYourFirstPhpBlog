@@ -8,8 +8,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block pageTitle %}
+    Users
+{% endblock %}
 {% block main %}
-    <h1>Users</h1>
     <a href="{{ path("users__addition") }}">Add User</a>
     {% for user in users %}
         <div>

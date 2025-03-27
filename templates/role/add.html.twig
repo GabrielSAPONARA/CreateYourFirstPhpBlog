@@ -8,8 +8,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block pageTitle %}
+    Add Role
+{% endblock %}
 {% block main %}
-    <h1>Add Role</h1>
     <form action="{{ path("roles_process__create") }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>

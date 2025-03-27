@@ -8,8 +8,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block pageTitle %}
+    Add User
+{% endblock %}
 {% block main %}
-    <h1>Add User</h1>
     <form action="{{ path('users_process__create') }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>
