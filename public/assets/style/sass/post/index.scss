@@ -42,10 +42,13 @@
     background: none;
     border: none;
   }
+
   .detail:hover
   {
     outline: 1px solid $ultra-blue;
+    box-shadow: 3px 3px 3px $ultra-blue;
   }
+
   .button
   {
     z-index: 1;
