@@ -1,6 +1,6 @@
 <textarea
         name="{{ fieldName }}"
-
+        class="textarea"
 {% for attribut, attributValue in fieldProperties %}
     {% if attributValue is iterable %}
        {% if attributValue|length > 0 %}

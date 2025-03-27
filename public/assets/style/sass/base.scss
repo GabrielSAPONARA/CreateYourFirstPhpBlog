@@ -43,6 +43,7 @@ body
   justify-self: center;
   font-size: 2rem;
   padding: 2.5%;
+  margin: 15% 0 0 0 ;
 }
 .logo
 {
@@ -96,4 +97,22 @@ h1
 {
   background: $grey;
   border: 1px solid $grey;
+}
+.textarea
+{
+  width: 100%;
+  height: 50dvh;
+}
+.form
+{
+  display: grid;
+  justify-self: center;
+  width: 95%;
+  row-gap: 20px;
+  margin: 10% 0;
+}
+.form__submit
+{
+  text-align: left;
+  padding: 2.5%;
 }
