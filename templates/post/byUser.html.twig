@@ -2,13 +2,16 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/post/index.css') }}">
 {% endblock %}
 
 {% block title %}My Posts{% endblock %}
 
+{% block pageTitle %}
+    My Posts
+{% endblock %}
 {% block main %}
-    <h1>My Posts</h1>
-    <div>
+    <div class="posts">
         {% for post in posts %}
             {% include 'post/post.html.twig' with {'post': post} only %}
         {% endfor %}
