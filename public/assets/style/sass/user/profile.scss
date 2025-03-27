@@ -1,0 +1,29 @@
+.profile
+{
+  display: grid;
+  width: 95%;
+  justify-self: center;
+  margin: 20% 0;
+}
+.profile__label
+{
+  font-weight: bold;
+}
+.profile__button,
+.profile__element
+{
+  display: grid;
+  width: 100%;
+}
+.profile__element
+{
+  padding: 0 2.5%;
+}
+.profile__button
+{
+  margin: 10% 0 0 0;
+}
+.profile__button>a
+{
+  padding: 0 2.5%;
+}
