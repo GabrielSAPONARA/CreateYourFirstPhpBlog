@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/comment/commentList.css') }}">
 {% endblock %}
 
 {% block title %}My Comments{% endblock %}
@@ -10,7 +11,7 @@
     My Comments
 {% endblock %}
 {% block main %}
-    <div>
+    <div class="comments">
         {% set postIdIterator = 0 %}
 {#            {{ dump(comments) }}#}
         {% for comment in comments %}

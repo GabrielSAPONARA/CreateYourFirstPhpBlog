@@ -1,4 +1,4 @@
-<div>
+<div class="comment">
     <div>
         {{ comment.content }}
     </div>
@@ -6,6 +6,6 @@
         {{ comment.publishedDate|date("H:i:s m/d/Y", "Europe/Paris") }}
     </div>
     <div>
-        <a href="{{ path('posts__details', {'postId' : postId}) }}">Detail about post</a>
+        <a class="button" href="{{ path('posts__details', {'postId' : postId}) }}">Detail about post</a>
     </div>
 </div>
