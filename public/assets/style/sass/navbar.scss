@@ -38,7 +38,7 @@ $x-width: $hamburger-height * 1.41421356237;
   position: fixed;
   top: $hamburger-margin;
   left: $hamburger-margin;
-  z-index: 2;
+  z-index: 3;
   cursor: pointer;
 }
 
@@ -109,7 +109,7 @@ $x-width: $hamburger-height * 1.41421356237;
   max-width: 12rem;
   min-height: 100dvh;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
 }
 
 .hamburger-menu:has(input:checked) + .sidebar

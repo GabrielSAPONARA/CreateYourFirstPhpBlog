@@ -8,8 +8,8 @@
     <div class="posts__post__element">
         {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
     </div>
+    <a class="posts__post__element button detail" href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">Detail about post</a>
     <div class="posts__post__buttons">
-        <a class="posts__post__element button" href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">Detail about post</a>
         {% if is_granted('Member') %}
             <a class="button" href="{{ path('posts__modify', {'postId' : post.id.toString()}) }}">Modify This Post</a>
             <a class="button" href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>

@@ -11,6 +11,8 @@
   {
     display: grid;
     border: 1px solid $grey;
+    border-radius: 5px;
+    position: relative;
   }
 
   .posts__post__element
@@ -31,5 +33,22 @@
   .posts_post__chapo
   {
     font-style: italic;
+  }
+  .detail
+  {
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background: none;
+    border: none;
+  }
+  .detail:hover
+  {
+    outline: 1px solid $ultra-blue;
+  }
+  .button
+  {
+    z-index: 1;
+    padding: 0 2.5%;
   }
 }
