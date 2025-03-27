@@ -13,8 +13,8 @@
 {% block main %}
 
     <div class="posts">
-    {% for post in posts %}
-        {% include 'post/post.html.twig' with {'post': post} only %}
-    {% endfor %}
+        {% for post in posts %}
+            {% include 'post/post.html.twig' with {'post': post} only %}
+        {% endfor %}
     </div>
 {% endblock %}
