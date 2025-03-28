@@ -6,7 +6,7 @@
     Add Post
 {% endblock %}
 {% block main %}
-    <form action="{{ path("posts__addition__process") }}" method="post">
+    <form class="form" action="{{ path("posts__addition__process") }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>
 {% endblock %}
