@@ -4,11 +4,8 @@
 {#    </legend>#}
 
     {% set roleIterator = 0 %}
+    <div class="form__field__radios">
     {% for choice in fieldProperties["options"]["choices"] %}
-        <label for="role-{{ roleIterator }}">
-            {{ choice["label"] }}
-        </label>
-
         <input
                 type="{{ fieldProperties["type"] }}"
                 name="{{ fieldName }}"
@@ -18,7 +15,11 @@
                     checked
                 {% endif %}
         >
+        <label for="role-{{ roleIterator }}">
+            {{ choice["label"] }}
+        </label>
 
         {% set roleIterator = roleIterator + 1 %}
     {% endfor %}
+    </div>
 {#</fieldset>#}
