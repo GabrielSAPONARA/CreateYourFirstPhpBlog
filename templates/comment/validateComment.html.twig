@@ -1,17 +1,28 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/comment/validateComment.css') }}">
+{% endblock %}
+
 {% block title %}Validate this Comment{% endblock %}
 
 {% block pageTitle %}
     Validate this Comment
 {% endblock %}
 {% block main %}
-    <form action="{{ path("process__to__validate__comment", {'commentId' : commentId}) }}" method="post">
-        {% include 'form/label.html.twig' with {'fieldProperties' : formFields["Content"], 'fieldName' : "Content"} only %}
-        {% include 'form/input.html.twig' with {'fieldProperties' : formFields["Content"], 'fieldName' : "Content"} only %}
-        {% include 'form/label.html.twig' with {'fieldProperties' : formFields["IsValidated"], 'fieldName' : "IsValidated"} only %}
-        {% include 'form/input.html.twig' with {'fieldProperties' : formFields["IsValidated"], 'fieldName' : "IsValidated"} only %}
-        {% include 'form/label.html.twig' with {'fieldProperties' : formFields["submit"], 'fieldName' : "submit"} only %}
-        {% include 'form/input.html.twig' with {'fieldProperties' : formFields["submit"], 'fieldName' : "submit"} only %}
+    <form class="form" action="{{ path("process__to__validate__comment", {'commentId' : commentId}) }}" method="post">
+        <div class="form__field">
+            {% include 'form/label.html.twig' with {'fieldProperties' : formFields["Content"], 'fieldName' : "Content"} only %}
+            {% include 'form/input.html.twig' with {'fieldProperties' : formFields["Content"], 'fieldName' : "Content"} only %}
+        </div>
+        <div class="form__field">
+            {% include 'form/input.html.twig' with {'fieldProperties' : formFields["IsValidated"], 'fieldName' : "IsValidated"} only %}
+            {% include 'form/label.html.twig' with {'fieldProperties' : formFields["IsValidated"], 'fieldName' : "IsValidated"} only %}
+        </div>
+        <div class="form__field">
+            {% include 'form/label.html.twig' with {'fieldProperties' : formFields["submit"], 'fieldName' : "submit"} only %}
+            {% include 'form/input.html.twig' with {'fieldProperties' : formFields["submit"], 'fieldName' : "submit"} only %}
+        </div>
     </form>
 {% endblock %}
