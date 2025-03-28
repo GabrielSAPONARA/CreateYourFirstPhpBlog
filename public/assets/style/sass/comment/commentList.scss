@@ -3,10 +3,8 @@
 .comments
 {
   display: grid;
-  width: 95%;
   justify-self: center;
-  row-gap: 20px;
-  margin: 10% 0;
+  row-gap: 50px;
 }
 .comment
 {
@@ -20,6 +18,16 @@
   display: grid;
 }
 .comment div a
+{
+  width: 100%;
+  padding: 0 2.5%;
+}
+.buttons
+{
+  display: grid;
+  row-gap: 20px;
+}
+.buttons>a
 {
   width: 100%;
   padding: 0 2.5%;

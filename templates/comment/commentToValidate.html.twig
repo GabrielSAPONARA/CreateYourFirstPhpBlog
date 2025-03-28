@@ -1,12 +1,12 @@
-<div>
+<div class="comment">
     <div>
         {{ comment.content }}
     </div>
     <div>
         {{ comment.publishedDate|date("H:i:s m/d/Y", "Europe/Paris") }}
     </div>
-    <div>
-        <a href="{{ path('validate__comment', {'commentId' : comment.id}) }}">Validate this comment</a>
-        <a href="{{ path('posts__details', {'postId' : postId}) }}">Detail about post</a>
+    <div class="buttons">
+        <a class="button" href="{{ path('validate__comment', {'commentId' : comment.id}) }}">Validate this comment</a>
+        <a class="button" href="{{ path('posts__details', {'postId' : postId}) }}">Detail about post</a>
     </div>
 </div>
