@@ -11,11 +11,9 @@
 {% endblock %}
 {% block main %}
 
-    <section class="main-content">
-        <div class="main-content__people">
-            <img class="main-content__photo" src="{{ asset('assets/images/photoCv.png') }}" alt="photo owner's blog">
-            <img class="main-content__logo" src="{{ asset('assets/images/logo.svg') }}" alt="site's icon">
-        </div>
-        <p class="main-content__one-line catch-phrase">Découvrons ensemble de nouvelles technologies !</p>
-    </section>
+    <div class="main-content__people">
+        <img class="main-content__photo" src="{{ asset('assets/images/photoCv.png') }}" alt="photo owner's blog">
+        <img class="main-content__logo" src="{{ asset('assets/images/logo.svg') }}" alt="site's icon">
+    </div>
+    <p class="main-content__one-line catch-phrase">Découvrons ensemble de nouvelles technologies !</p>
 {% endblock %}
