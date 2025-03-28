@@ -33,8 +33,10 @@
         {% include("navbar.html.twig") only %}
     {% endblock %}
 
-    {% block main %}
-    {% endblock %}
+    <main class="main-content">
+        {% block main %}
+        {% endblock %}
+    </main>
 
     {% block footer %}
         {% include("footer.html.twig") only %}

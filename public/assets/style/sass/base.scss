@@ -106,13 +106,22 @@ h1
 .form
 {
   display: grid;
-  justify-self: center;
-  width: 95%;
   row-gap: 20px;
-  margin: 10% 0;
 }
 .form__submit
 {
   text-align: left;
   padding: 2.5%;
+}
+.main-content
+{
+  width: 90%;
+  display: grid;
+  justify-self: center;
+  row-gap: 50px;
+  margin: 10% 0;
+}
+.form__field__radios
+{
+  display: grid;
 }
