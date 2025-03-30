@@ -6,8 +6,8 @@
   {
     grid-template-columns: repeat(2, 50%);
   }
-  footer .social-network
+  .footer__bloc > a
   {
-    grid-template-columns: 40% auto;
+    align-content: center;
   }
 }
