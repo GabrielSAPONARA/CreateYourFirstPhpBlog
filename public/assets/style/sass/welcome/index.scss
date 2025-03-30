@@ -2,6 +2,7 @@
 
 .main-content
 {
+  justify-items: center;
   .main-content__people
   {
     display: grid;
@@ -18,12 +19,6 @@
   {
     border-radius: 50%;
   }
-
-  .main-content__one-line
-  {
-    grid-column: span 2;
-  }
-
 
   .catch-phrase
   {
