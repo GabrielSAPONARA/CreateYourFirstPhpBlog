@@ -1,0 +1,27 @@
+@import "../../responsive";
+
+@media #{$high}
+{
+  .sidebar
+  {
+      width: 100%;
+      transition: none;
+      padding: 0.5rem 1rem;
+      max-width: 100%;
+      min-height: auto;
+
+      .navbar
+      {
+        width: 100%;
+      }
+      .nav-links
+      {
+        width: 100%;
+      }
+      .nav-menus
+      {
+        display: grid;
+        grid-auto-flow: column;
+      }
+  }
+}
