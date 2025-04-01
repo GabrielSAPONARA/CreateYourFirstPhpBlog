@@ -1,0 +1,15 @@
+@import "../../../responsive";
+
+@media #{$medium-down}
+{
+  .main-content
+  {
+    width: 95%;
+    .posts
+    {
+      grid-template-columns: repeat(2, 47.5%);
+      column-gap: 5%;
+      justify-content: center;
+    }
+  }
+}
