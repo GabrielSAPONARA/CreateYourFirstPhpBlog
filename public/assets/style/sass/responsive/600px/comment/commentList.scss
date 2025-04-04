@@ -1,0 +1,11 @@
+@import "../../../responsive";
+
+@media #{$medium-down}
+{
+  .comments
+  {
+    grid-template-columns: repeat(2, 47.5%);
+    column-gap: 5%;
+    justify-content: center;
+  }
+}

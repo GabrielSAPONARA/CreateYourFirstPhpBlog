@@ -1,0 +1,9 @@
+@import "../../../responsive";
+
+@media #{$high-up}
+{
+  .comments
+  {
+    grid-template-columns: repeat(5, 18%);
+  }
+}
