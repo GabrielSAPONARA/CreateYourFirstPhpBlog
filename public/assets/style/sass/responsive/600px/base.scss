@@ -1,0 +1,9 @@
+@import "../../responsive";
+
+@media #{$medium-down}
+{
+  .form__submit
+  {
+    padding: 1.5%;
+  }
+}

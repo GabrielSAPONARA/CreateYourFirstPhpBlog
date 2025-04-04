@@ -1,0 +1,9 @@
+@import "../../responsive";
+
+@media #{$high-down}
+{
+  .form__submit
+  {
+    padding: 0.5%;
+  }
+}

@@ -1,0 +1,10 @@
+@import "../../responsive";
+
+@media #{$medium-up}
+{
+  .form
+  {
+    width: 75%;
+    justify-self: center;
+  }
+}
