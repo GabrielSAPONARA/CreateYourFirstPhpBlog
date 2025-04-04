@@ -6,7 +6,7 @@
     Contact Us
 {% endblock %}
 {% block main %}
-    <form action="{{ path("contact__process") }}" method="post">
+    <form class="form" action="{{ path("contact__process") }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>
 {% endblock %}
