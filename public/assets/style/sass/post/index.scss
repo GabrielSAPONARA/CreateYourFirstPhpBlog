@@ -8,9 +8,11 @@
   .posts__post
   {
     display: grid;
+    grid-template-rows: auto 130px 30px 100px;
     border: 1px solid $grey;
     border-radius: 5px;
     position: relative;
+    row-gap: 20px;
   }
 
   .posts__post__element
@@ -19,7 +21,6 @@
   }
   .posts__post__buttons
   {
-    margin-top: 5%;
     display: grid;
     row-gap: 20px;
   }
