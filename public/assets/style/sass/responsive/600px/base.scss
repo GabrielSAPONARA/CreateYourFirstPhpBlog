@@ -2,6 +2,10 @@
 
 @media #{$medium-down}
 {
+  .main-content
+  {
+    width: 95%;
+  }
   .form__submit
   {
     padding: 1.5%;

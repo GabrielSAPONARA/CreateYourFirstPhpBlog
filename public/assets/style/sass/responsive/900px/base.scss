@@ -2,9 +2,13 @@
 
 @media #{$medium-up}
 {
-  .form
+  .main-content
   {
-    width: 75%;
-    justify-self: center;
+    width: 100%;
+    .form
+    {
+      width: 75%;
+      justify-self: center;
+    }
   }
 }
