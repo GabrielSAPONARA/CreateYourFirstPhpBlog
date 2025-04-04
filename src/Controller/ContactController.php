@@ -38,10 +38,14 @@ class ContactController extends BasicController
     public function contact()
     {
         $userId = $this->getSession("user_id");
-        $userRepository = $this->entityManager->getRepository(User::class);
-        $currentUser = $userRepository->findById($userId);
+        if($userId !== null)
+        {
+            $userRepository = $this->entityManager->getRepository(User::class);
+            $currentUser = $userRepository->findById($userId);
+        }
 
-        $form = ContactFormType::buildForm();
+
+        $form = ContactFormType::buildForm($userId);
 
         if($_SERVER['REQUEST_METHOD'] === 'POST')
         {
