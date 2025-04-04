@@ -1,20 +1,24 @@
-.main-content>.button
+.main-content
 {
-  padding: 0 2.5%;
-}
-.main-content__user
-{
-  display: grid;
-  width: 100%;
-  row-gap: 10px;
-}
-.buttons
-{
-  width: 100%;
-  display: grid;
-  row-gap: 20px;
-}
-.button
-{
-  padding: 0 2.5%;
+  .users
+  {
+    display: grid;
+    row-gap: 50px;
+  }
+  .button
+  {
+    padding: 0 2.5%;
+  }
+  .main-content__user
+  {
+    display: grid;
+    width: 100%;
+    row-gap: 10px;
+  }
+  .buttons
+  {
+    width: 100%;
+    display: grid;
+    row-gap: 20px;
+  }
 }

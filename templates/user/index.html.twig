@@ -7,39 +7,46 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/style/css/user/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/user/profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/600px/user/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/900px/user/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/1200px/user/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/1600px/user/index.css') }}">
 {% endblock %}
 
 {% block pageTitle %}
     Users
 {% endblock %}
 {% block main %}
-    <a class="button" href="{{ path("users__addition") }}">Add User</a>
-    {% for user in users %}
-        <div class="main-content__user">
-            <div>
-                <div class="profile__label">Last Name</div>
-                <div>{{ user.lastName }}</div>
+    <a class="button button-add" href="{{ path("users__addition") }}">Add User</a>
+    <div class="users">
+        {% for user in users %}
+            <div class="main-content__user">
+                <div>
+                    <div class="profile__label">Last Name</div>
+                    <div>{{ user.lastName }}</div>
+                </div>
+                <div>
+                    <div class="profile__label" class="profile__label">First Name</div>
+                    <div>{{ user.firstName }}</div>
+                </div>
+                <div>
+                    <div class="profile__label">Username</div>
+                    <div>{{ user.username }}</div>
+                </div>
+                <div>
+                    <div class="profile__label">Email Adress</div>
+                    <div>{{ user.emailAddress }}</div>
+                </div>
+                <div>
+                    <div class="profile__label">Role</div>
+                    <div>{{ user.role.name }}</div>
+                </div>
+                <div class="buttons">
+                    <a class="button" href="{{ path( 'users_modify', {'id' :user.id}) }}">Modify</a>
+                    <a class="button" href="{{ path( 'users_delete', {'id' :user.id}) }}">Delete</a>
+                </div>
             </div>
-            <div>
-                <div class="profile__label" class="profile__label">First Name</div>
-                <div>{{ user.firstName }}</div>
-            </div>
-            <div>
-                <div class="profile__label">username</div>
-                <div>{{ user.username }}</div>
-            </div>
-            <div>
-                <div class="profile__label">Email Adress</div>
-                <div>{{ user.emailAddress }}</div>
-            </div>
-            <div>
-                <div>Role</div>
-                <div>{{ user.role.name }}</div>
-            </div>
-            <div class="buttons">
-                <a class="button" href="{{ path( 'users_modify', {'id' :user.id}) }}">Modify</a>
-                <a class="button" href="{{ path( 'users_delete', {'id' :user.id}) }}">Delete</a>
-            </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}
