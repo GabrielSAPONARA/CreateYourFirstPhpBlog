@@ -4,22 +4,13 @@
 {
   .posts__post
   {
-    display: grid;
     grid-template-rows: auto 130px 30px 100px;
-    border: 1px solid $grey;
-    border-radius: 5px;
     position: relative;
-    row-gap: 20px;
   }
 
   .posts__post__element
   {
     padding: 0 2.5%;
-  }
-  .posts__post__buttons
-  {
-    display: grid;
-    row-gap: 20px;
   }
   .posts_post__title
   {
@@ -48,6 +39,5 @@
   .button
   {
     z-index: 1;
-    padding: 0 2.5%;
   }
 }

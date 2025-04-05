@@ -1,4 +1,4 @@
-<div class="posts__post">
+<div class="posts__post card">
     <div class="posts__post__element posts_post__title">
         {{ post.title }}
     </div>
@@ -9,7 +9,7 @@
         {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
     </div>
     <a class="posts__post__element button detail" href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">Detail about post</a>
-    <div class="posts__post__buttons">
+    <div class="buttons-set">
         {% if is_granted('Member') %}
             <a class="button" href="{{ path('posts__modify', {'postId' : post.id.toString()}) }}">Modify This Post</a>
             <a class="button" href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>

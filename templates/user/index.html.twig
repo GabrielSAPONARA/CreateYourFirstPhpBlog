@@ -8,10 +8,6 @@
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/style/css/user/index.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/style/css/user/profile.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/600px/user/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/900px/user/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/1200px/user/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/1600px/user/index.css') }}">
 {% endblock %}
 
 {% block pageTitle %}
@@ -21,7 +17,7 @@
     <a class="button button-add" href="{{ path("users__addition") }}">Add User</a>
     <div class="users cards-set">
         {% for user in users %}
-            <div class="main-content__user">
+            <div class="main-content__user card">
                 <div>
                     <div class="profile__label">Last Name</div>
                     <div>{{ user.lastName }}</div>
@@ -42,7 +38,7 @@
                     <div class="profile__label">Role</div>
                     <div>{{ user.role.name }}</div>
                 </div>
-                <div class="buttons">
+                <div class="buttons-set">
                     <a class="button" href="{{ path( 'users_modify', {'id' :user.id}) }}">Modify</a>
                     <a class="button" href="{{ path( 'users_delete', {'id' :user.id}) }}">Delete</a>
                 </div>
