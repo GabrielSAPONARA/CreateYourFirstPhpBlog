@@ -11,9 +11,8 @@
     My Comments
 {% endblock %}
 {% block main %}
-    <div class="comments">
+    <div class="comments cards-set">
         {% set postIdIterator = 0 %}
-{#            {{ dump(comments) }}#}
         {% for comment in comments %}
             {% include 'comment/comment.html.twig' with {'comment': comment, 'postId' : postIds[postIdIterator].toString()} only %}
             {% set postIdIterator = postIdIterator + 1 %}

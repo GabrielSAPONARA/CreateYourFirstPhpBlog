@@ -119,6 +119,13 @@ h1
   justify-self: center;
   row-gap: 50px;
   margin: 10% 0;
+
+  .cards-set
+  {
+    display: grid;
+    justify-self: center;
+    row-gap: 50px;
+  }
 }
 .form__field__radios
 {

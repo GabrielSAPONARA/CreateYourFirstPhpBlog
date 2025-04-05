@@ -3,10 +3,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('assets/style/css/post/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/600px/post/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/900px/post/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/1200px/post/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/1600px/post/index.css') }}">
 {% endblock %}
 
 {% block title %}My Posts{% endblock %}
@@ -15,7 +11,7 @@
     My Posts
 {% endblock %}
 {% block main %}
-    <div class="posts">
+    <div class="posts cards-set">
         {% for post in posts %}
             {% include 'post/post.html.twig' with {'post': post} only %}
         {% endfor %}

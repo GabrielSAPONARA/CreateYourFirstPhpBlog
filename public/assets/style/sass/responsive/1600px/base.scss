@@ -1,10 +1,10 @@
-@import "../../../responsive";
+@import "../../responsive";
 
 @media #{$high-up}
 {
   .main-content
   {
-    .posts
+    .cards-set
     {
       grid-template-columns: repeat(5, 18%);
     }

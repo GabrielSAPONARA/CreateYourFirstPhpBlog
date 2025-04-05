@@ -13,15 +13,17 @@
 {% endblock %}
 {% block main %}
     <a href="{{ path("roles__addition") }}">Add Role</a>
-    {% for role in roles %}
-        <div>
-            {{ role.name }}
-        </div>
-        <div>
-            <a href="{{ path('roles_modify', {'id': role.id}) }}">Modify</a>
-        </div>
-        <div>
-            <a href="{{ path('roles_delete', {'id': role.id}) }}">Delete</a>
-        </div>
-    {% endfor %}
+    <div class="cards-set">
+        {% for role in roles %}
+            <div>
+                {{ role.name }}
+            </div>
+            <div>
+                <a href="{{ path('roles_modify', {'id': role.id}) }}">Modify</a>
+            </div>
+            <div>
+                <a href="{{ path('roles_delete', {'id': role.id}) }}">Delete</a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

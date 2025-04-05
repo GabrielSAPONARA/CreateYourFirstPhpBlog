@@ -10,5 +10,11 @@
       width: 75%;
       justify-self: center;
     }
+
+    .cards-set
+    {
+      grid-template-columns: repeat(3, 30%);
+      column-gap: 2.5%;
+    }
   }
 }
