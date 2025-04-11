@@ -1,0 +1,21 @@
+@import "../../../responsive";
+
+@media #{$medium-up}
+{
+  .comments-of-post
+  {
+    .buttons-set
+    {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .posts__buttons
+  {
+    grid-template-columns: repeat(3, 1fr);
+
+    .button
+    {
+      grid-column: unset;
+    }
+  }
+}

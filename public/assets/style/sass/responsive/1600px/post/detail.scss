@@ -1,0 +1,16 @@
+@import "../../../responsive";
+
+@media #{$high-up}
+{
+  .comments-of-post
+  {
+    .buttons-set
+    {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+  .posts__buttons
+  {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
