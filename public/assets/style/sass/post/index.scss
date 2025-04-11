@@ -21,7 +21,7 @@
   {
     font-style: italic;
   }
-  .detail
+  .invisible-link
   {
     position: absolute;
     inset: 0;
@@ -30,7 +30,7 @@
     border: none;
   }
 
-  .detail:hover
+  .invisible-link:hover
   {
     outline: 1px solid $ultra-blue;
     box-shadow: 3px 3px 3px $ultra-blue;
