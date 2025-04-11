@@ -6,7 +6,7 @@
     Modify this Comment
 {% endblock %}
 {% block main %}
-    <form action="{{ path("comments__modify__process", {'commentId' : commentId, 'postId' : postId}) }}" method="post">
+    <form class="form" action="{{ path("comments__modify__process", {'commentId' : commentId, 'postId' : postId}) }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>
 {% endblock %}
