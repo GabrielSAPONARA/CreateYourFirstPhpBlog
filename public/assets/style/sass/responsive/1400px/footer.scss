@@ -1,0 +1,19 @@
+@import "../../responsive";
+
+@media #{$high}
+{
+  footer
+  {
+    grid-template-columns: 49% 0.1% 49%;
+  }
+  .footer__line
+  {
+    width: 1px;
+    height: auto;
+    align-self: auto;
+  }
+  .footer__bloc:nth-child(3)>.link:nth-child(1)
+  {
+    grid-column: 2;
+  }
+}

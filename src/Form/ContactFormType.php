@@ -2,11 +2,29 @@
 
 namespace App\Form;
 
+use Ramsey\Uuid\UuidInterface;
+
 class ContactFormType
 {
-    public static function buildForm(): Form
+    public static function buildForm(?UuidInterface $userId): Form
     {
         $form = new Form();
+
+        if($userId === null)
+        {
+            $form
+                ->addField
+                (
+                    'Email',
+                    'email',
+                    'email',
+                    '',
+                    'email'
+                )
+                ;
+        }
+
+
         $form
             ->addField
             (

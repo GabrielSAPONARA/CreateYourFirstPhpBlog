@@ -1,6 +1,8 @@
 <input
     {% if not(fieldProperties["type"] is same as ("submit")) %}
-        name="{{ fieldName }}"
+       class="input" name="{{ fieldName }}"
+    {% else %}
+        class="input button form__submit"
     {% endif %}
     {% for attribut, attributValue in fieldProperties %}
        {% if attributValue is iterable %}

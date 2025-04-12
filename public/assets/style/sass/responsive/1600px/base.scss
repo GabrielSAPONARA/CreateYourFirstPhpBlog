@@ -1,0 +1,17 @@
+@import "../../responsive";
+
+@media #{$high-up}
+{
+  .main-content
+  {
+    .cards-set
+    {
+      grid-template-columns: repeat(5, 18%);
+    }
+
+    .button-add
+    {
+      width: 18%;
+    }
+  }
+}

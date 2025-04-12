@@ -2,13 +2,16 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/comment/commentList.css') }}">
 {% endblock %}
 
 {% block title %}Comments to validate{% endblock %}
 
+{% block pageTitle %}
+    Comments to validate
+{% endblock %}
 {% block main %}
-    <h1>Comments to validate</h1>
-    <div>
+    <div class="comments cards-set">
         {% set postIdIterator = 0 %}
 
         {% for comment in comments %}

@@ -1,0 +1,43 @@
+@import "../variables";
+
+.posts
+{
+  .posts__post
+  {
+    grid-template-rows: auto 130px 30px 100px;
+    position: relative;
+  }
+
+  .posts__post__element
+  {
+    padding: 0 2.5%;
+  }
+  .posts_post__title
+  {
+    font-weight: bold;
+    font-size: 1.6rem;
+  }
+  .posts_post__chapo
+  {
+    font-style: italic;
+  }
+  .invisible-link
+  {
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background: none;
+    border: none;
+  }
+
+  .invisible-link:hover
+  {
+    outline: 1px solid $ultra-blue;
+    box-shadow: 3px 3px 3px $ultra-blue;
+  }
+
+  .button
+  {
+    z-index: 1;
+  }
+}

@@ -1,22 +1,20 @@
-<div>
-    <div>
-        {{ post.title }}
-    </div>
-    <div>
-        {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
-    </div>
-    <div>
+<div class="posts__post card">
+    <a href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">
+        <div class="posts__post__element posts_post__title">
+            {{ post.title }}
+        </div>
+        <span aria-hidden="true" class="invisible-link"></span>
+    </a>
+    <div class="posts__post__element posts_post__chapo">
         {{ post.chapo }}
     </div>
-    <div>
-        <a href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">Detail about post</a>
+    <div class="posts__post__element">
+        {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
     </div>
-    {% if is_granted('Member') %}
-        <div>
-            <a href="{{ path('posts__modify', {'postId' : post.id.toString()}) }}">Modify This Post</a>
-        </div>
-        <div>
-            <a href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
-        </div>
-    {% endif %}
+    <div class="buttons-set">
+        {% if is_granted('Member') %}
+            <a class="button" href="{{ path('posts__modify', {'postId' : post.id.toString()}) }}">Modify This Post</a>
+            <a class="button" href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
+        {% endif %}
+    </div>
 </div>

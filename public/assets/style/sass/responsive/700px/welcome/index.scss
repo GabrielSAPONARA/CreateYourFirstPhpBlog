@@ -1,0 +1,12 @@
+@import "../../../responsive";
+
+@media #{$medium}
+{
+  .main-content
+  {
+    .main-content__people
+    {
+      width: 50%;
+    }
+  }
+}

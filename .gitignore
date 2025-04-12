@@ -157,3 +157,8 @@ fabric.properties
 
 # Logs
 *.log
+
+# CSS
+*/css/*
+*.css
+*.css.map

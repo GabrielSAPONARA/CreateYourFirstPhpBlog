@@ -38,10 +38,15 @@ class ContactController extends BasicController
     public function contact()
     {
         $userId = $this->getSession("user_id");
-        $userRepository = $this->entityManager->getRepository(User::class);
-        $currentUser = $userRepository->findById($userId);
+        $contactLogger = $this->getLogger("contact");
+        if($userId !== null)
+        {
+            $userRepository = $this->entityManager->getRepository(User::class);
+            $currentUser = $userRepository->findById($userId);
+        }
 
-        $form = ContactFormType::buildForm();
+
+        $form = ContactFormType::buildForm($userId);
 
         if($_SERVER['REQUEST_METHOD'] === 'POST')
         {
@@ -60,6 +65,9 @@ class ContactController extends BasicController
                 $currentUser = $userRepository->findById($userId);
 
                 $this->emailService->sendEmail($currentUser, $subject, $message);
+                $contactLogger->info("Message sent by ".
+                                     $currentUser->getUsername(). "which mail address is"
+                                     .$currentUser->getEmail());
                 $this->redirectToRoute("contact");
             }
         }

@@ -1,0 +1,33 @@
+@import "../../responsive";
+
+@media #{$high}
+{
+  .hamburger-menu
+  {
+    display: none;
+  }
+  .sidebar
+  {
+      width: 100%;
+      transition: none;
+      padding: 0.5rem 1rem;
+      max-width: 100%;
+      min-height: auto;
+      translate: none;
+
+      .navbar
+      {
+        width: 100%;
+        padding: 0.5%;
+      }
+      .nav-links
+      {
+        width: 100%;
+      }
+      .nav-menus
+      {
+        display: grid;
+        grid-auto-flow: column;
+      }
+  }
+}

@@ -1,0 +1,13 @@
+@import "../../responsive";
+
+@media #{$very-small-up}
+{
+  .footer__bloc
+  {
+    grid-template-columns: repeat(2, 50%);
+  }
+  .footer__bloc > a
+  {
+    align-content: center;
+  }
+}

@@ -1,0 +1,36 @@
+.post__title
+{
+  margin-top: 15%;
+}
+.post
+{
+  display: grid;
+  padding: 0 2.5%;
+  margin: 10% 0;
+  row-gap: 20px;
+}
+.post__chapo
+{
+  font-style: italic;
+}
+.title-comment
+{
+  padding: 0 2.5%;
+}
+.comments-of-post
+{
+  display: grid;
+  padding: 0 2.5%;
+  margin-bottom: 10%;
+
+  .buttons-set
+  {
+    display: grid;
+  }
+}
+.posts__buttons
+{
+  display: grid;
+  padding: 2.5%;
+  row-gap: 20px;
+}

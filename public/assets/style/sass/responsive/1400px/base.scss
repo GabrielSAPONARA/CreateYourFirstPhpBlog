@@ -1,0 +1,12 @@
+@import "../../responsive";
+
+@media #{$high}
+{
+  .main-content
+  {
+    .form
+    {
+      width: 50%;
+    }
+  }
+}

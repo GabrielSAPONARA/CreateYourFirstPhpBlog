@@ -1,0 +1,23 @@
+@import "../../responsive";
+
+@media #{$high-down}
+{
+  .form__submit
+  {
+    padding: 0.5%;
+  }
+  .main-content
+  {
+    .cards-set
+    {
+      grid-template-columns: repeat(4, 23%);
+      column-gap: 1.5%;
+    }
+
+    .button-add
+    {
+      width: 23%;
+      margin: 0 0 0 1.5%;
+    }
+  }
+}

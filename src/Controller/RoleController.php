@@ -54,6 +54,7 @@ class RoleController extends BasicController
     public function process($params = []) : void
     {
         $this->beforeAction("Administrator");
+        $roleLogger = $this->getLogger("role");
         $roleId = $params['id'] ?? null;
         $route = "";
         if(isset($_POST["name"]))
@@ -65,6 +66,8 @@ class RoleController extends BasicController
                 $role = $roleRepository->findById($roleId);
                 $role->setName($_POST["name"]);
                 $this->entityManager->flush();
+
+                $roleLogger->warning("Role ".$role->getName()." was updated.");
             }
             else
             {
@@ -72,6 +75,8 @@ class RoleController extends BasicController
                 $role->setName($_POST["name"]);
                 $this->entityManager->persist($role);
                 $this->entityManager->flush();
+
+                $roleLogger->warning("Role ".$role->getName()." was created.");
             }
             $route = "roles";
         }
@@ -106,12 +111,10 @@ class RoleController extends BasicController
         $role = $roleRepository->findById($roleId);
         $this->entityManager->remove($role);
         $this->entityManager->flush();
-        $url = "Location: http://";
-        $host = $_SERVER["SERVER_NAME"];
-        $port = $_SERVER["SERVER_PORT"];
-        $url .= $host .":". $port . "/";
-        $url .= "role";
-        header($url);
-        exit();
+
+        $roleLogger = $this->getLogger("role");
+
+        $roleLogger->warning("Role ".$role->getName()." was removed.");
+        $this->redirectToRoute("roles");
     }
 }

@@ -8,8 +8,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block pageTitle %}
+    Modify my profile
+{% endblock %}
 {% block main %}
-    <h1>Modify my profile</h1>
     <form action="{{ path('profile__modify__process') }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>

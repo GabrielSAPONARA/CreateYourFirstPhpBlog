@@ -2,8 +2,18 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/welcome/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/700px/welcome/index.css') }}">
 {% endblock %}
 
-{% block body %}
-    {{ parent() }}
+{% block pageTitle %}
+    Welcome
+{% endblock %}
+{% block main %}
+
+    <div class="main-content__people">
+        <img class="main-content__photo" src="{{ asset('assets/images/photoCv.png') }}" alt="photo owner's blog">
+        <img class="main-content__logo" src="{{ asset('assets/images/logo.svg') }}" alt="site's icon">
+    </div>
+    <p class="main-content__one-line catch-phrase">Découvrons ensemble de nouvelles technologies !</p>
 {% endblock %}

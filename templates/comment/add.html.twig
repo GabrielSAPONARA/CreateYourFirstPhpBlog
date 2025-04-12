@@ -1,11 +1,18 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/comment/add.css') }}">
+{% endblock %}
+
 {% block title %}Add Comment{% endblock %}
 
-
+{% block pageTitle %}
+    Add Comment
+{% endblock %}
 {% block main %}
-    <h1>Add Comment</h1>
-    <form action="{{ path("comments_process__create", {'postId' : postId}) }}" method="post">
+
+    <form class="form" action="{{ path("comments_process__create", {'postId' : postId}) }}" method="post">
         {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
     </form>
 {% endblock %}

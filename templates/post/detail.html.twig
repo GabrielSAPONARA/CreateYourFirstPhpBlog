@@ -2,53 +2,63 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/post/detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/600px/post/detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/900px/post/detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/1200px/post/detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/1600px/post/detail.css') }}">
 {% endblock %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
+{% block pageTitle %}
+    {{ post.title }}
+{% endblock %}
+
 {% block main %}
     {% include 'messages/flash_message.html.twig' with {'flashMessages' : flashMessages} only %}
-    <h1>{{ post.title }}</h1>
-    <div>
+    <div class="post">
         <div>
+            <div>
+                @{{ author.username }}
+            </div>
+            <div>
+                {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
+            </div>
+        </div>
+        <div class="post__chapo">
             {{ post.chapo }}
-        </div>
-        <div>
-            {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
-        </div>
-        <div>
-            {{ author.username }}
         </div>
         <div>
             {{ post.content }}
         </div>
     </div>
-    <h4>Comments</h4>
-    <div>
-        {% for comment in comments %}
-            <div>
-                {{ comment.content }}
-            </div>
-            <div>
-                {{ comment.publishedDate|date("d/m/Y H:i:s") }}
-            </div>
-            {% if is_granted('Member') %}
+    <h4 class="title-comment">Comments</h4>
+    <div class="comments-of-post">
+        {% if comments|length is same as 0 %}
+            Il n'y a aucun commentaire pour le moment.
+        {% else %}
+            {% for comment in comments %}
                 <div>
-                    <a href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
-                    <a href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
+                    {{ comment.content }}
                 </div>
-            {% endif %}
-        {% endfor %}
+                <div>
+                    {{ comment.publishedDate|date("d/m/Y H:i:s") }}
+                </div>
+                {% if is_granted('Member') %}
+                    <div class="buttons-set">
+                        <a class="button" href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
+                        <a class="button" href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
     {% if is_granted('Member') %}
-        <div>
-            <a href="{{ path('comments__addition', {'postId' : post.id}) }}">Add Comment</a>
-        </div>
-        <div>
-            <a href="{{ path('posts__modify', {'postId' : post.id}) }}">Modify this post</a>
-        </div>
-        <div>
-            <a href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
+        <div class="posts__buttons">
+            <a class="button" href="{{ path('comments__addition', {'postId' : post.id}) }}">Add Comment</a>
+            <a class="button" href="{{ path('posts__modify', {'postId' : post.id}) }}">Modify this post</a>
+            <a class="button" href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
         </div>
     {% endif %}
 {% endblock %}

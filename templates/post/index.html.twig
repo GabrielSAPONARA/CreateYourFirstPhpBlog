@@ -2,18 +2,19 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/style/css/post/index.css') }}">
 {% endblock %}
 
 {% block title %}All Posts{% endblock %}
 
-
+{% block pageTitle %}
+    All Posts
+{% endblock %}
 {% block main %}
-    {% block pageTitle %}
-        <h1>All Posts</h1>
-    {% endblock %}
-    <div>
-    {% for post in posts %}
-        {% include 'post/post.html.twig' with {'post': post} only %}
-    {% endfor %}
+
+    <div class="posts cards-set">
+        {% for post in posts %}
+            {% include 'post/post.html.twig' with {'post': post} only %}
+        {% endfor %}
     </div>
 {% endblock %}
