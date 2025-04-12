@@ -199,6 +199,7 @@ class UserController extends BasicController
 
     public function modifyProfile() : void
     {
+        $userLogger = $this->getLogger("user");
         $userId = $this->getSession('user_id');
         $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->findById($userId);
@@ -218,6 +219,8 @@ class UserController extends BasicController
                 $user->setPassword($data["Password"]);
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
+
+                $userLogger->info("User " . $user->getId() . " has been modified.");
                 $route = "profile";
             }
             else

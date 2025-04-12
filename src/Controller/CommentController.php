@@ -53,6 +53,7 @@ class CommentController extends BasicController
 
     public function process($params) :void
     {
+        $commentLogger = $this->getLogger("comment");
         $commentId = $params['id'] ?? null;
         $postId = $params['postId'];
         if(isset($_POST["Content"]))
@@ -60,6 +61,7 @@ class CommentController extends BasicController
 
             if($commentId !== null)
             {
+                $commentLogger->notice("Comment ".$commentId."was updated.");
                 $commentRepository = $this->entityManager->getRepository
                 (Comment::class);
                 $comment = $commentRepository->findById($commentId);
@@ -81,6 +83,7 @@ class CommentController extends BasicController
                 $post = $postRepository->findById($postId)[0];
                 $comment->setPost($post);
                 $comment->setIsValidated(false);
+                $commentLogger->notice("New comment was created.");
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
             }
