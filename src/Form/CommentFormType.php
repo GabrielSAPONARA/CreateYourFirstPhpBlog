@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Comment;
+use App\Form\Form\Form;
 
 class CommentFormType
 {
