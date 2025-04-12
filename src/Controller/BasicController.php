@@ -21,10 +21,6 @@ class BasicController
             'Disconnected user' => [],
         ];
 
-    protected string|null $currentRoute;
-
-    protected string|null $previousRoute;
-
     public function __construct(Environment $twig, RouteManager $routerManager, array $loggers)
     {
         ob_start();
@@ -42,15 +38,9 @@ class BasicController
         }
         session_regenerate_id(true);
 
-        $currentRoute = $_SERVER['REQUEST_URI'] ?? '/';
-        $previousRoute = $_SESSION['previous_route'] ?? null;
-
-        $this->setCurrentRoute($currentRoute);
-        $this->setPreviousRoute($previousRoute);
-
-        $this->twig = $twig; // Twig est maintenant injecté et déjà configuré
+        $this->twig = $twig;
         $this->routerManager = $routerManager;
-        $this->loggers = $loggers; // Injecté pour éviter la redondance
+        $this->loggers = $loggers;
     }
 
     #[NoReturn]
@@ -127,28 +117,6 @@ class BasicController
         if ($requiredRole && !$this->isGranted($requiredRole)) {
             $this->redirectToRoute('forbidden');
         }
-    }
-
-    protected function getCurrentRoute(): ?string
-    {
-        return $_SERVER['REQUEST_URI'] ?? null;
-    }
-
-    public function setCurrentRoute(?string $currentRoute): void
-    {
-        $this->currentRoute = $currentRoute;
-        $_SESSION['current_route'] = $currentRoute;
-    }
-
-    protected function getPreviousRoute(): ?string
-    {
-        return $_SESSION['previous_route'] ?? null;
-    }
-
-    public function setPreviousRoute(?string $previousRoute): void
-    {
-        $this->previousRoute = $previousRoute;
-        $_SESSION['previous_route'] = $previousRoute;
     }
 
     protected function getLogger(string $name)
