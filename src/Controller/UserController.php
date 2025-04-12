@@ -74,13 +74,13 @@ class UserController extends BasicController
                 $userRepository = $this->entityManager->getRepository
                 (User::class);
                 $user = $userRepository->findById($userId);
-                $user->setLastName($_POST["Lastname"]);
-                $user->setFirstName($_POST["Firstname"]);
-                $user->setEmailAddress($_POST["Email_Address"]);
-                $user->setUsername($_POST["Username"]);
-                $user->setPassword($_POST["Password"]);
+                $user->setLastName(filter_input(INPUT_POST,'Lastname'));
+                $user->setFirstName(filter_input(INPUT_POST,'Firstname'));
+                $user->setEmailAddress(filter_input(INPUT_POST,'Email_Address'));
+                $user->setUsername(filter_input(INPUT_POST,'Username'));
+                $user->setPassword(filter_input(INPUT_POST,'Password'));
                 $roleRepository = $this->entityManager->getRepository(Role::class);
-                $role = $roleRepository->findById($_POST["Roles"]);
+                $role = $roleRepository->findById(filter_input(INPUT_POST,'Roles'));
                 $user->setRole($role);
                 $this->entityManager->flush();
                 $userLogger->info("User " . $user->getId() . " has been modified.");
@@ -88,13 +88,13 @@ class UserController extends BasicController
             else
             {
                 $user = new User();
-                $user->setLastName($_POST["Lastname"]);
-                $user->setFirstName($_POST["Firstname"]);
-                $user->setEmailAddress($_POST["Email_Address"]);
-                $user->setUsername($_POST["Username"]);
-                $user->setPassword($_POST["Password"]);
+                $user->setLastName(filter_input(INPUT_POST,'Lastname'));
+                $user->setFirstName(filter_input(INPUT_POST,'Firstname'));
+                $user->setEmailAddress(filter_input(INPUT_POST,'Email_Address'));
+                $user->setUsername(filter_input(INPUT_POST,'Username'));
+                $user->setPassword(filter_input(INPUT_POST,'Password'));
                 $roleRepository = $this->entityManager->getRepository(Role::class);
-                $role = $roleRepository->findById($_POST["Roles"]);
+                $role = $roleRepository->findById(filter_input(INPUT_POST,'Roles'));
                 $user->setRole($role);
                 $user->setIsActive(true);
                 $this->entityManager->persist($user);
