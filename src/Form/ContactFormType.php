@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Form\Form\Form;
 use Ramsey\Uuid\UuidInterface;
 
 class ContactFormType

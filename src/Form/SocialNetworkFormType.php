@@ -2,8 +2,9 @@
 
 namespace App\Form;
 
-use App\Form\Form;
 use App\Entity\SocialNetwork;
+use App\Form\Form\Form;
+
 class SocialNetworkFormType
 {
     public static function buildForm(?SocialNetwork $socialNetwork = null): Form
