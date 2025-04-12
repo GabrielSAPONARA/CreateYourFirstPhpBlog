@@ -160,5 +160,19 @@ h1
     font-size: 1.5rem;
   }
 }
+.alert
+{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.alert-success
+{
+  background: #087bec;
+  color: white;
+  border-radius: 5px;
+  padding: 0.5%;
+}
 
 
