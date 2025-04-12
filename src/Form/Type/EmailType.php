@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Form\Type;
+
+use App\Form\Form\Form;
+
+class EmailType
+{
+    public static function addField(Form $form, string $label, string $name, string $value, string $placeholder): void
+    {
+        $form->addField(
+            $label,
+            'email',
+            $name,
+            $value,
+            'Email address',
+            [
+                'required' => true,
+                'placeholder' => $value ? '' : $placeholder,
+            ]
+        );
+    }
+}
