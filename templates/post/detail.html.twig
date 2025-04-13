@@ -33,26 +33,30 @@
             {{ post.content }}
         </div>
     </div>
-    <h4 class="title-comment">Comments</h4>
-    <div class="comments-of-post">
-        {% if comments|length is same as 0 %}
-            Il n'y a aucun commentaire pour le moment.
-        {% else %}
-            {% for comment in comments %}
-                <div>
-                    {{ comment.content }}
-                </div>
-                <div>
-                    {{ comment.publishedDate|date("d/m/Y H:i:s") }}
-                </div>
-                {% if is_granted('Member') %}
-                    <div class="buttons-set">
-                        <a class="button" href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
-                        <a class="button" href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
+    <div>
+        <h4 class="title-comment">Comments</h4>
+        <div class="comments-of-post">
+            {% if comments|length is same as 0 %}
+                Il n'y a aucun commentaire pour le moment.
+            {% else %}
+                {% for comment in comments %}
+                    <div class="comments-of-post__comment">
+                        <div>
+                            {{ comment.content }}
+                        </div>
+                        <div>
+                            {{ comment.publishedDate|date("d/m/Y H:i:s") }}
+                        </div>
+                        {% if is_granted('Member') %}
+                            <div class="buttons-set">
+                                <a class="button" href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
+                                <a class="button" href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
+                            </div>
+                        {% endif %}
                     </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
     {% if is_granted('Member') %}
         <div class="posts__buttons">

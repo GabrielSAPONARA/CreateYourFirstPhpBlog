@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Comment;
+use App\Form\Form\Form;
+use App\Form\Type\SubmitType;
+use App\Form\Type\TextareaType;
 
 class CommentFormType
 {
@@ -11,29 +14,12 @@ class CommentFormType
     {
         $isDisabled = $options['disabled'] ?? false;
         $form = new Form();
-        $form
-            ->addField
-            (
-                'Content',
-                'textarea',
-                'content',
-                $comment ? $comment->getContent() : '',
-                'Content',
-                [
-                    'required' => true,
-                    'placeholder' => 'Content of the comment',
-                    'disabled' => $isDisabled,
-                ]
-            )
-            ->addField
-            (
-                'submit',
-                'submit',
-                'submit',
-                'Submit',
-                '',
-            )
-        ;
+
+        TextareaType::addField($form, 'Content', 'Content', $comment ?
+            $comment->getContent() : '', 'Content of the comment','content',
+            $isDisabled);
+
+        SubmitType::addField($form, 'Submit');
 
         return $form;
     }

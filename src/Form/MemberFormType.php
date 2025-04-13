@@ -2,10 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Role;
-use App\Form\Form;
 use App\Entity\User;
-use Doctrine\DBAL\Types\TextType;
+use App\Form\Form\Form;
 
 class MemberFormType
 {

@@ -3,8 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Post;
-use App\Form\Form;
-use Doctrine\DBAL\Types\TextType;
+use App\Form\Form\Form;
 
 class PostFormType
 {

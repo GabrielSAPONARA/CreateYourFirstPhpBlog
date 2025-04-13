@@ -2,6 +2,11 @@
 
 namespace App\Form;
 
+use App\Form\Form\Form;
+use App\Form\Type\EmailType;
+use App\Form\Type\SubmitType;
+use App\Form\Type\TextareaType;
+use App\Form\Type\TextType;
 use Ramsey\Uuid\UuidInterface;
 
 class ContactFormType
@@ -12,45 +17,14 @@ class ContactFormType
 
         if($userId === null)
         {
-            $form
-                ->addField
-                (
-                    'Email',
-                    'email',
-                    'email',
-                    '',
-                    'email'
-                )
-                ;
+            EmailType::addField($form, 'email', 'Email', '', 'martin.martin@gmail.com', 'email');
         }
 
+        TextType::addField($form, 'Subject', 'Subject', '', '');
 
-        $form
-            ->addField
-            (
-                'Subject',
-                'text',
-                'subject',
-                '',
-                'subject'
-            )
-            ->addField
-            (
-                'Message',
-                'textarea',
-                'message',
-                '',
-                'message'
-            )
-            ->addField
-            (
-                'submit',
-                'submit',
-                'submit',
-                'Submit',
-                '',
-            )
-        ;
+        TextareaType::addField($form, 'message', 'Message', '', '','', false);
+
+        SubmitType::addField($form, 'Submit');
 
         return $form;
     }

@@ -2,8 +2,9 @@
 
 namespace App\Form;
 
-use App\Form\Form;
 use App\Entity\Role;
+use App\Form\Form\Form;
+
 class RoleFormType
 {
     public static function buildForm(?Role $role = null): Form

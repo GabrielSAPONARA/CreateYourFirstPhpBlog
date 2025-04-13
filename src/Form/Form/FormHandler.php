@@ -2,8 +2,6 @@
 
 namespace App\Form\Form;
 
-use App\Form\Form;
-
 class FormHandler
 {
     private Form $form;

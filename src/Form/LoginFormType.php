@@ -2,7 +2,8 @@
 
 namespace App\Form;
 
-use App\Form\Form;
+use App\Form\Form\Form;
+
 class LoginFormType
 {
     public static function buildForm() : Form

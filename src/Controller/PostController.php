@@ -156,7 +156,9 @@ class PostController extends BasicController
                 $postLogger = $this->getLogger('post');
                 try
                 {
-                    $post = $this->postService->savePost($_POST, $postId, null);
+                    $post = $this->postService->savePost(filter_input_array
+                    (INPUT_POST),
+                    $postId, null);
                 }
                 catch (\Exception $exception)
                 {
