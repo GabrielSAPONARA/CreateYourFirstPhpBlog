@@ -65,9 +65,9 @@ class UserController extends BasicController
         $userId = $params['id'] ?? null;
 
         $userLogger = $this->getLogger("user");
-        if((isset($_POST["Lastname"])) && (isset($_POST["Firstname"])) &&
-           (isset($_POST["Email_Address"]))  && (isset($_POST["Username"])) &&
-           (isset($_POST["Password"])) && (isset($_POST["Roles"])))
+        if((filter_input(INPUT_POST,"Lastname") !== null) && (filter_input(INPUT_POST,"Firstname") !== null) &&
+           (filter_input(INPUT_POST,"Email_Address") !== null) && (filter_input(INPUT_POST,"Username") !== null) &&
+           (filter_input(INPUT_POST,"Password") !== null) && (filter_input(INPUT_POST,"Roles") !== null))
         {
             if($userId !== null)
             {
@@ -155,16 +155,17 @@ class UserController extends BasicController
         $userLogger = $this->getLogger("user");
         $route = "";
 
-        if((isset($_POST["Lastname"])) && (isset($_POST["Firstname"])) &&
-           (isset($_POST["Email_Address"]))  && (isset($_POST["Username"])) &&
-           (isset($_POST["Password"])))
+        if((filter_input(INPUT_POST,"Lastname") !== null) && (filter_input
+                                                              (INPUT_POST,"Firstname") !== null) &&
+           (filter_input(INPUT_POST,"Email_Address") !== null)  && (filter_input(INPUT_POST,"Username") !== null) &&
+           (filter_input(INPUT_POST,"Password") !== null))
         {
             $user = new User();
-            $user->setLastName($_POST["Lastname"]);
-            $user->setFirstName($_POST["Firstname"]);
-            $user->setEmailAddress($_POST["Email_Address"]);
-            $user->setUsername($_POST["Username"]);
-            $user->setPassword($_POST["Password"]);
+            $user->setLastName(filter_input(INPUT_POST,"Lastname"));
+            $user->setFirstName(filter_input(INPUT_POST,"Firstname"));
+            $user->setEmailAddress(filter_input(INPUT_POST,"Email_Address"));
+            $user->setUsername(filter_input(INPUT_POST,"Username"));
+            $user->setPassword(filter_input(INPUT_POST,"Password"));
             $roleRepository = $this->entityManager->getRepository(Role::class);
             $role = $roleRepository->findByName("Member");
             $user->setRole($role);
@@ -207,7 +208,7 @@ class UserController extends BasicController
         $form = MemberFormType::buildForm($user);
 
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $form->bind($_POST);
+            $form->bind(filter_input_array(INPUT_POST));
 
             if ($form->isValid())
             {

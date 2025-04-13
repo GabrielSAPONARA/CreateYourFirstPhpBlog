@@ -60,21 +60,21 @@ class SocialNetworkController extends BasicController
         $host = $_SERVER["SERVER_NAME"];
         $port = $_SERVER["SERVER_PORT"];
         $url .= $host .":". $port . "/";
-        if(isset($_POST["name"]))
+        if((filter_input(INPUT_POST,"name") !== null))
         {
             if($socialNetworkId !== null)
             {
                 $socialNetworkRepository = $this->entityManager->getRepository
                 (SocialNetwork::class);
                 $socialNetwork = $socialNetworkRepository->findById($socialNetworkId);
-                $socialNetwork->setName($_POST["name"]);
+                $socialNetwork->setName(filter_input(INPUT_POST,"name"));
                 $this->entityManager->flush();
             }
             else
             {
 
                 $socialNetwork = new SocialNetwork();
-                $socialNetwork->setName($_POST["name"]);
+                $socialNetwork->setName(filter_input(INPUT_POST,"name"));
                 $this->entityManager->persist($socialNetwork);
                 $this->entityManager->flush();
             }
