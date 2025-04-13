@@ -26,7 +26,8 @@ class UserFormType
             'placeholder' => $user ? '' : 'MARTIN',
         ]);
 
-        EmailType::addField($form, 'Email Address', 'emailAddress', $user ? $user->getEmailAddress() : '', 'Email address', [
+        EmailType::addField($form, 'Email Address', 'emailAddress', $user ?
+            $user->getEmailAddress() : '', 'Email address', 'email', [
             'required' => true,
             'placeholder' => $user ? '' : 'martin.martin@gmail.com',
         ]);

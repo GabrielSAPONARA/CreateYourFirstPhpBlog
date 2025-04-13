@@ -6,7 +6,10 @@ use App\Form\Form\Form;
 
 class EmailType
 {
-    public static function addField(Form $form, string $label, string $name, string $value, string $placeholder): void
+    public static function addField(Form $form, string $label, string $name,
+                                    string $value, string $placeholder,
+                                    string $id):
+    void
     {
         $form->addField(
             $label,
