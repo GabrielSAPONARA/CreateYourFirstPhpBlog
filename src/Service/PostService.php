@@ -43,7 +43,8 @@ class PostService
             $post = $postRepository->findById($postId)[0];
             if(!$post)
             {
-                throw new \Exception("The post with id {$postId} does not exist.");
+                throw new \Exception("The post with id " . htmlspecialchars
+                    ($postId, ENT_QUOTES, 'UTF-8') . " does not exist.");
             }
             if(($data["Title"] !== $post->getTitle()) || ($data["Content"] !== $post->getContent()) || ($data["Chapo"] !== $post->getChapo()) )
             {
