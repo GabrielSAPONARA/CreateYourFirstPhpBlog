@@ -56,7 +56,7 @@ class CommentController extends BasicController
         $commentLogger = $this->getLogger("comment");
         $commentId = $params['id'] ?? null;
         $postId = $params['postId'];
-        if(isset($_POST["Content"]))
+        if((filter_input(INPUT_POST,"Content") !== null))
         {
 
             if($commentId !== null)
@@ -65,13 +65,13 @@ class CommentController extends BasicController
                 $commentRepository = $this->entityManager->getRepository
                 (Comment::class);
                 $comment = $commentRepository->findById($commentId);
-                $comment->setContent($_POST["Content"]);
+                $comment->setContent(filter_input(INPUT_POST,"Content"));
                 $this->entityManager->flush();
             }
             else
             {
                 $comment = new Comment();
-                $comment->setContent($_POST["Content"]);
+                $comment->setContent(filter_input(INPUT_POST,"Content"));
                 $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
                 $currentDate->setTimezone(new \DateTimeZone('UTC'));
                 $comment->setPublishedDate($currentDate);
@@ -130,7 +130,7 @@ class CommentController extends BasicController
         $form = CommentFormType::buildForm($comment);
         if($_SERVER["REQUEST_METHOD"] === "POST")
         {
-            $form->bind($_POST);
+            $form->bind(filter_input_array(INPUT_POST));
             $route = "";
             $routeParams = [];
 
@@ -224,7 +224,7 @@ class CommentController extends BasicController
 
         if($_SERVER["REQUEST_METHOD"] === "POST")
         {
-            $form->bind($_POST);
+            $form->bind(filter_input_array(INPUT_POST));
             $data = $form->getData();
             if($data["IsValidated"] !== null)
             {

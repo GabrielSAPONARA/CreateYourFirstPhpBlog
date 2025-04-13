@@ -37,7 +37,7 @@ class AuthController extends BasicController
 
         if($_SERVER['REQUEST_METHOD'] === 'POST')
         {
-            $form->bind($_POST);
+            $form->bind(filter_input_array(INPUT_POST));
 
 
             if($form->isValid())

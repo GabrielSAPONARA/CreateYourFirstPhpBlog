@@ -60,7 +60,7 @@ class PostController extends BasicController
 
         if($_SERVER['REQUEST_METHOD'] === 'POST')
         {
-            $form->bind($_POST);
+            $form->bind(filter_input_array(INPUT_POST));
             $route = "";
             $routeParams = [];
 
@@ -147,7 +147,7 @@ class PostController extends BasicController
         $form = PostFormType::buildForm($post);
         if($_SERVER['REQUEST_METHOD'] === 'POST')
         {
-            $form->bind($_POST);
+            $form->bind(filter_input_array(INPUT_POST));
             $route = "";
             $routeParams = [];
 
