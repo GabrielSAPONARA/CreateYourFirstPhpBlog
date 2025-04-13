@@ -24,13 +24,16 @@ use Twig\Extension\DebugExtension;
 use App\Router\RouteManager;
 use App\Logger\LoggerManager;
 use Twig\TwigFunction;
+use App\Bootstrap;
 
 return function (): \DI\Container {
     $containerBuilder = new ContainerBuilder();
 
     $containerBuilder->useAutowiring(true);
 
-    $entityManager = require __DIR__ . '/bootstrap.php';
+    $bootstrap = new Bootstrap();
+    $entityManager = $bootstrap->getEntityManager();
+
     // EntityManager setup
     $containerBuilder->addDefinitions([
         EntityManagerInterface::class => DI\value($entityManager),
