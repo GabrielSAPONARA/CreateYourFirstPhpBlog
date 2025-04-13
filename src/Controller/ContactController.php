@@ -51,8 +51,6 @@ class ContactController extends BasicController
         if($_SERVER['REQUEST_METHOD'] === 'POST')
         {
             $form->bind($_POST);
-            $route = "";
-            $routeParams = [];
 
             if ($form->isValid())
             {
@@ -68,8 +66,8 @@ class ContactController extends BasicController
                 $contactLogger->info("Message sent by ".
                                      $currentUser->getUsername(). "which mail address is"
                                      .$currentUser->getEmailAddress());
-                $this->redirectToRoute("contact");
             }
+            $this->redirectToRoute("contact");
         }
 
         $this->render('contact/contact.html.twig',
