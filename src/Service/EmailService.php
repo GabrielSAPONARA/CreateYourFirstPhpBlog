@@ -35,13 +35,11 @@ class EmailService {
             ->subject($subject)
             ->html($emailContent);
 
-        // Envoie l'email
         try {
             $this->mailer->send($email);
             return true;
         } catch (Exception $e) {
-            // Gérer les exceptions d'envoi d'email
-            echo 'Caught exception: ' . $e->getMessage() . "\n";
+            echo 'Caught exception: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . "\n";
             return false;
         }
     }

@@ -36,7 +36,7 @@ if (is_array($match))
             $controller = $container->get($controllerClass);
 
 
-            if (is_callable([$controller, $action]))
+            if (method_exists($controller, $action) && is_callable([$controller, $action]))
             {
                 call_user_func_array([
                     $controller, $action
