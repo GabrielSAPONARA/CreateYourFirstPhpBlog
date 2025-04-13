@@ -67,7 +67,7 @@ class ContactController extends BasicController
                 $this->emailService->sendEmail($currentUser, $subject, $message);
                 $contactLogger->info("Message sent by ".
                                      $currentUser->getUsername(). "which mail address is"
-                                     .$currentUser->getEmail());
+                                     .$currentUser->getEmailAddress());
                 $this->redirectToRoute("contact");
             }
         }

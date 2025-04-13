@@ -81,6 +81,7 @@ return function (): \DI\Container {
             'comment' => LoggerManager::getLogger('comment_management'),
             'admin' => LoggerManager::getLogger('admin_actions'),
             'system' => LoggerManager::getLogger('system_errors'),
+            'contact' => LoggerManager::getLogger('system_errors'),
         ],
     ]);
 
