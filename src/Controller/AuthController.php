@@ -35,7 +35,7 @@ class AuthController extends BasicController
         $this->beforeAction("Disconnected user");
         $form = LoginFormType::buildForm();
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST')
+        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
         {
             $form->bind(filter_input_array(INPUT_POST));
 

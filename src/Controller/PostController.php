@@ -58,7 +58,7 @@ class PostController extends BasicController
         $this->beforeAction("Member");
         $form = PostFormType::buildForm();
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST')
+        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
         {
             $form->bind(filter_input_array(INPUT_POST));
             $route = "";
@@ -145,7 +145,7 @@ class PostController extends BasicController
         $post = $this->postService->findByPostId($postId);
 
         $form = PostFormType::buildForm($post);
-        if($_SERVER['REQUEST_METHOD'] === 'POST')
+        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
         {
             $form->bind(filter_input_array(INPUT_POST));
             $route = "";

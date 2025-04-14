@@ -207,7 +207,7 @@ class UserController extends BasicController
 
         $form = MemberFormType::buildForm($user);
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST') {
             $form->bind(filter_input_array(INPUT_POST));
 
             if ($form->isValid())

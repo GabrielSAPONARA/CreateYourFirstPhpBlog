@@ -13,7 +13,7 @@ class FormHandler
 
     public function handlePostRequest(array $requestData) : bool
     {
-        if($_SERVER['REQUEST_METHOD'] !== 'POST')
+        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
         {
             return false;
         }
