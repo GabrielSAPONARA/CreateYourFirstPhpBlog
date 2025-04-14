@@ -128,7 +128,7 @@ class CommentController extends BasicController
         $comment = $commentRepository->findById($commentId)[0];
 
         $form = CommentFormType::buildForm($comment);
-        if($_SERVER["REQUEST_METHOD"] === "POST")
+        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
         {
             $form->bind(filter_input_array(INPUT_POST));
             $route = "";
@@ -222,7 +222,7 @@ class CommentController extends BasicController
             )
         ;
 
-        if($_SERVER["REQUEST_METHOD"] === "POST")
+        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
         {
             $form->bind(filter_input_array(INPUT_POST));
             $data = $form->getData();
