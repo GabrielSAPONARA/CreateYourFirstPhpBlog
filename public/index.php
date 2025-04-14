@@ -24,6 +24,13 @@ $match = $router->match();
 //dump($router);
 //dump($match);
 
+function outputMessage(string $message, int $statusCode = 200)
+{
+    http_response_code($statusCode);
+    echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+}
+
+
 if (is_array($match))
 {
     list($controller, $action) = explode('::', $match['target']);
@@ -44,21 +51,21 @@ if (is_array($match))
             }
             else
             {
-                echo "404 Not Found - Action not callable.";
+                outputMessage("404 Not Found - Action not callable.", 404);
             }
         }
         catch (Exception $e)
         {
-            echo "500 Internal Server Error - " . $e->getMessage();
+            outputMessage("500 Internal Server Error - " . $e->getMessage(), 500);
         }
     }
     else
     {
-        echo "404 Not Found - Controller not found.";
+        outputMessage("404 Not Found - Controller not found.", 404);
     }
 }
 else
 {
-    echo "404 Not Found - Route not matched.";
+    outputMessage("404 Not Found - Route not matched.", 404);
 }
 
