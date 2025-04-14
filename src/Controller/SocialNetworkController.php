@@ -56,10 +56,7 @@ class SocialNetworkController extends BasicController
     {
         $this->beforeAction('Administrator');
         $socialNetworkId = $params['id'] ?? null;
-        $url = "Location: http://";
-        $host = $_SERVER["SERVER_NAME"];
-        $port = $_SERVER["SERVER_PORT"];
-        $url .= $host .":". $port . "/";
+        $route = "";
         if((filter_input(INPUT_POST,"name") !== null))
         {
             if($socialNetworkId !== null)
@@ -78,14 +75,13 @@ class SocialNetworkController extends BasicController
                 $this->entityManager->persist($socialNetwork);
                 $this->entityManager->flush();
             }
-            $url .= "social/network";
+            $route .= "social_networks";
         }
         else
         {
-            $url .= "social/network/add";
+            $route .= "social_networks_addition";
         }
-        header($url);
-        exit();
+        $this->redirectToRoute($route);
 
     }
 
@@ -115,12 +111,6 @@ class SocialNetworkController extends BasicController
         $socialNetwork = $socialNetworkRepository->findById($socialNetworkId);
         $this->entityManager->remove($socialNetwork);
         $this->entityManager->flush();
-        $url = "Location: http://";
-        $host = $_SERVER["SERVER_NAME"];
-        $port = $_SERVER["SERVER_PORT"];
-        $url .= $host .":". $port . "/";
-        $url .= "social/network";
-        header($url);
-        exit();
+        $this->redirectToRoute("social_networks");
     }
 }
