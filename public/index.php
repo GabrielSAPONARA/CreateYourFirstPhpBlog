@@ -51,24 +51,25 @@ if (is_array($match))
             }
             else
             {
-                print outputMessage("404 Not Found - Action not callable.",
-                    404);
+                printf("%s" ,outputMessage("404 Not Found - Action not callable.",
+                    404));
             }
         }
         catch (Exception $e)
         {
-            print outputMessage("500 Internal Server Error - " .
+            printf("%s", outputMessage("500 Internal Server Error - " .
                                $e->getMessage(),
-                500);
+                500));
         }
     }
     else
     {
-        print outputMessage("404 Not Found - Controller not found.", 404);
+        printf("%s", outputMessage("404 Not Found - Controller not found.",
+            404));
     }
 }
 else
 {
-    print outputMessage("404 Not Found - Route not matched.", 404);
+    printf("%s", outputMessage("404 Not Found - Route not matched.", 404));
 }
 
