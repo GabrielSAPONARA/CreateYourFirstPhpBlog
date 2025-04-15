@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Component\Session;
 use App\Controller\BasicController;
 use App\Entity\Comment;
 use App\Entity\Post;
@@ -22,6 +23,8 @@ class CommentController extends BasicController
     private RouteManager $routeManager;
     protected array $loggers;
 
+    private Session $session;
+
     private CommentService $commentService;
 
 
@@ -31,10 +34,11 @@ class CommentController extends BasicController
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
         array $loggers,
+        Session $session,
         CommentService $commentService
     )
     {
-        parent::__construct($twig, $routeManager, $loggers);
+        parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
         $this->commentService = $commentService;
     }
@@ -75,7 +79,7 @@ class CommentController extends BasicController
                 $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
                 $currentDate->setTimezone(new \DateTimeZone('UTC'));
                 $comment->setPublishedDate($currentDate);
-                $currentUserId = $this->getSession("user_id");
+                $currentUserId = $this->getSession()->get("user_id");
                 $userRepository = $this->entityManager->getRepository(User::class);
                 $currentUser = $userRepository->findById($currentUserId);
                 $comment->setUser($currentUser);
@@ -98,7 +102,7 @@ class CommentController extends BasicController
 
     public function commentByUser(): void
     {
-        $userId = $this->getSession("user_id");
+        $userId = $this->getSession()->get("user_id");
         $commentRepository = $this->entityManager->getRepository(Comment::class);
         $comments = $commentRepository->findBy(["user" => $userId]);
 
@@ -128,7 +132,7 @@ class CommentController extends BasicController
         $comment = $commentRepository->findById($commentId)[0];
 
         $form = CommentFormType::buildForm($comment);
-        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
+        if(filter_input_array(INPUT_POST) !== null)
         {
             $form->bind(filter_input_array(INPUT_POST));
             $route = "";
@@ -194,6 +198,11 @@ class CommentController extends BasicController
             $postIds[] = $comment->getPost()->getId();
         }
 
+        usort($comments, function($commentA, $commentB)
+        {
+            return $commentB->getPublishedDate() <=> $commentA->getPublishedDate();
+        });
+
         $this->render("comment/toValidate.html.twig",
         [
             "comments" => $comments,
@@ -222,7 +231,7 @@ class CommentController extends BasicController
             )
         ;
 
-        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
+        if(filter_input_array(INPUT_POST) !== null)
         {
             $form->bind(filter_input_array(INPUT_POST));
             $data = $form->getData();

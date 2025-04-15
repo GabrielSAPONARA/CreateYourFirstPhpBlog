@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Component\Session;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Form\MemberFormType;
@@ -19,6 +20,7 @@ class UserController extends BasicController
     protected Environment $twig;
     private RouteManager $routeManager;
     protected array $loggers;
+    private Session $session;
 
 
     public function __construct
@@ -26,10 +28,11 @@ class UserController extends BasicController
         EntityManagerInterface $entityManager,
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers
+        array $loggers,
+        Session $session
     )
     {
-        parent::__construct($twig, $routeManager, $loggers);
+        parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
     }
 
@@ -174,9 +177,9 @@ class UserController extends BasicController
             $this->entityManager->flush();
             $userLogger->info("New user added: " . $user->getId());
             $route = "profile";
-            $this->setSession('user_id', $user->getId());
-            $this->setSession('username', $user->getUsername());
-            $this->setSession('role', $role->getName());
+            $this->getSession()->set('user_id', $user->getId());
+            $this->getSession()->set('username', $user->getUsername());
+            $this->getSession()->set('role', $role->getName());
         }
         else
         {
@@ -188,7 +191,7 @@ class UserController extends BasicController
 
     public function profile()
     {
-        $userId = $this->getSession('user_id');
+        $userId = $this->getSession()->get('user_id');
         $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->findById($userId);
 
@@ -201,13 +204,13 @@ class UserController extends BasicController
     public function modifyProfile() : void
     {
         $userLogger = $this->getLogger("user");
-        $userId = $this->getSession('user_id');
+        $userId = $this->getSession()->get('user_id');
         $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->findById($userId);
 
         $form = MemberFormType::buildForm($user);
 
-        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST') {
+        if(filter_input_array(INPUT_POST) !== null) {
             $form->bind(filter_input_array(INPUT_POST));
 
             if ($form->isValid())

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Component\Session;
 use App\Controller\BasicController;
 use App\Entity\User;
 use App\Form\ContactFormType;
@@ -19,6 +20,8 @@ class ContactController extends BasicController
 
     protected array $loggers;
 
+    private Session $session;
+
     private EmailService $emailService;
 
     public function __construct
@@ -27,17 +30,18 @@ class ContactController extends BasicController
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
         array $loggers,
+        Session $session,
         EmailService $emailService
     )
     {
-        parent::__construct($twig, $routeManager, $loggers);
+        parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
         $this->emailService = $emailService;
     }
 
     public function contact()
     {
-        $userId = $this->getSession("user_id");
+        $userId = $this->getSession()->get("user_id");
         $contactLogger = $this->getLogger("contact");
         if($userId !== null)
         {
@@ -58,7 +62,7 @@ class ContactController extends BasicController
                 $subject = $formData['Subject'];
                 $message = $formData['Message'];
 
-                $userId = $this->getSession("user_id");
+                $userId = $this->getSession()->get("user_id");
                 $userRepository = $this->entityManager->getRepository(User::class);
                 $currentUser = $userRepository->findById($userId);
 

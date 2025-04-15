@@ -1,5 +1,6 @@
 <?php
 
+use App\Component\Session;
 use App\Controller\AuthController;
 use App\Controller\BasicController;
 use App\Controller\CommentController;
@@ -92,6 +93,10 @@ return function (): \DI\Container {
         LoggerManager::class => DI\create(LoggerManager::class),
     ]);
 
+    $containerBuilder->addDefinitions([
+        Session::class => DI\autowire(Session::class),
+    ]);
+
       // Services et controllers
     $containerBuilder->addDefinitions([
         PostService::class => DI\autowire(PostService::class),
@@ -128,7 +133,10 @@ return function (): \DI\Container {
         ContactController::class => DI\autowire(ContactController::class)
             ->constructorParameter('loggers', DI\get('loggers')),
         BasicController::class => DI\autowire(BasicController::class)
-            ->constructorParameter('loggers', DI\get('loggers')),  // Injection de l'objet LoggerManager
+            ->constructorParameter('session', DI\get(Session::class))
+            ->constructorParameter('loggers', DI\get('loggers')),  //
+        // Injection de l'objet LoggerManager
+    // Injection de l'objet LoggerManager
     ]);
 
 
