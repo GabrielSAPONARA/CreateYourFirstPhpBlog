@@ -77,7 +77,8 @@ class PostService
 
         if(!$post)
         {
-            throw new \Exception("The post with id {$postId} does not exist.");
+            throw new \Exception("The post with id ".  htmlspecialchars
+                ($postId, ENT_QUOTES, 'UTF-8') . " does not exist.");
         }
 
         return $post;
