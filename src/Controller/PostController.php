@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Component\Session;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
@@ -25,6 +26,8 @@ class PostController extends BasicController
     private RouteManager $routeManager;
     protected array $loggers;
 
+    private Session $session;
+
     private CommentService $commentService;
 
 
@@ -35,10 +38,11 @@ class PostController extends BasicController
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
         array $loggers,
+        Session $session,
         CommentService $commentService
     )
     {
-        parent::__construct($twig, $routeManager, $loggers);
+        parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
         $this->postService = $postService;
         $this->commentService = $commentService;
@@ -58,7 +62,7 @@ class PostController extends BasicController
         $this->beforeAction("Member");
         $form = PostFormType::buildForm();
 
-        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
+        if(filter_input_array(INPUT_POST) !== null)
         {
             $form->bind(filter_input_array(INPUT_POST));
             $route = "";
@@ -67,7 +71,7 @@ class PostController extends BasicController
 
             if ($form->isValid())
             {
-                $userId = $this->getSession("user_id");
+                $userId = $this->getSession()->get("user_id");
                 $userRepository = $this->entityManager->getRepository(User::class);
                 $currentUser = $userRepository->find($userId);
                 $post = $this->postService->savePost($form->getData(), null,
@@ -112,7 +116,7 @@ class PostController extends BasicController
         $post = $postRepository->findById($uuid)[0];
         $author = $post->getUser();
 
-        $flashMessages = $this->getFlashMessages();
+        $flashMessages = $this->getSession()->getFlashMessages();
         $this->render('post/detail.html.twig',
         [
             'post' => $post,
@@ -124,7 +128,7 @@ class PostController extends BasicController
 
     public function postByUser() : void
     {
-        $userId = $this->getSession("user_id");
+        $userId = $this->getSession()->get("user_id");
         $postRepository = $this->entityManager->getRepository(Post::class);
         $posts = $postRepository->findByUser($userId);
 
@@ -145,7 +149,7 @@ class PostController extends BasicController
         $post = $this->postService->findByPostId($postId);
 
         $form = PostFormType::buildForm($post);
-        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
+        if(filter_input_array(INPUT_POST) !== null)
         {
             $form->bind(filter_input_array(INPUT_POST));
             $route = "";
@@ -163,23 +167,24 @@ class PostController extends BasicController
                 catch (\Exception $exception)
                 {
                     $postLogger->error($exception->getMessage());
-                    $this->addFlashMessage('error', $exception->getMessage());
+                    $this->getSession()->addFlashMessage('error', $exception->getMessage
+                    ());
                 }
                 $postLogger->info("Post ". $post->getId() . " has been updated");
-                $this->addFlashMessage('success', 'Post has been updated');
+                $this->getSession()->addFlashMessage('success', 'Post has been updated');
                 $route = "posts__details";
                 $routeParams["postId"] = $postId;
             }
             else
             {
                 $route = "posts__modify";
-                $this->addFlashMessage('error', 'You have an error in your field');
+                $this->getSession()->addFlashMessage('error', 'You have an error in your field');
             }
             $this->redirectToRoute($route, $routeParams);
         }
         else
         {
-            $flashMessages = $this->getFlashMessages();
+            $flashMessages = $this->getSession()->getFlashMessages();
             $this->render('post/modify.html.twig',
             [
                 'formFields' => $form->getFields(),
@@ -203,7 +208,7 @@ class PostController extends BasicController
         }
         $postLogger = $this->loggers["post"];
         $postLogger->warning("Deleted post with id: " . $post->getId());
-        $this->addFlashMessage('success', 'Post has been deleted');
+        $this->getSession()->addFlashMessage('success', 'Post has been deleted');
         $this->entityManager->remove($post);
         $this->entityManager->flush();
         $this->redirectToRoute("posts");

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Component\Session;
 use App\Router\RouteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Environment;
@@ -14,15 +15,17 @@ class WelcomeController extends BasicController
     protected Environment $twig;
     private RouteManager $routeManager;
     protected array $loggers;
+    private Session $session;
 
     public function __construct
     (
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers
+        array $loggers,
+        Session $session
     )
     {
-        parent::__construct($twig, $routeManager, $loggers);
+        parent::__construct($twig, $routeManager, $loggers, $session);
     }
 
     /**

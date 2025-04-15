@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Component\Session;
 use App\Controller\BasicController;
 use App\Entity\User;
 use App\Form\LoginFormType;
@@ -24,10 +25,11 @@ class AuthController extends BasicController
         EntityManagerInterface $entityManager,
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers
+        array $loggers,
+        Session $session
     )
     {
-        parent::__construct($twig, $routeManager, $loggers);
+        parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
     }
     public function login() : void
@@ -35,7 +37,11 @@ class AuthController extends BasicController
         $this->beforeAction("Disconnected user");
         $form = LoginFormType::buildForm();
 
-        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST')
+
+//        dumpd($_SERVER);
+//        dumpd(filter_input_array(INPUT_POST));
+//        ddd(filter_input_array(INPUT_SERVER));
+        if(filter_input_array(INPUT_POST) !== null)
         {
             $form->bind(filter_input_array(INPUT_POST));
 
@@ -59,9 +65,9 @@ class AuthController extends BasicController
 
                     if($user && \password_verify($data['password'], $user->getPassword()))
                     {
-                        $this->setSession('user_id', $user->getId());
-                        $this->setSession('username', $user->getUsername());
-                        $this->setSession('role', $user->getRole()->getName());
+                        $this->getSession()->set('user_id', $user->getId());
+                        $this->getSession()->set('username', $user->getUsername());
+                        $this->getSession()->set('role', $user->getRole()->getName());
 
 
                         session_regenerate_id(true);
@@ -91,11 +97,11 @@ class AuthController extends BasicController
     #[NoReturn] public function logout() : void
     {
         $authLogger = $this->getLogger('authentication');
-        $authLogger->info("Logged out user : " . $this->getSession("username") .
+        $authLogger->info("Logged out user : " . $this->getSession()->get("username") .
                           ", user id : " .
-                          $this->getSession("user_id"));
-        $this->clearSession();
-        $this->destroySession();
+                          $this->getSession()->get("user_id"));
+        $this->getSession()->clear();
+        $this->getSession()->destroy();
 
         $this->redirectToRoute("welcome");
     }

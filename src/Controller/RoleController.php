@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Component\Session;
 use App\Entity\Role;
 use App\Form\RoleFormType;
 use App\Router\RouteManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Environment;
 
 class RoleController extends BasicController
@@ -14,6 +16,7 @@ class RoleController extends BasicController
     protected Environment $twig;
     private RouteManager $routeManager;
     protected array $loggers;
+    private Session $session;
 
 
     public function __construct
@@ -21,10 +24,11 @@ class RoleController extends BasicController
         EntityManagerInterface $entityManager,
         \Twig\Environment $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers
+        array $loggers,
+        Session $session
     )
     {
-        parent::__construct($twig, $routeManager, $loggers);
+        parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
     }
 
