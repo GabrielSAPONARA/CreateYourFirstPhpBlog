@@ -70,7 +70,7 @@ class AuthController extends BasicController
                         $this->getSession()->set('role', $user->getRole()->getName());
 
 
-                        session_regenerate_id(true);
+                        $this->getSession()->regenerateSessionId();
 
                         $authLogger->info("Logged in user : " .
                         $user->getUsername() . ", user id : " . $user->getId());
