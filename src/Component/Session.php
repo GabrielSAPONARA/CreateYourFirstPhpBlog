@@ -17,7 +17,7 @@ class Session
             ]);
             session_start();
         }
-        session_regenerate_id(true);
+        $this->regenerateSessionId();
     }
 
     public function set($key, $value): void
@@ -93,5 +93,13 @@ class Session
             unset($this->get('flash_messages')[$index]);
             $this->set('flash_messages', array_values($this->get('flash_messages')));
         }
+    }
+
+    public function regenerateSessionId(): void
+    {
+        $newSessionId = bin2hex(random_bytes(32));
+        session_commit();
+        session_id($newSessionId);
+        session_start();
     }
 }
