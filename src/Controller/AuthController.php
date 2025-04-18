@@ -34,57 +34,64 @@ class AuthController extends BasicController
     }
     public function login() : void
     {
-        $this->beforeAction("Disconnected user");
         $form = LoginFormType::buildForm();
-
-
-//        dumpd($_SERVER);
-//        dumpd(filter_input_array(INPUT_POST));
-//        ddd(filter_input_array(INPUT_SERVER));
-        if(filter_input_array(INPUT_POST) !== null)
+        
+        if(empty($this->getSession()->getSess()))
         {
-            $form->bind(filter_input_array(INPUT_POST));
-
-
-            if($form->isValid())
+    //        dumpd($_SERVER);
+    //        dumpd(filter_input_array(INPUT_POST));
+    //        ddd(filter_input_array(INPUT_SERVER));
+            if(filter_input_array(INPUT_POST) !== null)
             {
-                $data = $form->getData();
-
-                $authLogger = $this->getLogger('authentication');
-                $userRepository = $this->entityManager->getRepository(User::class);
-                $userArray = $userRepository->findByUsername($data['username']);
-                if($userArray === null)
+                
+                $form->bind(filter_input_array(INPUT_POST));
+    
+                if($form->isValid())
                 {
-
-                    $authLogger->warning("Incorrect authentication to username : " . $data['username']);
-                    $error = "Incorrect Authentication";
-                }
-                else
-                {
-                    $user = $userArray[0];
-
-                    if($user && \password_verify($data['password'], $user->getPassword()))
+                    $data = $form->getData();
+                    $authLogger = $this->getLogger('authentication');
+                    $userRepository = $this->entityManager->getRepository(User::class);
+                    $userArray = $userRepository->findByUsername($data['username']);
+                    if($userArray === null)
                     {
-                        $this->getSession()->set('user_id', $user->getId());
-                        $this->getSession()->set('username', $user->getUsername());
-                        $this->getSession()->set('role', $user->getRole()->getName());
-
-
-                        $this->getSession()->regenerateSessionId();
-
-                        $authLogger->info("Logged in user : " .
-                        $user->getUsername() . ", user id : " . $user->getId());
-                        $this->redirectToRoute("posts");
+    
+                        $authLogger->warning("Incorrect authentication to username : " . $data['username']);
+                        $error = "Incorrect Authentication";
                     }
                     else
                     {
-                        $authLogger->warning("Incorrect authentication to username : " . $data['username']);
-                        $error = "Incorrect Authentication";
-                        $this->redirectToRoute("login");
+                        
+                        $user = $userArray[0];
+    
+                        if($user && \password_verify($data['password'], $user->getPassword()))
+                        {
+                            $this->getSession()->set('user_id', $user->getId());
+                            $this->getSession()->set('username', $user->getUsername());
+                            $this->getSession()->set('role', $user->getRole()->getName());
+    
+                            
+                            
+                            $this->getSession()->regenerateSessionId();
+                            // ddd($this->getSession());
+                            
+                            $authLogger->info("Logged in user : " .
+                            $user->getUsername() . ", user id : " . $user->getId());
+                            $this->redirectToRoute("posts");
+                        }
+                        else
+                        {
+                            $authLogger->warning("Incorrect authentication to username : " . $data['username']);
+                            $error = "Incorrect Authentication";
+                            $this->redirectToRoute("login");
+                        }
                     }
+    
                 }
-
             }
+        }
+        else
+        {
+            $this->redirectToRoute("posts");
         }
 
         $this->twig->display('auth/login.html.twig',
@@ -94,12 +101,10 @@ class AuthController extends BasicController
         ]);
     }
 
-    #[NoReturn] public function logout() : void
+    public function logout() : void
     {
         $authLogger = $this->getLogger('authentication');
-        $authLogger->info("Logged out user : " . $this->getSession()->get("username") .
-                          ", user id : " .
-                          $this->getSession()->get("user_id"));
+        $authLogger->info("Logged out user : " . $this->getSession()->get("username") . ", user id : " . $this->getSession()->get("user_id"));
         $this->getSession()->clear();
         $this->getSession()->destroy();
 

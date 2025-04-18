@@ -38,16 +38,16 @@ class BasicController
         exit();
     }
 
-    protected function checkAuth(string $requiredRole = null): void
+    protected function checkAuth(null|string $requiredRole): void
     {
-        if (!$this->getSession()->get('user_id') && $requiredRole !== 'Disconnected user') {
+        if (!$this->session->get('user_id') && $requiredRole !== 'Disconnected user') {
             $this->redirectToRoute('login');
         }
     }
 
     public function isGranted(array|string $roles): bool
     {
-        $userRole = $this->getSession()->get('role') ?? 'Disconnected user';
+        $userRole = $this->session->get('role') ?? 'Disconnected user';
         $allRoles = $this->getAllRoles($userRole);
 
         if (is_string($roles)) {
@@ -57,7 +57,7 @@ class BasicController
         return !empty(array_intersect($roles, $allRoles));
     }
 
-    protected function beforeAction(string $requiredRole = null): void
+    protected function beforeAction(null|string $requiredRole): void
     {
         $this->checkAuth($requiredRole);
 
@@ -80,10 +80,10 @@ class BasicController
 
     protected function render(string $template, array $data = []): void
     {
-        $data['flash_messages'] = $this->getSession()->getFlashMessages();
+        $data['flash_messages'] = $this->session->getFlashMessages();
         $this->twig->display($template, $data);
 
-        $this->getSession()->remove('flash_messages');
+        $this->session->remove('flash_messages');
     }
 
     protected function getAllRoles(string $role): array
