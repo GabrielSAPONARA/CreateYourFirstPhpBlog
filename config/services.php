@@ -107,7 +107,7 @@ return function (): \DI\Container {
                 'smtp',
                 'smtp.zoho.eu', // Nom du transport
                 'gabriel.saponara@zohomail.eu',
-                'ydPmDc4zbxF99NMYopKE9xrg8peFHKJDKtsX6KtA',
+                'Zm9D6Jkvxsqy',
                 465,
             ));
         },
