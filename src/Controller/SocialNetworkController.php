@@ -64,14 +64,14 @@ class SocialNetworkController extends BasicController
                 $socialNetworkRepository = $this->entityManager->getRepository
                 (SocialNetwork::class);
                 $socialNetwork = $socialNetworkRepository->findById($socialNetworkId);
-                $socialNetwork->setName(filter_input(INPUT_POST,"name"));
+                $socialNetwork->setName(filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->flush();
             }
             else
             {
 
                 $socialNetwork = new SocialNetwork();
-                $socialNetwork->setName(filter_input(INPUT_POST,"name"));
+                $socialNetwork->setName(filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->persist($socialNetwork);
                 $this->entityManager->flush();
             }
