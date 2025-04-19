@@ -66,7 +66,8 @@ class CommentController extends BasicController
         $commentLogger = $this->getLogger("comment");
         $commentId = $params['id'] ?? null;
         $postId = $params['postId'];
-        if((filter_input(INPUT_POST,"Content") !== null))
+
+        if((filter_input(INPUT_POST,"Content", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
         {
 
             if($commentId !== null)
