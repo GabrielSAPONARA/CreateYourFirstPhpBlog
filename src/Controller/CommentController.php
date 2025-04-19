@@ -140,9 +140,9 @@ class CommentController extends BasicController
         $comment = $commentRepository->findById($commentId)[0];
 
         $form = CommentFormType::buildForm($comment);
-        if(filter_input_array(INPUT_POST) !== null)
+        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
         {
-            $form->bind(filter_input_array(INPUT_POST));
+            $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
             $route = "";
             $routeParams = [];
 
@@ -241,9 +241,9 @@ class CommentController extends BasicController
             )
         ;
 
-        if(filter_input_array(INPUT_POST) !== null)
+        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
         {
-            $form->bind(filter_input_array(INPUT_POST));
+            $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
             $data = $form->getData();
             if($data["IsValidated"] !== null)
             {

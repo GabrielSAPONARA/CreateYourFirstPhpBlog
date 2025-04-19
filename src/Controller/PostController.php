@@ -62,9 +62,9 @@ class PostController extends BasicController
         $this->beforeAction("Administrator");
         $form = PostFormType::buildForm();
 
-        if(filter_input_array(INPUT_POST) !== null)
+        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
         {
-            $form->bind(filter_input_array(INPUT_POST));
+            $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
             $route = "";
             $routeParams = [];
 
@@ -150,9 +150,9 @@ class PostController extends BasicController
         $post = $this->postService->findByPostId($postId);
 
         $form = PostFormType::buildForm($post);
-        if(filter_input_array(INPUT_POST) !== null)
+        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
         {
-            $form->bind(filter_input_array(INPUT_POST));
+            $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
             $route = "";
             $routeParams = [];
 
@@ -161,9 +161,7 @@ class PostController extends BasicController
                 $postLogger = $this->getLogger('post');
                 try
                 {
-                    $post = $this->postService->savePost(filter_input_array
-                    (INPUT_POST),
-                    $postId, null);
+                    $post = $this->postService->savePost(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS), $postId, null);
                 }
                 catch (\Exception $exception)
                 {

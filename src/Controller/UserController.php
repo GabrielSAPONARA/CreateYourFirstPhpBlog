@@ -205,8 +205,8 @@ class UserController extends BasicController
 
         $form = MemberFormType::buildForm($user);
 
-        if(filter_input_array(INPUT_POST) !== null) {
-            $form->bind(filter_input_array(INPUT_POST));
+        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null) {
+            $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
 
             if ($form->isValid())
             {
