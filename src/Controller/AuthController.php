@@ -38,9 +38,6 @@ class AuthController extends BasicController
         
         if(empty($this->getSession()->getSess()))
         {
-    //        dumpd($_SERVER);
-    //        dumpd(filter_input_array(INPUT_POST));
-    //        ddd(filter_input_array(INPUT_SERVER));
             if(filter_input_array(INPUT_POST) !== null)
             {
                 
@@ -70,9 +67,7 @@ class AuthController extends BasicController
                             $this->getSession()->set('role', $user->getRole()->getName());
     
                             
-                            
                             $this->getSession()->regenerateSessionId();
-                            // ddd($this->getSession());
                             
                             $authLogger->info("Logged in user : " .
                             $user->getUsername() . ", user id : " . $user->getId());
