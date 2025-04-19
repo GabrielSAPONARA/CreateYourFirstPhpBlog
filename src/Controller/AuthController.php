@@ -40,7 +40,7 @@ class AuthController extends BasicController
         {
             if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
             {
-                $form->bind(filter_input_array(INPUT_POST));
+                $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
     
                 if($form->isValid())
                 {
