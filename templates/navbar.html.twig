@@ -17,7 +17,7 @@
                         All post
                     </a>
                 </li>
-                {% if is_granted('Member') %}
+                {% if is_granted('Administrator') %}
                     <li>
                         <a href="{{ path('posts__byUser') }}">
                             My Posts
@@ -28,6 +28,8 @@
                             Add Post
                         </a>
                     </li>
+                {% endif %}
+                {% if is_granted('Member') %}
                     <li>
                         <a href="{{ path("comments__byUser") }}">
                             My Comments

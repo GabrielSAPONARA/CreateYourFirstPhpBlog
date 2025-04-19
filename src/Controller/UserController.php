@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Component\Session;
 use App\Entity\Role;
 use App\Entity\User;
-use App\Form\MemberFormType;
-use App\Form\UserFormType;
-use App\Logger\LoggerManager;
-use App\Router\RouteManager;
-use Doctrine\ORM\EntityManagerInterface;
-use JetBrains\PhpStorm\NoReturn;
 use Twig\Environment;
+use App\Component\Session;
+use App\Form\UserFormType;
+use App\Form\MemberFormType;
+use App\Router\RouteManager;
+use App\Logger\LoggerManager;
+use App\Form\UserRoleFormType;
+use JetBrains\PhpStorm\NoReturn;
+use Doctrine\ORM\EntityManagerInterface;
 
 class UserController extends BasicController
 {
@@ -68,28 +69,25 @@ class UserController extends BasicController
         $userId = $params['id'] ?? null;
 
         $userLogger = $this->getLogger("user");
-        if((filter_input(INPUT_POST,"Lastname") !== null) && (filter_input(INPUT_POST,"Firstname") !== null) &&
-           (filter_input(INPUT_POST,"Email_Address") !== null) && (filter_input(INPUT_POST,"Username") !== null) &&
-           (filter_input(INPUT_POST,"Password") !== null) && (filter_input(INPUT_POST,"Roles") !== null))
+        if($userId !== null)
         {
-            if($userId !== null)
+            $userRepository = $this->entityManager->getRepository
+            (User::class);
+            $user = $userRepository->findById($userId);
+            $roleRepository = $this->entityManager->getRepository(Role::class);
+            $role = $roleRepository->findById(filter_input(INPUT_POST,'Roles'));
+            $user->setRole($role);
+            $this->entityManager->flush();
+            $userLogger->info("User " . $user->getId() . " has been modified.");
+            $this->redirectToRoute('users');
+        }
+        else
+        {
+            if((filter_input(INPUT_POST,"Lastname") !== null) && (filter_input(INPUT_POST,"Firstname") !== null) &&
+            (filter_input(INPUT_POST,"Email_Address") !== null) && (filter_input(INPUT_POST,"Username") !== null) &&
+            (filter_input(INPUT_POST,"Password") !== null) && (filter_input(INPUT_POST,"Roles") !== null))
             {
-                $userRepository = $this->entityManager->getRepository
-                (User::class);
-                $user = $userRepository->findById($userId);
-                $user->setLastName(filter_input(INPUT_POST,'Lastname'));
-                $user->setFirstName(filter_input(INPUT_POST,'Firstname'));
-                $user->setEmailAddress(filter_input(INPUT_POST,'Email_Address'));
-                $user->setUsername(filter_input(INPUT_POST,'Username'));
-                $user->setPassword(filter_input(INPUT_POST,'Password'));
-                $roleRepository = $this->entityManager->getRepository(Role::class);
-                $role = $roleRepository->findById(filter_input(INPUT_POST,'Roles'));
-                $user->setRole($role);
-                $this->entityManager->flush();
-                $userLogger->info("User " . $user->getId() . " has been modified.");
-            }
-            else
-            {
+                
                 $user = new User();
                 $user->setLastName(filter_input(INPUT_POST,'Lastname'));
                 $user->setFirstName(filter_input(INPUT_POST,'Firstname'));
@@ -103,14 +101,16 @@ class UserController extends BasicController
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
                 $userLogger->info("New user added: " . $user->getId());
+                $this->redirectToRoute('users');
             }
-            $this->redirectToRoute('users');
+            else
+            {
+                $userLogger->warning("Some information about user are missing.");
+                $this->redirectToRoute("users__addition");
+            }
         }
-        else
-        {
-            $userLogger->warning("Some information about user are missing.");
-            $this->redirectToRoute("users__addition");
-        }
+
+        
     }
 
     public function modify(array $params) : void
@@ -123,7 +123,7 @@ class UserController extends BasicController
         $roles = $roleRepository->findAll();
         $roleIdOfUser = $user->getRole()->getId();
 
-        $form = UserFormType::buildForm($user, $roles);
+        $form = UserRoleFormType::buildForm($user, $roles);
         $this->twig->display('user/modify.html.twig',
             [
                 'formFields' => $form->getFields(),
@@ -134,6 +134,7 @@ class UserController extends BasicController
 
     #[NoReturn] public function delete(array $params) : void
     {
+        $this->beforeAction('Administrator');
         $userId = $params["id"];
         $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->findById($userId);
@@ -158,10 +159,7 @@ class UserController extends BasicController
         $userLogger = $this->getLogger("user");
         $route = "";
 
-        if((filter_input(INPUT_POST,"Lastname") !== null) && (filter_input
-                                                              (INPUT_POST,"Firstname") !== null) &&
-           (filter_input(INPUT_POST,"Email_Address") !== null)  && (filter_input(INPUT_POST,"Username") !== null) &&
-           (filter_input(INPUT_POST,"Password") !== null))
+        if((filter_input(INPUT_POST,"Lastname") !== null) && (filter_input(INPUT_POST,"Firstname") !== null) && (filter_input(INPUT_POST,"Email_Address") !== null)  && (filter_input(INPUT_POST,"Username") !== null) && (filter_input(INPUT_POST,"Password") !== null))
         {
             $user = new User();
             $user->setLastName(filter_input(INPUT_POST,"Lastname"));
@@ -220,7 +218,11 @@ class UserController extends BasicController
                 $user->setFirstName($data["Firstname"]);
                 $user->setEmailAddress($data["Email_Address"]);
                 $user->setUsername($data["Username"]);
-                $user->setPassword($data["Password"]);
+                if($data['Password'] !== $user->getPassword())
+                {
+                    $user->setPassword($data["Password"]);
+                }
+
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 

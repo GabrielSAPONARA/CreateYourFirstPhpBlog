@@ -54,7 +54,13 @@ class CommentController extends BasicController
             'postId' => $postId
         ]);
     }
-
+    
+    /**
+     * Undocumented function
+     *
+     * @param [type] $params
+     * @return void
+     */    
     public function process($params) :void
     {
         $commentLogger = $this->getLogger("comment");
@@ -126,6 +132,7 @@ class CommentController extends BasicController
      */
     public function modify(array $params)
     {
+        $this->beforeAction("Administrator");
         $commentId = $params['commentId'];
         $postId = $params['postId'];
         $commentRepository = $this->entityManager->getRepository(Comment::class);
@@ -167,6 +174,7 @@ class CommentController extends BasicController
      */
     public function delete(array $params): void
     {
+        $this->beforeAction("Administrator");
         $commentId = $params['commentId'];
         $commentRepository = $this->entityManager->getRepository(Comment::class);
         $commentLogger = $this->getLogger("comment");
@@ -212,6 +220,7 @@ class CommentController extends BasicController
 
     public function validateComment(array $params)
     {
+        $this->beforeAction("Moderator");
         $commentId = $params['commentId'];
         $commentRepository = $this->entityManager->getRepository(Comment::class);
         $comment = $commentRepository->findById($commentId)[0];
