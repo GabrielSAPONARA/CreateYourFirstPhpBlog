@@ -59,7 +59,7 @@ class PostController extends BasicController
 
     public function add() : void
     {
-        $this->beforeAction("Member");
+        $this->beforeAction("Administrator");
         $form = PostFormType::buildForm();
 
         if(filter_input_array(INPUT_POST) !== null)
@@ -144,6 +144,7 @@ class PostController extends BasicController
      */
     public function modify(array $params) : void
     {
+        $this->beforeAction("Administrator");
         $postId = $params["postId"];
 
         $post = $this->postService->findByPostId($postId);
@@ -196,6 +197,7 @@ class PostController extends BasicController
 
     public function delete (array $params) : void
     {
+        $this->beforeAction("Administrator");
         $postId = $params["postId"];
         $post = $this->postService->findByPostId($postId);
         $comments = $this->commentService->findByPostId($postId);
