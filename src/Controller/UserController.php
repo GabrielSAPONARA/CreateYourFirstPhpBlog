@@ -162,11 +162,11 @@ class UserController extends BasicController
         if((filter_input(INPUT_POST,"Lastname") !== null) && (filter_input(INPUT_POST,"Firstname") !== null) && (filter_input(INPUT_POST,"Email_Address") !== null)  && (filter_input(INPUT_POST,"Username") !== null) && (filter_input(INPUT_POST,"Password") !== null))
         {
             $user = new User();
-            $user->setLastName(filter_input(INPUT_POST,"Lastname"));
-            $user->setFirstName(filter_input(INPUT_POST,"Firstname"));
-            $user->setEmailAddress(filter_input(INPUT_POST,"Email_Address"));
-            $user->setUsername(filter_input(INPUT_POST,"Username"));
-            $user->setPassword(filter_input(INPUT_POST,"Password"));
+            $user->setLastName(filter_input(INPUT_POST,"Lastname", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setFirstName(filter_input(INPUT_POST,"Firstname", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setEmailAddress(filter_input(INPUT_POST,"Email_Address", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setUsername(filter_input(INPUT_POST,"Username", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setPassword(filter_input(INPUT_POST,"Password", FILTER_SANITIZE_SPECIAL_CHARS));
             $roleRepository = $this->entityManager->getRepository(Role::class);
             $role = $roleRepository->findByName("Member");
             $user->setRole($role);
