@@ -156,7 +156,7 @@ class UserController extends BasicController
         $userLogger = $this->getLogger("user");
         $route = "";
 
-        if((filter_input(INPUT_POST,"Lastname") !== null) && (filter_input(INPUT_POST,"Firstname") !== null) && (filter_input(INPUT_POST,"Email_Address") !== null)  && (filter_input(INPUT_POST,"Username") !== null) && (filter_input(INPUT_POST,"Password") !== null))
+        if((filter_input(INPUT_POST,"Lastname", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !== null)  && (filter_input(INPUT_POST,"Username", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Password", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
         {
             $user = new User();
             $user->setLastName(filter_input(INPUT_POST,"Lastname", FILTER_SANITIZE_SPECIAL_CHARS));

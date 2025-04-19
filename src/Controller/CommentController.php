@@ -76,13 +76,13 @@ class CommentController extends BasicController
                 $commentRepository = $this->entityManager->getRepository
                 (Comment::class);
                 $comment = $commentRepository->findById($commentId);
-                $comment->setContent(filter_input(INPUT_POST,"Content"));
+                $comment->setContent(filter_input(INPUT_POST,"Content", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->flush();
             }
             else
             {
                 $comment = new Comment();
-                $comment->setContent(filter_input(INPUT_POST,"Content"));
+                $comment->setContent(filter_input(INPUT_POST,"Content", FILTER_SANITIZE_SPECIAL_CHARS));
                 $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
                 $currentDate->setTimezone(new \DateTimeZone('UTC'));
                 $comment->setPublishedDate($currentDate);

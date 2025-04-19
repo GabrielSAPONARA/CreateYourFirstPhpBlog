@@ -61,15 +61,14 @@ class RoleController extends BasicController
         $roleLogger = $this->getLogger("role");
         $roleId = $params['id'] ?? null;
         $route = "";
-        if((filter_input(INPUT_POST,"name") !==
-            null))
+        if((filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
         {
             if($roleId !== null)
             {
                 $roleRepository = $this->entityManager->getRepository
                 (Role::class);
                 $role = $roleRepository->findById($roleId);
-                $role->setName(filter_input(INPUT_POST,"name"));
+                $role->setName(filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->flush();
 
                 $roleLogger->warning("Role ".$role->getName()." was updated.");
@@ -77,7 +76,7 @@ class RoleController extends BasicController
             else
             {
                 $role = new Role();
-                $role->setName(filter_input(INPUT_POST,"name"));
+                $role->setName(filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->persist($role);
                 $this->entityManager->flush();
 
