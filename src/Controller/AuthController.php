@@ -38,9 +38,8 @@ class AuthController extends BasicController
         
         if(empty($this->getSession()->getSess()))
         {
-            if(filter_input_array(INPUT_POST) !== null)
+            if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
             {
-                
                 $form->bind(filter_input_array(INPUT_POST));
     
                 if($form->isValid())
