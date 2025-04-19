@@ -47,7 +47,7 @@
                         <div>
                             {{ comment.publishedDate|date("d/m/Y H:i:s") }}
                         </div>
-                        {% if is_granted('Member') %}
+                        {% if is_granted('Administrator') %}
                             <div class="buttons-set">
                                 <a class="button" href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
                                 <a class="button" href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
@@ -58,7 +58,7 @@
             {% endif %}
         </div>
     </div>
-    {% if is_granted('Member') %}
+    {% if is_granted('Administrator') %}
         <div class="posts__buttons">
             <a class="button" href="{{ path('comments__addition', {'postId' : post.id}) }}">Add Comment</a>
             <a class="button" href="{{ path('posts__modify', {'postId' : post.id}) }}">Modify this post</a>
