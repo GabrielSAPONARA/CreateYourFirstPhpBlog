@@ -210,7 +210,7 @@ class User
     /**
      * @return Collection
      */
-    private function getPosts(): Collection
+    public function getPosts(): Collection
     {
         return $this->posts;
     }
@@ -218,7 +218,7 @@ class User
     /**
      * @return Collection
      */
-    private function getComments(): Collection
+    public function getComments(): Collection
     {
         return $this->comments;
     }
