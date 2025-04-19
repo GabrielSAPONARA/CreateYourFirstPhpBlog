@@ -52,7 +52,7 @@ class ContactController extends BasicController
 
         $form = ContactFormType::buildForm($userId);
 
-        if(filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_SPECIAL_CHARS) === 'POST')
+        if(filter_input_array(INPUT_POST) !== null)
         {
             $form->bind(filter_input_array(INPUT_POST));
 
