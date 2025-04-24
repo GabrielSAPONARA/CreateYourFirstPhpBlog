@@ -45,9 +45,6 @@ class User
     #[JoinColumn(nullable: false, name: "role_id", referencedColumnName: "id")]
     private Role $role;
 
-    #[ManyToMany(targetEntity: SocialNetwork::class, mappedBy: "users")]
-    private Collection $socialNetworks;
-
     #[OneToMany(targetEntity: Post::class, mappedBy: "users")]
     private Collection $posts;
 
@@ -59,7 +56,6 @@ class User
 
     public function __construct()
     {
-        $this->socialNetworks = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
@@ -152,32 +148,6 @@ class User
         $options = ['cost' => 15];
         $hashedPassword =password_hash($password, PASSWORD_DEFAULT, $options);
         $this->password = $hashedPassword;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getSocialNetworks(): Collection
-    {
-        return $this->socialNetworks;
-    }
-
-    /**
-     * @param SocialNetwork $socialNetwork
-     * @return void
-     */
-    public function addSocialNetwork(SocialNetwork $socialNetwork): void
-    {
-        $this->socialNetworks->add($socialNetwork);
-    }
-
-    /**
-     * @param SocialNetwork $socialNetwork
-     * @return void
-     */
-    public function removeSocialNetwork(SocialNetwork $socialNetwork): void
-    {
-        $this->socialNetworks->removeElement($socialNetwork);
     }
 
     /**

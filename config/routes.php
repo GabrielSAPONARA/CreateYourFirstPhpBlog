@@ -4,14 +4,6 @@ $router->addMatchTypes(array('uuid' => '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F
 // route to welcome page
 $router->map('GET', '/', "WelcomeController::index", "welcome");
 
-// routes to manage social networks
-$router->map('GET', '/social/network', "SocialNetworkController::index", "social_networks");
-$router->map('GET', '/social/network/add', "SocialNetworkController::add", "social_networks_addition");
-$router->map('POST', '/social/network/process', "SocialNetworkController::process", "social_networks_process__create");
-$router->map('POST', '/social/network/process/[uuid:id]', "SocialNetworkController::process", "social_networks_process__update");
-$router->map('GET', '/social/network/modify/[uuid:id]', "SocialNetworkController::modify", "social_networks_modify");
-$router->map('GET', '/social/network/delete/[uuid:id]', "SocialNetworkController::delete", "social_networks_delete");
-
 // routes to manage roles
 $router->map('GET', '/role', "RoleController::index", "roles");
 $router->map('GET', '/role/add', "RoleController::add", "roles__addition");
