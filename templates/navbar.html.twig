@@ -1,69 +1,78 @@
-<label class="hamburger-menu">
-    <input type="checkbox">
-</label>
-<aside class="sidebar">
+{#<label class="hamburger-menu">#}
+{#    <input type="checkbox">#}
+{#</label>#}
+{#<aside class="sidebar">#}
 
-    <nav class="navbar">
-
-        <div class="nav-links">
-            <ul class="nav-menus">
-                <li>
-                    <a href="{{ path('welcome') }}">
-                        Welcome
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('posts') }}">
-                        All post
-                    </a>
-                </li>
-                {% if is_granted('Administrator') %}
-                    <li>
-                        <a href="{{ path('posts__byUser') }}">
-                            My Posts
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-5">
+            <a class="navbar-brand" href="{{ path('welcome') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="white" d="m219.31 108.68l-80-80a16 16 0 0 0-22.62 0l-80 80A15.87 15.87 0 0 0 32 120v96a8 8 0 0 0 8 8h64a8 8 0 0 0 8-8v-56h32v56a8 8 0 0 0 8 8h64a8 8 0 0 0 8-8v-96a15.87 15.87 0 0 0-4.69-11.32M208 208h-48v-56a8 8 0 0 0-8-8h-48a8 8 0 0 0-8 8v56H48v-88l80-80l80 80Z"/>
+                </svg>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('welcome') }}">
+                            Welcome
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ path('posts__addition') }}">
-                            Add Post
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('posts') }}">
+                            All post
                         </a>
                     </li>
-                {% endif %}
-                {% if is_granted('Member') %}
-                    <li>
-                        <a href="{{ path("comments__byUser") }}">
-                            My Comments
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path("profile") }}">
-                            My profile
-                        </a>
-                    </li>
-                {% endif %}
-                {% if is_granted('Moderator') %}
-                    <li>
-                        <a href="{{ path("comments__toValidate") }}">
-                            Comments to validate
-                        </a>
-                    </li>
-                {% endif %}
-                {% if is_granted('Member') %}
-                    <li>
-                        <a href="{{ path("logout") }}">
-                            Disconnection
-                        </a>
-                    </li>
-                {% endif %}
-                {% if (is_granted('Disconnected user')) and (not(is_granted('Member')))%}
-                    <li>
-                        <a href="{{ path('login') }}">Sign in</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('register') }}">Sign up</a>
-                    </li>
-                {% endif %}
-            </ul>
+                    {% if is_granted('Administrator') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('posts__byUser') }}">
+                                My Posts
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('posts__addition') }}">
+                                Add Post
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('Member') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("comments__byUser") }}">
+                                My Comments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("profile") }}">
+                                My profile
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('Moderator') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("comments__toValidate") }}">
+                                Comments to validate
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('Member') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path("logout") }}">
+                                Disconnection
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if (is_granted('Disconnected user')) and (not(is_granted('Member')))%}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('login') }}">Sign in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('register') }}">Sign up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
-</aside>
+
+
+
+{#</aside>#}
