@@ -27,7 +27,8 @@
         "monolog/monolog": "^3.8",
         "php-di/php-di": "^7.0",
         "symfony/cache": "^7.2",
-        "symfony/mailer": "^7.2"
+        "symfony/mailer": "^7.2",
+        "twbs/bootstrap": "^5.3"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.12",

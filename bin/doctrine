@@ -2,9 +2,11 @@
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 
-//require_once "vendor/autoload.php";
+require_once "vendor/autoload.php";
 // Adjust this path to your actual bootstrap.php
-require __DIR__ . './../config/bootstrap.php';
+require __DIR__ . './../src/Bootstrap.php';
+
+$entityManager = (new \App\Bootstrap())->getEntityManager();
 
 ConsoleRunner::run(
     new SingleManagerProvider($entityManager)
