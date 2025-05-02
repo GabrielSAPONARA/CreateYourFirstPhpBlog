@@ -24,11 +24,6 @@
                     </li>
                     {% if is_granted('Administrator') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('posts__byUser') }}">
-                                My Posts
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('posts__addition') }}">
                                 Add Post
                             </a>
