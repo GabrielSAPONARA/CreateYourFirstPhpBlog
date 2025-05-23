@@ -1,11 +1,29 @@
-<div class="card comment">
-    <div>
-        {{ comment.content }}
-    </div>
-    <div>
-        {{ comment.publishedDate|date("H:i:s m/d/Y", "Europe/Paris") }}
-    </div>
-    <div>
-        <a class="button" href="{{ path('posts__details', {'postId' : postId}) }}">Detail about post</a>
+<div class="col-lg-4 mb-5">
+    <div class="card h-100 shadow border-0">
+        <div class="card-body p-4">
+
+            <p class="card-text mb-0">
+                {{ comment.content }}
+            </p>
+        </div>
+        <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+            <div class="d-flex align-items-end justify-content-between">
+                <div class="d-flex align-items-center">
+                    <div class="small">
+                        <div class="text-muted">
+                            {{ comment.publishedDate|date("H:i:s m/d/Y", "Europe/Paris") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-primary" href="{{ path('posts__details', {'postId' : postId}) }}">
+            {#                <div class="h5 card-title mb-3">#}
+            Detail about post
+            {#                </div>#}
+        </a>
+{#        <div>#}
+{#            <a class="button" href="{{ path('posts__details', {'postId' : postId}) }}">Detail about post</a>#}
+{#        </div>#}
     </div>
 </div>
