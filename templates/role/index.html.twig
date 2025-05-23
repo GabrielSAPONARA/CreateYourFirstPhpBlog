@@ -12,22 +12,31 @@
     Roles
 {% endblock %}
 {% block main %}
-    <a class="button button-add" href="{{ path("roles__addition") }}">Add Role</a>
-    <div class="cards-set">
-        {% for role in roles %}
-            <div class="card">
-                <div>
-                    {{ role.name }}
-                </div>
-                <div class="buttons-set">
-                    <div>
-                        <a class="button" href="{{ path('roles_modify', {'id': role.id}) }}">Modify</a>
+    <a class="btn btn-primary" href="{{ path("roles__addition") }}">Add Role</a>
+    <section class="py-5">
+        <div class="container px-5">
+            <div class="row gx-5">
+                {% for role in roles %}
+                    <div class="col-lg-4 mb-5">
+                        <div class="card h-100 shadow border-0">
+                            <div class="card-body p-4">
+                                <div class="card-title mb-3">
+                                    {{ role.name }}
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                <div class="d-flex align-items-end justify-content-between">
+                                    <div class="d-flex align-items-center gap-5">
+                                        <a class="btn btn-warning" href="{{ path('roles_modify', {'id': role.id}) }}">Modify</a>
+                                        <a class="btn btn-danger" href="{{ path('roles_delete', {'id': role.id}) }}">Delete</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <a class="button" href="{{ path('roles_delete', {'id': role.id}) }}">Delete</a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    </section>
 {% endblock %}
