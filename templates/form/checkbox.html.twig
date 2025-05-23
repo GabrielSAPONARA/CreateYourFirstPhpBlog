@@ -1,0 +1,9 @@
+<input
+        type="{{ fieldProperties["type"] }}"
+        name="{{ fieldName }}"
+        value="{{ fieldProperties["value"] }}"
+        id="{{ fieldProperties["id"] }}"
+        {% if fieldProperties["value"] is same as (fieldProperties["value"]) %}
+            checked
+        {% endif %}
+>

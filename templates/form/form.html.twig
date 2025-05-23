@@ -12,22 +12,26 @@
         </div>
         <div class="d-grid mt-5">
 
-    {% elseif ((fieldProperties["type"] is same as ("radio"))) or (fieldProperties["type"] is same as ("checkbox")) %}
+    {% elseif ((fieldProperties["type"] is same as ("radio"))) %}
         <div class="d-flex flex-column">
+    {% elseif (fieldProperties["type"] is same as ("checkbox")) %}
+        <div class="d-flex">
     {% else %}
         <div class="form-floating mb-3">
     {% endif %}
-        {% if ((fieldProperties["type"] is same as ("radio"))) or (fieldProperties["type"] is same as ("checkbox")) %}
+        {% if ((fieldProperties["type"] is same as ("radio"))) %}
             {% include 'form/label.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
         {% endif %}
         {% if (fieldProperties["type"] is same as ("textarea")) %}
             {% include 'form/textarea.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
         {% elseif (fieldProperties["type"] is same as ("radio")) %}
             {% include 'form/radio.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
+        {% elseif (fieldProperties["type"] is same as ("checkbox")) %}
+            {% include 'form/checkbox.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
         {% else %}
             {% include 'form/input.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
         {% endif %}
-        {% if not((fieldProperties["type"] is same as ("radio"))) and not(fieldProperties["type"] is same as ("checkbox")) %}
+        {% if not((fieldProperties["type"] is same as ("radio"))) %}
             {% include 'form/label.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
         {% endif %}
 
