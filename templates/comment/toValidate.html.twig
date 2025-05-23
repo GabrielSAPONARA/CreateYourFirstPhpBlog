@@ -11,12 +11,16 @@
     Comments to validate
 {% endblock %}
 {% block main %}
-    <div class="comments cards-set">
-        {% set postIdIterator = 0 %}
+    <section class="py-5">
+        <div class="container px-5">
+            <div class="row gx-5">
+                {% set postIdIterator = 0 %}
 
-        {% for comment in comments %}
-            {% include 'comment/commentToValidate.html.twig' with {'comment': comment, 'postId' : postIds[postIdIterator].toString()} only %}
-            {% set postIdIterator = postIdIterator + 1 %}
-        {% endfor %}
-    </div>
+                {% for comment in comments %}
+                    {% include 'comment/commentToValidate.html.twig' with {'comment': comment, 'postId' : postIds[postIdIterator].toString()} only %}
+                    {% set postIdIterator = postIdIterator + 1 %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}
