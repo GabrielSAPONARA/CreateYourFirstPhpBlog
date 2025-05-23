@@ -4,21 +4,22 @@
 {#    </legend>#}
 
     {% set roleIterator = 0 %}
-    <div class="form__field__radios">
+    <div class="d-flex flex-column">
     {% for choice in fieldProperties["options"]["choices"] %}
-        <input
-                type="{{ fieldProperties["type"] }}"
-                name="{{ fieldName }}"
-                id="role-{{ roleIterator }}"
-                value="{{ choice["value"] }}"
-                {% if choice["value"] is same as (fieldProperties["value"]) %}
-                    checked
-                {% endif %}
-        >
-        <label for="role-{{ roleIterator }}">
-            {{ choice["label"] }}
-        </label>
-
+        <div>
+            <input
+                    type="{{ fieldProperties["type"] }}"
+                    name="{{ fieldName }}"
+                    id="role-{{ roleIterator }}"
+                    value="{{ choice["value"] }}"
+                    {% if choice["value"] is same as (fieldProperties["value"]) %}
+                        checked
+                    {% endif %}
+            >
+            <label for="role-{{ roleIterator }}">
+                {{ choice["label"] }}
+            </label>
+        </div>
         {% set roleIterator = roleIterator + 1 %}
     {% endfor %}
     </div>

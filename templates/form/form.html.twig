@@ -1,15 +1,25 @@
 {% for fieldName, fieldProperties in formFields %}
-    {% if not(fieldProperties["type"] is same as ("submit")) %}
-        <div class="form-floating mb-3">
-    {% else %}
+    {% if (fieldProperties["type"] is same as ("submit")) %}
         <div class="d-none" id="submitSuccessMessage">
             <div class="text-center mb-3">
                 <div class="fw-bolder">Form submission successful!</div>
             </div>
         </div>
-        <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-        <div class="d-grid">
+        <div class="d-none" id="submitErrorMessage">
+            <div class="text-center text-danger mb-3">
+                Error sending message!
+            </div>
+        </div>
+        <div class="d-grid mt-5">
+
+    {% elseif ((fieldProperties["type"] is same as ("radio"))) or (fieldProperties["type"] is same as ("checkbox")) %}
+        <div class="d-flex flex-column">
+    {% else %}
+        <div class="form-floating mb-3">
     {% endif %}
+        {% if ((fieldProperties["type"] is same as ("radio"))) or (fieldProperties["type"] is same as ("checkbox")) %}
+            {% include 'form/label.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
+        {% endif %}
         {% if (fieldProperties["type"] is same as ("textarea")) %}
             {% include 'form/textarea.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
         {% elseif (fieldProperties["type"] is same as ("radio")) %}
@@ -17,7 +27,10 @@
         {% else %}
             {% include 'form/input.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
         {% endif %}
-        {% include 'form/label.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
+        {% if not((fieldProperties["type"] is same as ("radio"))) and not(fieldProperties["type"] is same as ("checkbox")) %}
+            {% include 'form/label.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
+        {% endif %}
+
         {% include 'form/_feedback.html.twig' with {'fieldProperties' : fieldProperties, 'fieldName' : fieldName} only %}
     </div>
 {% endfor %}
