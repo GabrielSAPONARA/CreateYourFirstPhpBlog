@@ -20,9 +20,10 @@ class ContactFormType
             EmailType::addField($form, 'email', 'Email', '', 'martin.martin@gmail.com', 'email');
         }
 
-        TextType::addField($form, 'Subject', 'Subject', '', '');
+        TextType::addField($form, 'Subject', 'Subject', '', 'Subject');
 
-        TextareaType::addField($form, 'message', 'Message', '', '','', false);
+        TextareaType::addField($form, 'message', 'Message', '', 'This is a 
+        message...','message', false);
 
         SubmitType::addField($form, 'Submit');
 

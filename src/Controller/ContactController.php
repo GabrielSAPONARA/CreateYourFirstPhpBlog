@@ -43,12 +43,6 @@ class ContactController extends BasicController
     {
         $userId = $this->getSession()->get("user_id");
         $contactLogger = $this->getLogger("contact");
-        if($userId !== null)
-        {
-            $userRepository = $this->entityManager->getRepository(User::class);
-            $currentUser = $userRepository->findById($userId);
-        }
-
 
         $form = ContactFormType::buildForm($userId);
 
@@ -64,7 +58,21 @@ class ContactController extends BasicController
 
                 $userId = $this->getSession()->get("user_id");
                 $userRepository = $this->entityManager->getRepository(User::class);
-                $currentUser = $userRepository->findById($userId);
+                if($userId !== null)
+                {
+                    $userRepository = $this->entityManager->getRepository(User::class);
+                    $currentUser = $userRepository->findById($userId);
+                }
+                else
+                {
+                    // temporary user
+                    $currentUser = new User();
+                    $currentUser->setEmailAddress($formData['email']);
+                    $currentUser->setFirstName("Disconnected user");
+                    $currentUser->setLastName("Disconnected user");
+                    $currentUser->setUsername("Disconnected user");
+
+                }
 
                 $this->emailService->sendEmail($currentUser, $subject, $message);
                 $contactLogger->info("Message sent by ".
