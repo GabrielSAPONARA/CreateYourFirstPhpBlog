@@ -11,62 +11,89 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
-{% block pageTitle %}
-    {{ post.title }}
-{% endblock %}
+
 
 {% block main %}
     {% include 'messages/flash_message.html.twig' with {'flashMessages' : flashMessages} only %}
-    <div class="post">
-        <div>
-            <div>
-                @{{ author.username }}
+    <div class="row gx-5">
+        <div class="col-lg-3">
+            <div class="d-flex align-items-center mt-lg-5 mb-4">
+                <div class="ms-3">
+                    <div class="fw-bold">@{{ author.username }}</div>
+                    <div class="text-muted fst-italic mb-2">
+                        {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
+                    </div>
+                </div>
             </div>
-            <div>
-                {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}
-            </div>
         </div>
-        <div class="post__chapo">
-            {{ post.chapo }}
-        </div>
-        <div>
-            {{ post.content }}
-        </div>
-    </div>
-    <div>
-        <h4 class="title-comment">Comments</h4>
-        <div class="comments-of-post">
-            {% if comments|length is same as 0 %}
-                Il n'y a aucun commentaire pour le moment.
-            {% else %}
-                {% for comment in comments %}
-                    <div class="comments-of-post__comment">
-                        <div>
-                            {{ comment.content }}
-                        </div>
-                        <div>
-                            {{ comment.publishedDate|date("d/m/Y H:i:s") }}
-                        </div>
-                        {% if is_granted('Administrator') %}
-                            <div class="buttons-set">
-                                <a class="button" href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
-                                <a class="button" href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
-                            </div>
+        <div class="col-lg-9">
+            <article>
+                <header class="mb-4">
+                    <h1>
+                        {{ post.title }}
+                    </h1>
+
+                    <p class="fs-5 mb-4">
+                        {{ post.chapo }}
+                    </p>
+                </header>
+                <section class="mb-5">
+                    <p class="fs-5 mb-4">
+                        {{ post.content }}
+                    </p>
+                </section>
+            </article>
+
+
+            <section>
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <!-- Comment form-->
+{#                        <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>#}
+                        <!-- Comment with nested comments-->
+                        {% if comments|length is same as 0 %}
+                            Il n'y a aucun commentaire pour le moment.
+                        {% else %}
+                            {% for comment in comments %}
+                                <div class="d-flex mb-4">
+                                    <!-- Parent comment-->
+                                    <div class="flex-shrink-0">
+                                    </div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold">
+                                                {{ comment.user.username }}
+                                            </div>
+                                            {{ comment.content }}
+                                            <div class="text-muted fst-italic mb-2">
+                                                {{ comment.publishedDate|date("d/m/Y H:i:s") }}
+                                            </div>
+                                        </div>
+
+                                </div>
+                                {% if is_granted('Administrator') %}
+                                    <div class="row-cols-2 row-cols-lg-9 mx-auto mb-5">
+                                        <a class="btn btn-warning mx-lg-5 col-lg-4 mb-3 mb-lg-0" href="{{ path('comments__modify', {'commentId' : comment.id, 'postId': post.id.toString()}) }}">Modify this comment</a>
+                                        <a class="btn btn-danger mb-5 mb-lg-0 col-lg-4" href="{{ path('comments__delete', {'commentId' : comment.id}) }}">Delete this comment</a>
+                                    </div>
+                                {% endif %}
+
+                            {% endfor %}
                         {% endif %}
                     </div>
-                {% endfor %}
-            {% endif %}
+                </div>
+            </section>
+            <div class="my-4 col-12">
+                {% if is_granted('Member') %}
+                    <a class="btn btn-primary col-12 mb-3 col-lg-3" href="{{ path('comments__addition', {'postId' : post.id}) }}">Add Comment</a>
+                {% endif %}
+                {% if is_granted('Administrator') %}
+                    <a class="btn btn-warning col-12 mb-3 col-lg-3 mx-lg-3" href="{{ path('posts__modify', {'postId' : post.id}) }}">Modify this post</a>
+                    <a class="btn btn-danger col-12 mb-3 col-lg-3" href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
+                {% endif %}
+            </div>
         </div>
     </div>
-    
-        <div class="posts__buttons">
-            {% if is_granted('Member') %}
-                <a class="button" href="{{ path('comments__addition', {'postId' : post.id}) }}">Add Comment</a>
-            {% endif %}
-            {% if is_granted('Administrator') %}
-                <a class="button" href="{{ path('posts__modify', {'postId' : post.id}) }}">Modify this post</a>
-                <a class="button" href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>
-            {% endif %}
-        </div>
-    
+
+
+
 {% endblock %}
