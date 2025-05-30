@@ -75,7 +75,7 @@ class CommentController extends BasicController
      * @param [type] $params
      * @return void
      */
-    public function process($params): void
+    public function createComment($params): void
     {
         $commentLogger = $this->getLogger("comment");
         $commentId = $params['id'] ?? null;
@@ -85,18 +85,18 @@ class CommentController extends BasicController
              null))
         {
 
-            if ($commentId !== null)
-            {
-                $commentLogger->notice("Comment " . $commentId .
-                                       "was updated.");
-                $commentRepository = $this->entityManager->getRepository
-                (Comment::class);
-                $comment = $commentRepository->findById($commentId);
-                $comment->setContent(filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS));
-                $this->entityManager->flush();
-            }
-            else
-            {
+//            if ($commentId !== null)
+//            {
+//                $commentLogger->notice("Comment " . $commentId .
+//                                       "was updated.");
+//                $commentRepository = $this->entityManager->getRepository
+//                (Comment::class);
+//                $comment = $commentRepository->findById($commentId);
+//                $comment->setContent(filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS));
+//                $this->entityManager->flush();
+//            }
+//            else
+//            {
                 $comment = new Comment();
                 $comment->setContent(filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS));
                 $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
@@ -113,7 +113,7 @@ class CommentController extends BasicController
                 $commentLogger->notice("New comment was created.");
                 $this->entityManager->persist($comment);
                 $this->entityManager->flush();
-            }
+//            }
             $route = "posts__details";
         }
         else

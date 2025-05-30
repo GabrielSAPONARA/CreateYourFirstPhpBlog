@@ -7,16 +7,16 @@ $router->map('GET', '/', "WelcomeController::index", "welcome");
 // routes to manage roles
 $router->map('GET', '/role', "RoleController::index", "roles");
 $router->map('GET', '/role/add', "RoleController::add", "roles__addition");
-$router->map('POST', '/role/process', "RoleController::process", "roles_process__create");
-$router->map('POST', '/role/process/[uuid:id]', "RoleController::process", "roles_process__update");
+$router->map('POST', '/role/process', "RoleController::processToCreateOrUpdateRole", "roles_process__create");
+$router->map('POST', '/role/process/[uuid:id]', "RoleController::processToCreateOrUpdateRole", "roles_process__update");
 $router->map('GET', '/role/modify/[uuid:id]', "RoleController::modify", "roles_modify");
 $router->map('GET', '/role/delete/[uuid:id]', "RoleController::delete", "roles_delete");
 
 // routes to manage users
 $router->map('GET', '/user', "UserController::index", "users");
 $router->map('GET', '/user/add', "UserController::add", "users__addition");
-$router->map('POST', '/user/process', "UserController::process", "users_process__create");
-$router->map('POST', '/user/process/[uuid:id]', "UserController::process", "users_process__update");
+$router->map('POST', '/user/process', "UserController::processToCreateOrUpdateUser", "users_process__create");
+$router->map('POST', '/user/process/[uuid:id]', "UserController::processToCreateOrUpdateUser", "users_process__update");
 $router->map('GET', '/user/modify/[uuid:id]', "UserController::modify", "users_modify");
 $router->map('GET', '/user/delete/[uuid:id]', "UserController::delete", "users_delete");
 $router->map('GET', '/register', "UserController::register", "register");
@@ -45,7 +45,7 @@ $router->map('GET', '/post/delete/[uuid:postId]', "PostController::delete", "pos
 
 // routes to manage comments
 $router->map('GET', '/comment/add/[uuid:postId]', "CommentController::add", "comments__addition");
-$router->map('POST', '/comment/process/[uuid:postId]', "CommentController::process", "comments_process__create");
+$router->map('POST', '/comment/create/[uuid:postId]', "CommentController::createComment", "comments_process__create");
 $router->map('GET', '/comment/byUser', "CommentController::commentByUser", "comments__byUser");
 $router->map('GET', '/comment/modify/[uuid:commentId]/post/[uuid:postId]', "CommentController::modify", "comments__modify");
 $router->map('POST', '/comment/modify/[uuid:commentId]/post/[uuid:postId]', "CommentController::modify", "comments__modify__process");

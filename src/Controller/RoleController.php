@@ -78,7 +78,7 @@ class RoleController extends BasicController
      * @param $params
      * @return void
      */
-    public function process($params = []): void
+    public function processToCreateOrUpdateRole($params = []): void
     {
         $this->beforeAction("Administrator");
         $roleLogger = $this->getLogger("role");

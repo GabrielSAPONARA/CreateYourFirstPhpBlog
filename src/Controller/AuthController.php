@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\LoginFormType;
 use App\Logger\LoggerManager;
 use App\Router\RouteManager;
+use App\Service\AuthService;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
 use Twig\Environment;
@@ -19,6 +20,8 @@ class AuthController extends BasicController
     private RouteManager $routeManager;
     protected array $loggers;
 
+    private AuthService $authService;
+
 
     /**
      * @param EntityManagerInterface $entityManager
@@ -26,6 +29,7 @@ class AuthController extends BasicController
      * @param RouteManager $routeManager
      * @param array $loggers
      * @param Session $session
+     * @param AuthService $authService
      */
     public function __construct
     (
@@ -33,15 +37,18 @@ class AuthController extends BasicController
         \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
         array                    $loggers,
-        Session                  $session
+        Session                  $session,
+        AuthService              $authService
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
+        $this->authService = $authService;
     }
 
     /**
      * @return void
+     * @throws \Random\RandomException
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -78,15 +85,7 @@ class AuthController extends BasicController
                         if ($user &&
                             \password_verify($data['password'], $user->getPassword()))
                         {
-                            $this->getSession()->set('user_id', $user->getId());
-                            $this->getSession()
-                                 ->set('username', $user->getUsername())
-                            ;
-                            $this->getSession()->set('role', $user->getRole()
-                                                                  ->getName());
-
-
-                            $this->getSession()->regenerateSessionId();
+                            $this->authService->updateSessionWithCurrentUser($user);
 
                             $authLogger->info("Logged in user : " .
                                               $user->getUsername() .
@@ -131,4 +130,6 @@ class AuthController extends BasicController
 
         $this->redirectToRoute("welcome");
     }
+
+
 }

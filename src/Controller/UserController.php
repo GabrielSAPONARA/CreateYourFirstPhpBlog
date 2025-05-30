@@ -85,7 +85,7 @@ class UserController extends BasicController
      * @param $params
      * @return void
      */
-    #[NoReturn] public function process($params = []): void
+    #[NoReturn] public function processToCreateOrUpdateUser($params = []): void
     {
         $this->beforeAction('Administrator');
         $userId = $params['id'] ?? null;
