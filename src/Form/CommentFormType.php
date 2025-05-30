@@ -9,6 +9,11 @@ use App\Form\Type\TextareaType;
 
 class CommentFormType
 {
+    /**
+     * @param Comment|null $comment
+     * @param array $options
+     * @return Form
+     */
     public static function buildForm(?Comment $comment = null, array $options
     = []): Form
     {

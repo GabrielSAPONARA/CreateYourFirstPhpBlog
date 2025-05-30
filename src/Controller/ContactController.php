@@ -24,6 +24,14 @@ class ContactController extends BasicController
 
     private EmailService $emailService;
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     * @param EmailService $emailService
+     */
     public function __construct
     (
         EntityManagerInterface $entityManager,
@@ -39,6 +47,13 @@ class ContactController extends BasicController
         $this->emailService = $emailService;
     }
 
+    /**
+     * @return void
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function contact()
     {
         $userId = $this->getSession()->get("user_id");

@@ -20,6 +20,13 @@ class AuthController extends BasicController
     protected array $loggers;
 
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     */
     public function __construct
     (
         EntityManagerInterface $entityManager,
@@ -32,6 +39,13 @@ class AuthController extends BasicController
         parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
     }
+
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function login() : void
     {
         $form = LoginFormType::buildForm();
@@ -95,6 +109,9 @@ class AuthController extends BasicController
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function logout() : void
     {
         $authLogger = $this->getLogger('authentication');

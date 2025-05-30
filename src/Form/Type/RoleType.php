@@ -8,6 +8,12 @@ use App\Form\Form\Form;
 
 class RoleType
 {
+    /**
+     * @param Form $form
+     * @param User|null $user
+     * @param array $roles
+     * @return void
+     */
     public static function addField(Form $form, ?User $user, array $roles): void
     {
         $roleId = $user && $user->getRole() ? $user->getRole()->getId() : null;

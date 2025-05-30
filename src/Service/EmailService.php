@@ -12,11 +12,25 @@ class EmailService {
     private $mailer;
     private $twig;
 
+    /**
+     * @param Mailer $mailer
+     * @param Environment $twig
+     */
     public function __construct(Mailer $mailer, Environment $twig) {
         $this->mailer = $mailer;
         $this->twig = $twig;
     }
 
+    /**
+     * @param $user
+     * @param $subject
+     * @param $content
+     * @return bool
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function sendEmail($user, $subject, $content) {
         // Crée un email avec Symfony Mailer
         $emailContent = $this->twig->render("mail/contactMail.html.twig",

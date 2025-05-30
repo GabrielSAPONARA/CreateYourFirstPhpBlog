@@ -7,6 +7,10 @@ use App\Form\Form\Form;
 
 class MemberFormType
 {
+    /**
+     * @param User|null $user
+     * @return Form
+     */
     public static function buildForm(?User $user = null): Form
     {
         $form = new Form();

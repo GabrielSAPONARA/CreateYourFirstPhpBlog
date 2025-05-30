@@ -6,6 +6,9 @@ use App\Form\Form\Form;
 
 class LoginFormType
 {
+    /**
+     * @return Form
+     */
     public static function buildForm() : Form
     {
         $form = new Form();

@@ -28,11 +28,19 @@ class Session
         $this->regenerateSessionId();
     }
 
+    /**
+     * @return array
+     */
     public function getSess()
     {
         return $this->session;
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @return void
+     */
     public function set($key, $value): void
     {
         $this->session[$key] = $value;
@@ -44,17 +52,27 @@ class Session
         return (isset($this->session[$key])?$this->session[$key]:null);
     }
 
+    /**
+     * @return void
+     */
     public function destroy(): void
     {
         session_destroy();
         unset($this->session);
     }
 
+    /**
+     * @return void
+     */
     public function clear(): void
     {
         $this->session = [];
     }
 
+    /**
+     * @param string $key
+     * @return void
+     */
     public function remove(string $key): void
     {
         if (isset($this->session[$key])) {
@@ -62,6 +80,12 @@ class Session
         }
     }
 
+    /**
+     * @param string $type
+     * @param string $message
+     * @param $duration
+     * @return void
+     */
     public function addFlashMessage(string $type, string $message, $duration = 5): void
     {
         if ($this->get('flash_messages') === null) {
@@ -73,6 +97,9 @@ class Session
         ];
     }
 
+    /**
+     * @return array
+     */
     public function clearFlashMessages(): array
     {
         $now = time();
@@ -93,6 +120,9 @@ class Session
         return $flashMessages;
     }
 
+    /**
+     * @return array
+     */
     public function getFlashMessages(): array
     {
         if (!isset($this->session['flash_messages'])) {
@@ -102,6 +132,10 @@ class Session
         return $this->clearFlashMessages();
     }
 
+    /**
+     * @param int $index
+     * @return void
+     */
     public function removeFlashMessage(int $index): void
     {
         if (isset($this->session['flash_messages'][$index])) {
@@ -110,6 +144,10 @@ class Session
         }
     }
 
+    /**
+     * @return void
+     * @throws \Random\RandomException
+     */
     public function regenerateSessionId(): void
     {
         // Save current data session

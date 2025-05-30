@@ -8,11 +8,19 @@ class RouteManager
 {
     private AltoRouter $router;
 
+    /**
+     * @param AltoRouter $router
+     */
     public function __construct(AltoRouter $router)
     {
         $this->router = $router;
     }
 
+    /**
+     * @param string $routeName
+     * @param array $parameters
+     * @return string
+     */
     public function generatePath(string $routeName, array $parameters = []): string
     {
         $route = $this->findRouteByName($routeName);
@@ -34,6 +42,10 @@ class RouteManager
     }
 
 
+    /**
+     * @param $name
+     * @return mixed|null
+     */
     private function findRouteByName($name)
     {
         foreach ($this->router->getRoutes() as $route) {
@@ -45,6 +57,9 @@ class RouteManager
         return null;
     }
 
+    /**
+     * @return bool|array
+     */
     public function match(): bool|array
     {
         return $this->router->match();

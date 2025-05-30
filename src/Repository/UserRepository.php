@@ -8,6 +8,9 @@ use Ramsey\Uuid\Uuid;
 
 class UserRepository extends EntityRepository
 {
+    /**
+     * @return array
+     */
     public function findAll() : array
     {
         return $this->createQueryBuilder('user')
@@ -16,6 +19,10 @@ class UserRepository extends EntityRepository
             ->getResult();
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     public function findById(string $id)
     {
         return $this->createQueryBuilder('user')

@@ -9,6 +9,11 @@ use App\Form\Type\SubmitType;
 
 class UserRoleFormType
 {
+    /**
+     * @param User|null $user
+     * @param array $roles
+     * @return Form
+     */
     public static function buildForm(?User $user = null, array $roles = []): Form
     {
         $form = new Form();

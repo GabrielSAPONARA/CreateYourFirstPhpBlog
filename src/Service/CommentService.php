@@ -10,11 +10,21 @@ class CommentService
 {
     private EntityManagerInterface $entityManager;
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param array $data
+     * @param string|null $commentId
+     * @param User|null $currentUser
+     * @return Comment
+     * @throws \DateMalformedStringException
+     */
     public function saveComment(array $data, ?string $commentId = null, ?User
     $currentUser = null): Comment
     {
@@ -48,6 +58,10 @@ class CommentService
         return $comment;
     }
 
+    /**
+     * @param string $postId
+     * @return array
+     */
     public function findByPostId(string $postId): array
     {
         $commentRepository = $this->entityManager->getRepository(Comment::class);

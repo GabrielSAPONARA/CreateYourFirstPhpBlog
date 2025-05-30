@@ -106,11 +106,18 @@ class Comment
         $this->post = $post;
     }
 
+    /**
+     * @return bool
+     */
     public function isValidated(): bool
     {
         return $this->isValidated;
     }
 
+    /**
+     * @param bool $isValidated
+     * @return void
+     */
     public function setIsValidated(bool $isValidated): void
     {
         $this->isValidated = $isValidated;

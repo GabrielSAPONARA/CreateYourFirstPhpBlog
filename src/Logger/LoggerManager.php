@@ -10,6 +10,10 @@ class LoggerManager
     private static array $loggers = [];
     private static $config;
 
+    /**
+     * @param string $name
+     * @return Logger
+     */
     public static function getLogger(string $name): Logger
     {
         if(!isset(self::$loggers[$name]))

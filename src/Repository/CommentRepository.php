@@ -2,11 +2,16 @@
 
 namespace App\Repository;
 
+use App\Entity\Comment;
 use Doctrine\ORM\EntityRepository;
 
 class CommentRepository extends EntityRepository
 {
-    public function findByPost($postId)
+    /**
+     * @param $postId
+     * @return Comment[]
+     */
+    public function findByPost($postId) : array
     {
         return $this->createQueryBuilder('comment')
             ->where('comment.isValidated = true')
@@ -17,7 +22,11 @@ class CommentRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findById($id)
+    /**
+     * @param $id
+     * @return Comment|null
+     */
+    public function findById($id) : ?Comment
     {
         return $this->createQueryBuilder('comment')
             ->where('comment.id = :id')
@@ -26,7 +35,11 @@ class CommentRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findByIsValidated($isValidated = false)
+    /**
+     * @param $isValidated
+     * @return Comment[]
+     */
+    public function findByIsValidated($isValidated = false) : array
     {
         return $this->createQueryBuilder('comment')
             ->where('comment.isValidated = :isValidated')

@@ -135,16 +135,27 @@ class Post
         $this->user = $user;
     }
 
+    /**
+     * @return Collection
+     */
     public function getComments(): Collection
     {
         return $this->comments;
     }
 
+    /**
+     * @param Comment $comment
+     * @return void
+     */
     public function addComment(Comment $comment): void
     {
         $this->comments->add($comment);
     }
 
+    /**
+     * @param Comment $comment
+     * @return void
+     */
     public function removeComment(Comment $comment): void
     {
         $this->comments->removeElement($comment);

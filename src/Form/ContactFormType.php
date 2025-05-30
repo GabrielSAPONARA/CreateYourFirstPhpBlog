@@ -11,6 +11,10 @@ use Ramsey\Uuid\UuidInterface;
 
 class ContactFormType
 {
+    /**
+     * @param UuidInterface|null $userId
+     * @return Form
+     */
     public static function buildForm(?UuidInterface $userId): Form
     {
         $form = new Form();

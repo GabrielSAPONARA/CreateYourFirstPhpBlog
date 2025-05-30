@@ -12,6 +12,11 @@ use App\Form\Type\TextType;
 
 class UserFormType
 {
+    /**
+     * @param User|null $user
+     * @param array $roles
+     * @return Form
+     */
     public static function buildForm(?User $user = null, array $roles = []): Form
     {
         $form = new Form();

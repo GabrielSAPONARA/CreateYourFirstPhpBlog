@@ -19,6 +19,13 @@ class RoleController extends BasicController
     private Session $session;
 
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     */
     public function __construct
     (
         EntityManagerInterface $entityManager,
@@ -32,6 +39,12 @@ class RoleController extends BasicController
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function index(): void
     {
         $this->beforeAction("Administrator");
@@ -44,6 +57,12 @@ class RoleController extends BasicController
             ]);
     }
 
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function add(): void
     {
         $this->beforeAction("Administrator");
@@ -55,6 +74,10 @@ class RoleController extends BasicController
 
     }
 
+    /**
+     * @param $params
+     * @return void
+     */
     public function process($params = []) : void
     {
         $this->beforeAction("Administrator");
@@ -91,6 +114,13 @@ class RoleController extends BasicController
         $this->redirectToRoute($route);
     }
 
+    /**
+     * @param array $params
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function modify(array $params) : void
     {
         $this->beforeAction("Administrator");
@@ -107,6 +137,10 @@ class RoleController extends BasicController
             ]);
     }
 
+    /**
+     * @param array $params
+     * @return void
+     */
     public function delete(array $params) : void
     {
         $this->beforeAction("Administrator");

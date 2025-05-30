@@ -22,6 +22,12 @@ class BasicController
         'Disconnected user' => [],
     ];
 
+    /**
+     * @param Environment $twig
+     * @param RouteManager $routerManager
+     * @param array $loggers
+     * @param Session $session
+     */
     public function __construct(Environment $twig, RouteManager $routerManager, array $loggers, Session $session)
     {
         ob_start();
@@ -31,6 +37,11 @@ class BasicController
         $this->session = $session;
     }
 
+    /**
+     * @param string $routeName
+     * @param array $parameters
+     * @return RedirectResponse
+     */
     protected function redirectToRoute(string $routeName, array $parameters = []): RedirectResponse
     {
         $url = $this->routerManager->generatePath($routeName, $parameters);
@@ -38,6 +49,10 @@ class BasicController
         exit();
     }
 
+    /**
+     * @param string|null $requiredRole
+     * @return void
+     */
     protected function checkAuth(null|string $requiredRole): void
     {
         if (!$this->session->get('user_id') && $requiredRole !== 'Disconnected user') {
@@ -45,6 +60,10 @@ class BasicController
         }
     }
 
+    /**
+     * @param array|string $roles
+     * @return bool
+     */
     public function isGranted(array|string $roles): bool
     {
         $userRole = $this->session->get('role') ?? 'Disconnected user';
@@ -57,6 +76,10 @@ class BasicController
         return !empty(array_intersect($roles, $allRoles));
     }
 
+    /**
+     * @param string|null $requiredRole
+     * @return void
+     */
     protected function beforeAction(null|string $requiredRole): void
     {
         $this->checkAuth($requiredRole);
@@ -66,11 +89,21 @@ class BasicController
         }
     }
 
+    /**
+     * @param string $name
+     * @return mixed|null
+     */
     protected function getLogger(string $name)
     {
         return $this->loggers[$name] ?? null;
     }
 
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function forbidden(): void
     {
         $this->twig->display('error/error403.html.twig', [
@@ -78,6 +111,14 @@ class BasicController
         ]);
     }
 
+    /**
+     * @param string $template
+     * @param array $data
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     protected function render(string $template, array $data = []): void
     {
         $data['flash_messages'] = $this->session->getFlashMessages();
@@ -86,6 +127,10 @@ class BasicController
         $this->session->remove('flash_messages');
     }
 
+    /**
+     * @param string $role
+     * @return array
+     */
     protected function getAllRoles(string $role): array
     {
         $roles = [$role];
@@ -99,11 +144,18 @@ class BasicController
         return array_unique($roles);
     }
 
+    /**
+     * @return Session
+     */
     public function getSession(): Session
     {
         return $this->session;
     }
 
+    /**
+     * @param Session $session
+     * @return void
+     */
     public function setSession(Session $session): void
     {
         $this->session = $session;

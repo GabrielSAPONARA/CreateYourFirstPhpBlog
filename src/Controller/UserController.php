@@ -23,7 +23,13 @@ class UserController extends BasicController
     protected array $loggers;
     private Session $session;
 
-
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     */
     public function __construct
     (
         EntityManagerInterface $entityManager,
@@ -37,6 +43,12 @@ class UserController extends BasicController
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function index(): void
     {
         $this->beforeAction('Administrator');
@@ -49,6 +61,12 @@ class UserController extends BasicController
             ]);
     }
 
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function add(): void
     {
         $this->beforeAction('Administrator');
@@ -63,6 +81,10 @@ class UserController extends BasicController
 
     }
 
+    /**
+     * @param $params
+     * @return void
+     */
     #[NoReturn] public function process($params = []) : void
     {
         $this->beforeAction('Administrator');
@@ -110,6 +132,13 @@ class UserController extends BasicController
         
     }
 
+    /**
+     * @param array $params
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function modify(array $params) : void
     {
         $this->beforeAction('Administrator');
@@ -129,6 +158,10 @@ class UserController extends BasicController
             ]);
     }
 
+    /**
+     * @param array $params
+     * @return void
+     */
     #[NoReturn] public function delete(array $params) : void
     {
         $this->beforeAction('Administrator');
@@ -142,6 +175,12 @@ class UserController extends BasicController
         $this->redirectToRoute('users');
     }
 
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function register() : void
     {
         $form = MemberFormType::buildForm();
@@ -151,6 +190,9 @@ class UserController extends BasicController
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function processToRegister()
     {
         $userLogger = $this->getLogger("user");

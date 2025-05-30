@@ -30,7 +30,15 @@ class PostController extends BasicController
 
     private CommentService $commentService;
 
-
+    /**
+     * @param PostService $postService
+     * @param EntityManagerInterface $entityManager
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     * @param CommentService $commentService
+     */
     public function __construct
     (
         PostService $postService,
@@ -47,6 +55,13 @@ class PostController extends BasicController
         $this->postService = $postService;
         $this->commentService = $commentService;
     }
+
+    /**
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function index() : void
     {
         $posts = $this->postService->getAllPosts();
@@ -57,6 +72,13 @@ class PostController extends BasicController
             ]);
     }
 
+    /**
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws \DateMalformedStringException
+     */
     public function add() : void
     {
         $this->beforeAction("Administrator");
@@ -96,9 +118,11 @@ class PostController extends BasicController
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @param array $params
+     * @return void
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     #[NoReturn] public function details (array $params) : void
     {
@@ -126,6 +150,12 @@ class PostController extends BasicController
         ]);
     }
 
+    /**
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function postByUser() : void
     {
         $userId = $this->getSession()->get("user_id");
@@ -193,6 +223,11 @@ class PostController extends BasicController
         }
     }
 
+    /**
+     * @param array $params
+     * @return void
+     * @throws \Exception
+     */
     public function delete (array $params) : void
     {
         $this->beforeAction("Administrator");

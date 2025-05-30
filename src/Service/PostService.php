@@ -11,6 +11,9 @@ class PostService
 {
     private EntityManagerInterface $entityManager;
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -26,6 +29,13 @@ class PostService
         return $posts;
     }
 
+    /**
+     * @param array $data
+     * @param string|null $postId
+     * @param User|null $currentUser
+     * @return Post
+     * @throws \DateMalformedStringException
+     */
     public function savePost(array $data, ?string $postId = null, ?User
     $currentUser = null): Post
     {
@@ -68,6 +78,8 @@ class PostService
     }
 
     /**
+     * @param string $postId
+     * @return Post|null
      * @throws \Exception
      */
     public function findByPostId(string $postId): ?Post
@@ -84,6 +96,9 @@ class PostService
         return $post;
     }
 
+    /**
+     * @return array|null
+     */
     public function findPostToValidate() : ?array
     {
         $postRepository = $this->entityManager->getRepository(Post::class);

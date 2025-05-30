@@ -7,6 +7,10 @@ use App\Form\Form\Form;
 
 class RoleFormType
 {
+    /**
+     * @param Role|null $role
+     * @return Form
+     */
     public static function buildForm(?Role $role = null): Form
     {
         $form = new Form();

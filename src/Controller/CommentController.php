@@ -27,7 +27,14 @@ class CommentController extends BasicController
 
     private CommentService $commentService;
 
-
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     * @param CommentService $commentService
+     */
     public function __construct
     (
         EntityManagerInterface $entityManager,
@@ -42,6 +49,14 @@ class CommentController extends BasicController
         $this->entityManager = $entityManager;
         $this->commentService = $commentService;
     }
+
+    /**
+     * @param $params
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function add($params)
     {
         $postId = $params['postId'];

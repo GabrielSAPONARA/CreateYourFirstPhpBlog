@@ -7,6 +7,10 @@ use App\Form\Form\Form;
 
 class PostFormType
 {
+    /**
+     * @param Post|null $post
+     * @return Form
+     */
     public static function buildForm(?Post $post = null): Form
     {
         $form = new Form();
