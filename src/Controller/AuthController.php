@@ -29,11 +29,11 @@ class AuthController extends BasicController
      */
     public function __construct
     (
-        EntityManagerInterface $entityManager,
-        \Twig\Environment $twig,
+        EntityManagerInterface   $entityManager,
+        \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers,
-        Session $session
+        array                    $loggers,
+        Session                  $session
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);
@@ -46,54 +46,62 @@ class AuthController extends BasicController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function login() : void
+    public function login(): void
     {
         $form = LoginFormType::buildForm();
-        
-        if(empty($this->getSession()->getSess()))
+
+        if (empty($this->getSession()->getSess()))
         {
-            if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
+            if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+                null)
             {
                 $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
-    
-                if($form->isValid())
+
+                if ($form->isValid())
                 {
                     $data = $form->getData();
                     $authLogger = $this->getLogger('authentication');
                     $userRepository = $this->entityManager->getRepository(User::class);
                     $userArray = $userRepository->findByUsername($data['username']);
-                    if($userArray === null)
+                    if ($userArray === null)
                     {
-    
-                        $authLogger->warning("Incorrect authentication to username : " . $data['username']);
+
+                        $authLogger->warning("Incorrect authentication to username : " .
+                                             $data['username']);
                         $error = "Incorrect Authentication";
                     }
                     else
                     {
-                        
+
                         $user = $userArray[0];
-    
-                        if($user && \password_verify($data['password'], $user->getPassword()))
+
+                        if ($user &&
+                            \password_verify($data['password'], $user->getPassword()))
                         {
                             $this->getSession()->set('user_id', $user->getId());
-                            $this->getSession()->set('username', $user->getUsername());
-                            $this->getSession()->set('role', $user->getRole()->getName());
-    
-                            
+                            $this->getSession()
+                                 ->set('username', $user->getUsername())
+                            ;
+                            $this->getSession()->set('role', $user->getRole()
+                                                                  ->getName());
+
+
                             $this->getSession()->regenerateSessionId();
-                            
+
                             $authLogger->info("Logged in user : " .
-                            $user->getUsername() . ", user id : " . $user->getId());
+                                              $user->getUsername() .
+                                              ", user id : " . $user->getId());
                             $this->redirectToRoute("posts");
                         }
                         else
                         {
-                            $authLogger->warning("Incorrect authentication to username : " . $data['username']);
+                            $authLogger->warning("Incorrect authentication to username : " .
+                                                 $data['username']);
                             $error = "Incorrect Authentication";
                             $this->redirectToRoute("login");
                         }
                     }
-    
+
                 }
             }
         }
@@ -103,19 +111,21 @@ class AuthController extends BasicController
         }
 
         $this->twig->display('auth/login.html.twig',
-        [
-            'formFields' => $form->getFields(),
-            'error' => $error ?? null,
-        ]);
+            [
+                'formFields' => $form->getFields(),
+                'error'      => $error ?? null,
+            ]);
     }
 
     /**
      * @return void
      */
-    public function logout() : void
+    public function logout(): void
     {
         $authLogger = $this->getLogger('authentication');
-        $authLogger->info("Logged out user : " . $this->getSession()->get("username") . ", user id : " . $this->getSession()->get("user_id"));
+        $authLogger->info("Logged out user : " .
+                          $this->getSession()->get("username") .
+                          ", user id : " . $this->getSession()->get("user_id"));
         $this->getSession()->clear();
         $this->getSession()->destroy();
 

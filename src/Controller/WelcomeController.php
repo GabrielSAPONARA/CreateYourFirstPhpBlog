@@ -25,10 +25,10 @@ class WelcomeController extends BasicController
      */
     public function __construct
     (
-        \Twig\Environment $twig,
+        \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers,
-        Session $session
+        array                    $loggers,
+        Session                  $session
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);

@@ -22,7 +22,7 @@ class PasswordType
             $value,
             'Password',
             [
-                'required' => true,
+                'required'    => true,
                 'placeholder' => $value ? '' : '********************************',
             ]
         );

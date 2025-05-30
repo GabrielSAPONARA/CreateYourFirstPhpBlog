@@ -16,9 +16,9 @@ class TextareaType
      * @param bool $isDisabled
      * @return void
      */
-    public static function addField(Form $form, string $label, string $name,
+    public static function addField(Form   $form, string $label, string $name,
                                     string $value, string $placeholder,
-                                    string $id, bool $isDisabled) : void
+                                    string $id, bool $isDisabled): void
     {
         $form->addField
         (
@@ -28,9 +28,9 @@ class TextareaType
             $value,
             $label,
             [
-                'required' => true,
+                'required'    => true,
                 'placeholder' => $placeholder,
-                'disabled' => $isDisabled,
+                'disabled'    => $isDisabled,
             ]
         );
     }

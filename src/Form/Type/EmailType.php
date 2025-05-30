@@ -24,7 +24,7 @@ class EmailType
             $value,
             'Email address',
             [
-                'required' => true,
+                'required'    => true,
                 'placeholder' => $value ? '' : $placeholder,
             ]
         );

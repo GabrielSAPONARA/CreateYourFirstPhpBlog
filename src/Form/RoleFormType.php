@@ -23,7 +23,7 @@ class RoleFormType
                 $role ? $role->getName() : '',
                 'Name',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => $role ? '' : 'Membre'
                 ]
             )
@@ -35,7 +35,7 @@ class RoleFormType
                 'Submit',
                 '',
             )
-            ;
+        ;
         return $form;
     }
 }

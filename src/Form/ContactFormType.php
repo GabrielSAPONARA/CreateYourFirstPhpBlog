@@ -19,7 +19,7 @@ class ContactFormType
     {
         $form = new Form();
 
-        if($userId === null)
+        if ($userId === null)
         {
             EmailType::addField($form, 'email', 'Email', '', 'martin.martin@gmail.com', 'email');
         }
@@ -27,7 +27,7 @@ class ContactFormType
         TextType::addField($form, 'Subject', 'Subject', '', 'Subject');
 
         TextareaType::addField($form, 'message', 'Message', '', 'This is a 
-        message...','message', false);
+        message...', 'message', false);
 
         SubmitType::addField($form, 'Submit');
 

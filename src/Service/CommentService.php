@@ -25,20 +25,19 @@ class CommentService
      * @return Comment
      * @throws \DateMalformedStringException
      */
-    public function saveComment(array $data, ?string $commentId = null, ?User
-    $currentUser = null): Comment
+    public function saveComment(array $data, ?string $commentId = null, ?User $currentUser = null): Comment
     {
-        if((empty($data["Content"])))
+        if ((empty($data["Content"])))
         {
             throw new \Exception("Empty comment content");
         }
 
         $commentRepository = $this->entityManager->getRepository(Comment::class);
 
-        if($commentId !== null)
+        if ($commentId !== null)
         {
             $comment = $commentRepository->findById($commentId)[0];
-            if(!$comment)
+            if (!$comment)
             {
                 throw new \Exception("The comment with the id $commentId does not exist");
             }

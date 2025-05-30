@@ -37,12 +37,12 @@ class CommentController extends BasicController
      */
     public function __construct
     (
-        EntityManagerInterface $entityManager,
-        \Twig\Environment $twig,
+        EntityManagerInterface   $entityManager,
+        \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers,
-        Session $session,
-        CommentService $commentService
+        array                    $loggers,
+        Session                  $session,
+        CommentService           $commentService
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);
@@ -64,40 +64,41 @@ class CommentController extends BasicController
         $form = CommentFormType::buildForm();
 
         $this->twig->display("comment/add.html.twig",
-        [
-            'formFields' => $form->getFields(),
-            'postId' => $postId
-        ]);
+            [
+                'formFields' => $form->getFields(),
+                'postId'     => $postId
+            ]);
     }
-    
+
     /**
      * Undocumented function
-     *
      * @param [type] $params
      * @return void
-     */    
-    public function process($params) :void
+     */
+    public function process($params): void
     {
         $commentLogger = $this->getLogger("comment");
         $commentId = $params['id'] ?? null;
         $postId = $params['postId'];
 
-        if((filter_input(INPUT_POST,"Content", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
+        if ((filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null))
         {
 
-            if($commentId !== null)
+            if ($commentId !== null)
             {
-                $commentLogger->notice("Comment ".$commentId."was updated.");
+                $commentLogger->notice("Comment " . $commentId .
+                                       "was updated.");
                 $commentRepository = $this->entityManager->getRepository
                 (Comment::class);
                 $comment = $commentRepository->findById($commentId);
-                $comment->setContent(filter_input(INPUT_POST,"Content", FILTER_SANITIZE_SPECIAL_CHARS));
+                $comment->setContent(filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->flush();
             }
             else
             {
                 $comment = new Comment();
-                $comment->setContent(filter_input(INPUT_POST,"Content", FILTER_SANITIZE_SPECIAL_CHARS));
+                $comment->setContent(filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS));
                 $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
                 $currentDate->setTimezone(new \DateTimeZone('UTC'));
                 $comment->setPublishedDate($currentDate);
@@ -129,16 +130,16 @@ class CommentController extends BasicController
         $comments = $commentRepository->findBy(["user" => $userId]);
 
         $postIds = [];
-        foreach($comments as $comment)
+        foreach ($comments as $comment)
         {
             $postIds[] = $comment->getPost()->getId();
         }
 
         $this->twig->display("comment/byUser.html.twig",
-        [
-            "comments" => $comments,
-            "postIds" => $postIds
-        ]);
+            [
+                "comments" => $comments,
+                "postIds"  => $postIds
+            ]);
     }
 
     /**
@@ -155,13 +156,14 @@ class CommentController extends BasicController
         $comment = $commentRepository->findById($commentId)[0];
 
         $form = CommentFormType::buildForm($comment);
-        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
+        if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+            null)
         {
             $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
             $route = "";
             $routeParams = [];
 
-            if($form->isValid())
+            if ($form->isValid())
             {
                 $this->commentService->saveComment($form->getData(), $commentId, null);
                 $route = "posts__details";
@@ -177,11 +179,11 @@ class CommentController extends BasicController
         else
         {
             $this->twig->display("comment/modify.html.twig",
-            [
-                "formFields" => $form->getFields(),
-                "commentId" => $commentId,
-                "postId" => $postId
-            ]);
+                [
+                    "formFields" => $form->getFields(),
+                    "commentId"  => $commentId,
+                    "postId"     => $postId
+                ]);
         }
     }
 
@@ -194,7 +196,7 @@ class CommentController extends BasicController
         $commentId = $params['commentId'];
         $commentRepository = $this->entityManager->getRepository(Comment::class);
         $commentLogger = $this->getLogger("comment");
-        if($commentId === null)
+        if ($commentId === null)
         {
             $commentLogger->error("Comment id $commentId not found");
             throw new \Exception("Comment id $commentId not found");
@@ -217,21 +219,22 @@ class CommentController extends BasicController
         $comments = $commentRepository->findByIsValidated(false);
 
         $postIds = [];
-        foreach($comments as $comment)
+        foreach ($comments as $comment)
         {
             $postIds[] = $comment->getPost()->getId();
         }
 
-        usort($comments, function($commentA, $commentB)
+        usort($comments, function ($commentA, $commentB)
         {
-            return $commentB->getPublishedDate() <=> $commentA->getPublishedDate();
+            return $commentB->getPublishedDate() <=>
+                   $commentA->getPublishedDate();
         });
 
         $this->render("comment/toValidate.html.twig",
-        [
-            "comments" => $comments,
-            "postIds" => $postIds
-        ]);
+            [
+                "comments" => $comments,
+                "postIds"  => $postIds
+            ]);
     }
 
     public function validateComment(array $params)
@@ -256,11 +259,12 @@ class CommentController extends BasicController
             )
         ;
 
-        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
+        if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+            null)
         {
             $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
             $data = $form->getData();
-            if($data["IsValidated"] !== null)
+            if ($data["IsValidated"] !== null)
             {
                 $comment->setIsValidated(true);
                 $this->entityManager->flush();
@@ -269,9 +273,9 @@ class CommentController extends BasicController
         }
 
         $this->render('comment/validateComment.html.twig',
-        [
-            "formFields" => $form->getFields(),
-            "commentId" => $commentId,
-        ]);
+            [
+                "formFields" => $form->getFields(),
+                "commentId"  => $commentId,
+            ]);
     }
 }

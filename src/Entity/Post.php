@@ -108,7 +108,8 @@ class Post
     public function getDateOfLastUpdate(): DateTime
     {
         return $this->dateOfLastUpdate
-            ->setTimezone(new \DateTimeZone('Europe/Paris'));
+            ->setTimezone(new \DateTimeZone('Europe/Paris'))
+        ;
     }
 
     /**

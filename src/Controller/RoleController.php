@@ -28,11 +28,11 @@ class RoleController extends BasicController
      */
     public function __construct
     (
-        EntityManagerInterface $entityManager,
-        \Twig\Environment $twig,
+        EntityManagerInterface   $entityManager,
+        \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers,
-        Session $session
+        array                    $loggers,
+        Session                  $session
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);
@@ -68,9 +68,9 @@ class RoleController extends BasicController
         $this->beforeAction("Administrator");
         $form = RoleFormType::buildForm();
         $this->twig->display('role/add.html.twig',
-        [
-            'formFields' => $form->getFields(),
-        ]);
+            [
+                'formFields' => $form->getFields(),
+            ]);
 
     }
 
@@ -78,32 +78,35 @@ class RoleController extends BasicController
      * @param $params
      * @return void
      */
-    public function process($params = []) : void
+    public function process($params = []): void
     {
         $this->beforeAction("Administrator");
         $roleLogger = $this->getLogger("role");
         $roleId = $params['id'] ?? null;
         $route = "";
-        if((filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
+        if ((filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null))
         {
-            if($roleId !== null)
+            if ($roleId !== null)
             {
                 $roleRepository = $this->entityManager->getRepository
                 (Role::class);
                 $role = $roleRepository->findById($roleId);
-                $role->setName(filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS));
+                $role->setName(filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->flush();
 
-                $roleLogger->warning("Role ".$role->getName()." was updated.");
+                $roleLogger->warning("Role " . $role->getName() .
+                                     " was updated.");
             }
             else
             {
                 $role = new Role();
-                $role->setName(filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS));
+                $role->setName(filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->persist($role);
                 $this->entityManager->flush();
 
-                $roleLogger->warning("Role ".$role->getName()." was created.");
+                $roleLogger->warning("Role " . $role->getName() .
+                                     " was created.");
             }
             $route = "roles";
         }
@@ -121,7 +124,7 @@ class RoleController extends BasicController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function modify(array $params) : void
+    public function modify(array $params): void
     {
         $this->beforeAction("Administrator");
         $roleId = $params["id"];
@@ -132,7 +135,7 @@ class RoleController extends BasicController
 
         $this->twig->display('role/modify.html.twig',
             [
-                'role' => $role,
+                'role'       => $role,
                 'formFields' => $form->getFields(),
             ]);
     }
@@ -141,7 +144,7 @@ class RoleController extends BasicController
      * @param array $params
      * @return void
      */
-    public function delete(array $params) : void
+    public function delete(array $params): void
     {
         $this->beforeAction("Administrator");
         $roleId = $params["id"];
@@ -152,7 +155,7 @@ class RoleController extends BasicController
 
         $roleLogger = $this->getLogger("role");
 
-        $roleLogger->warning("Role ".$role->getName()." was removed.");
+        $roleLogger->warning("Role " . $role->getName() . " was removed.");
         $this->redirectToRoute("roles");
     }
 }

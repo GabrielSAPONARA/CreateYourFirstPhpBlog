@@ -21,10 +21,14 @@ class PostService
 
     public function getAllPosts(): array
     {
-        $posts = $this->entityManager->getRepository(Post::class)
-                                     ->findAll();
-        usort($posts, function ($postA, $postB) {
-            return $postB->getDateOfLastUpdate() <=> $postA->getDateOfLastUpdate();
+        $posts = $this->entityManager
+            ->getRepository(Post::class)
+            ->findAll()
+        ;
+        usort($posts, function ($postA, $postB)
+        {
+            return $postB->getDateOfLastUpdate() <=>
+                   $postA->getDateOfLastUpdate();
         });
         return $posts;
     }
@@ -36,10 +40,9 @@ class PostService
      * @return Post
      * @throws \DateMalformedStringException
      */
-    public function savePost(array $data, ?string $postId = null, ?User
-    $currentUser = null): Post
+    public function savePost(array $data, ?string $postId = null, ?User $currentUser = null): Post
     {
-        if((empty($data["Title"])) || (empty($data["Content"])) || (empty
+        if ((empty($data["Title"])) || (empty($data["Content"])) || (empty
             ($data["Chapo"])))
         {
             throw new \Exception("The title, the content or the chapo are empty.");
@@ -48,15 +51,17 @@ class PostService
         $postRepository = $this->entityManager->getRepository(Post::class);
 
         $dateOfLastUpdate = new \DateTime('now', new \DateTimeZone('UTC'));
-        if($postId !== null)
+        if ($postId !== null)
         {
             $post = $postRepository->findById($postId)[0];
-            if(!$post)
+            if (!$post)
             {
                 throw new \Exception("The post with id " . htmlspecialchars
                     ($postId, ENT_QUOTES, 'UTF-8') . " does not exist.");
             }
-            if(($data["Title"] !== $post->getTitle()) || ($data["Content"] !== $post->getContent()) || ($data["Chapo"] !== $post->getChapo()) )
+            if (($data["Title"] !== $post->getTitle()) ||
+                ($data["Content"] !== $post->getContent()) ||
+                ($data["Chapo"] !== $post->getChapo()))
             {
                 $post->setDateOfLastUpdate($dateOfLastUpdate);
             }
@@ -87,9 +92,9 @@ class PostService
         $postRepository = $this->entityManager->getRepository(Post::class);
         $post = $postRepository->findById($postId)[0];
 
-        if(!$post)
+        if (!$post)
         {
-            throw new \Exception("The post with id ".  htmlspecialchars
+            throw new \Exception("The post with id " . htmlspecialchars
                 ($postId, ENT_QUOTES, 'UTF-8') . " does not exist.");
         }
 
@@ -99,7 +104,7 @@ class PostService
     /**
      * @return array|null
      */
-    public function findPostToValidate() : ?array
+    public function findPostToValidate(): ?array
     {
         $postRepository = $this->entityManager->getRepository(Post::class);
         return $postRepository->findByIsValidated(false);

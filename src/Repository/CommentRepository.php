@@ -11,40 +11,46 @@ class CommentRepository extends EntityRepository
      * @param $postId
      * @return Comment[]
      */
-    public function findByPost($postId) : array
+    public function findByPost($postId): array
     {
-        return $this->createQueryBuilder('comment')
+        return $this
+            ->createQueryBuilder('comment')
             ->where('comment.isValidated = true')
             ->andWhere('post.id = :post')
             ->join('comment.post', 'post')
             ->setParameter('post', $postId)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
      * @param $id
      * @return Comment|null
      */
-    public function findById($id) : ?Comment
+    public function findById($id): ?Comment
     {
-        return $this->createQueryBuilder('comment')
+        return $this
+            ->createQueryBuilder('comment')
             ->where('comment.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 
     /**
      * @param $isValidated
      * @return Comment[]
      */
-    public function findByIsValidated($isValidated = false) : array
+    public function findByIsValidated($isValidated = false): array
     {
-        return $this->createQueryBuilder('comment')
+        return $this
+            ->createQueryBuilder('comment')
             ->where('comment.isValidated = :isValidated')
             ->setParameter('isValidated', $isValidated)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

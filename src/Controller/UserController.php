@@ -32,11 +32,11 @@ class UserController extends BasicController
      */
     public function __construct
     (
-        EntityManagerInterface $entityManager,
-        \Twig\Environment $twig,
+        EntityManagerInterface   $entityManager,
+        \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers,
-        Session $session
+        array                    $loggers,
+        Session                  $session
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);
@@ -75,9 +75,9 @@ class UserController extends BasicController
 
         $form = UserFormType::buildForm(null, $roles);
         $this->twig->display('user/add.html.twig',
-        [
-            'formFields' => $form->getFields(),
-        ]);
+            [
+                'formFields' => $form->getFields(),
+            ]);
 
     }
 
@@ -85,19 +85,19 @@ class UserController extends BasicController
      * @param $params
      * @return void
      */
-    #[NoReturn] public function process($params = []) : void
+    #[NoReturn] public function process($params = []): void
     {
         $this->beforeAction('Administrator');
         $userId = $params['id'] ?? null;
 
         $userLogger = $this->getLogger("user");
-        if($userId !== null)
+        if ($userId !== null)
         {
             $userRepository = $this->entityManager->getRepository
             (User::class);
             $user = $userRepository->findById($userId);
             $roleRepository = $this->entityManager->getRepository(Role::class);
-            $role = $roleRepository->findById(filter_input(INPUT_POST,'Roles'));
+            $role = $roleRepository->findById(filter_input(INPUT_POST, 'Roles'));
             $user->setRole($role);
             $this->entityManager->flush();
             $userLogger->info("User " . $user->getId() . " has been modified.");
@@ -105,16 +105,27 @@ class UserController extends BasicController
         }
         else
         {
-            if((filter_input(INPUT_POST,"Lastname",FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Username", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Password", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Roles", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
+            if ((filter_input(INPUT_POST, "Lastname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+                 null) &&
+                (filter_input(INPUT_POST, "Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+                 null) &&
+                (filter_input(INPUT_POST, "Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !==
+                 null) &&
+                (filter_input(INPUT_POST, "Username", FILTER_SANITIZE_SPECIAL_CHARS) !==
+                 null) &&
+                (filter_input(INPUT_POST, "Password", FILTER_SANITIZE_SPECIAL_CHARS) !==
+                 null) &&
+                (filter_input(INPUT_POST, "Roles", FILTER_SANITIZE_SPECIAL_CHARS) !==
+                 null))
             {
                 $user = new User();
-                $user->setLastName(filter_input(INPUT_POST,'Lastname', FILTER_SANITIZE_SPECIAL_CHARS));
-                $user->setFirstName(filter_input(INPUT_POST,'Firstname', FILTER_SANITIZE_SPECIAL_CHARS));
-                $user->setEmailAddress(filter_input(INPUT_POST,'Email_Address', FILTER_SANITIZE_SPECIAL_CHARS));
-                $user->setUsername(filter_input(INPUT_POST,'Username', FILTER_SANITIZE_SPECIAL_CHARS));
-                $user->setPassword(filter_input(INPUT_POST,'Password', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setLastName(filter_input(INPUT_POST, 'Lastname', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setFirstName(filter_input(INPUT_POST, 'Firstname', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setEmailAddress(filter_input(INPUT_POST, 'Email_Address', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setUsername(filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setPassword(filter_input(INPUT_POST, 'Password', FILTER_SANITIZE_SPECIAL_CHARS));
                 $roleRepository = $this->entityManager->getRepository(Role::class);
-                $role = $roleRepository->findById(filter_input(INPUT_POST,'Roles', FILTER_SANITIZE_SPECIAL_CHARS));
+                $role = $roleRepository->findById(filter_input(INPUT_POST, 'Roles', FILTER_SANITIZE_SPECIAL_CHARS));
                 $user->setRole($role);
                 $user->setIsActive(true);
                 $this->entityManager->persist($user);
@@ -129,7 +140,7 @@ class UserController extends BasicController
             }
         }
 
-        
+
     }
 
     /**
@@ -139,7 +150,7 @@ class UserController extends BasicController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function modify(array $params) : void
+    public function modify(array $params): void
     {
         $this->beforeAction('Administrator');
         $userId = $params["id"];
@@ -152,8 +163,8 @@ class UserController extends BasicController
         $form = UserRoleFormType::buildForm($user, $roles);
         $this->twig->display('user/modify.html.twig',
             [
-                'formFields' => $form->getFields(),
-                'user' => $user,
+                'formFields'   => $form->getFields(),
+                'user'         => $user,
                 'roleIdOfUser' => $roleIdOfUser,
             ]);
     }
@@ -162,7 +173,7 @@ class UserController extends BasicController
      * @param array $params
      * @return void
      */
-    #[NoReturn] public function delete(array $params) : void
+    #[NoReturn] public function delete(array $params): void
     {
         $this->beforeAction('Administrator');
         $userId = $params["id"];
@@ -181,13 +192,13 @@ class UserController extends BasicController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function register() : void
+    public function register(): void
     {
         $form = MemberFormType::buildForm();
         $this->twig->display('user/register.html.twig',
-        [
-            'formFields' => $form->getFields(),
-        ]);
+            [
+                'formFields' => $form->getFields(),
+            ]);
     }
 
     /**
@@ -198,14 +209,23 @@ class UserController extends BasicController
         $userLogger = $this->getLogger("user");
         $route = "";
 
-        if((filter_input(INPUT_POST,"Lastname", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !== null)  && (filter_input(INPUT_POST,"Username", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Password", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
+        if ((filter_input(INPUT_POST, "Lastname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Username", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Password", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null))
         {
             $user = new User();
-            $user->setLastName(filter_input(INPUT_POST,"Lastname", FILTER_SANITIZE_SPECIAL_CHARS));
-            $user->setFirstName(filter_input(INPUT_POST,"Firstname", FILTER_SANITIZE_SPECIAL_CHARS));
-            $user->setEmailAddress(filter_input(INPUT_POST,"Email_Address", FILTER_SANITIZE_SPECIAL_CHARS));
-            $user->setUsername(filter_input(INPUT_POST,"Username", FILTER_SANITIZE_SPECIAL_CHARS));
-            $user->setPassword(filter_input(INPUT_POST,"Password", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setLastName(filter_input(INPUT_POST, "Lastname", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setFirstName(filter_input(INPUT_POST, "Firstname", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setEmailAddress(filter_input(INPUT_POST, "Email_Address", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setUsername(filter_input(INPUT_POST, "Username", FILTER_SANITIZE_SPECIAL_CHARS));
+            $user->setPassword(filter_input(INPUT_POST, "Password", FILTER_SANITIZE_SPECIAL_CHARS));
             $roleRepository = $this->entityManager->getRepository(Role::class);
             $role = $roleRepository->findByName("Member");
             $user->setRole($role);
@@ -233,12 +253,12 @@ class UserController extends BasicController
         $user = $userRepository->findById($userId);
 
         $this->twig->display('user/profile.html.twig',
-        [
-            'user' => $user,
-        ]);
+            [
+                'user' => $user,
+            ]);
     }
 
-    public function modifyProfile() : void
+    public function modifyProfile(): void
     {
         $userLogger = $this->getLogger("user");
         $userId = $this->getSession()->get('user_id');
@@ -247,7 +267,9 @@ class UserController extends BasicController
 
         $form = MemberFormType::buildForm($user);
 
-        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null) {
+        if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+            null)
+        {
             $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
 
             if ($form->isValid())
@@ -257,7 +279,7 @@ class UserController extends BasicController
                 $user->setFirstName($data["Firstname"]);
                 $user->setEmailAddress($data["Email_Address"]);
                 $user->setUsername($data["Username"]);
-                if($data['Password'] !== $user->getPassword())
+                if ($data['Password'] !== $user->getPassword())
                 {
                     $user->setPassword($data["Password"]);
                 }
@@ -265,7 +287,8 @@ class UserController extends BasicController
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
-                $userLogger->info("User " . $user->getId() . " has been modified.");
+                $userLogger->info("User " . $user->getId() .
+                                  " has been modified.");
                 $route = "profile";
             }
             else
@@ -277,9 +300,9 @@ class UserController extends BasicController
         else
         {
             $this->twig->display('user/modify_profile.html.twig',
-            [
-                'formFields' => $form->getFields(),
-            ]);
+                [
+                    'formFields' => $form->getFields(),
+                ]);
         }
     }
 }

@@ -18,9 +18,10 @@ class FormHandler
      * @param array $requestData
      * @return bool
      */
-    public function handlePostRequest(array $requestData) : bool
+    public function handlePostRequest(array $requestData): bool
     {
-        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
+        if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+            null)
         {
             return false;
         }

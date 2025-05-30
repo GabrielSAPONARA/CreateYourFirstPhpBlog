@@ -26,14 +26,15 @@ class RoleType
             'Roles',
             [
                 'required' => true,
-                'choices' => self::mapRolesToChoices($roles),
+                'choices'  => self::mapRolesToChoices($roles),
             ]
         );
     }
 
     private static function mapRolesToChoices(array $roles): array
     {
-        return array_map(function (Role $role) {
+        return array_map(function (Role $role)
+        {
             return [
                 'value' => $role->getId(),
                 'label' => $role->getName(),

@@ -16,7 +16,8 @@
             <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                 <div class="row gx-5 justify-content-center">
                     <div class="col-lg-8 col-xl-6">
-                        <form class="form" action="{{ path("comments_process__create", {'postId' : postId}) }}" method="post">
+                        <form class="form" action="{{ path("comments_process__create", {'postId' : postId}) }}"
+                              method="post">
                             {% include 'form/form.html.twig' with {'formFields' : formFields} only %}
                         </form>
                     </div>

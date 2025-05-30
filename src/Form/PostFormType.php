@@ -23,9 +23,9 @@ class PostFormType
                 $post ? $post->getTitle() : '',
                 'Title',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => 'Title of the post',
-                    'maxlength' => 255,
+                    'maxlength'   => 255,
                 ]
             )
             ->addField
@@ -36,9 +36,9 @@ class PostFormType
                 $post ? $post->getChapo() : '',
                 'Chapo',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => 'Chapo of the post',
-                    'maxlength' => 500,
+                    'maxlength'   => 500,
                 ]
             )
             ->addField
@@ -49,7 +49,7 @@ class PostFormType
                 $post ? $post->getContent() : '',
                 'Content',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => '',
                 ]
             )
@@ -61,7 +61,7 @@ class PostFormType
                 'Submit',
                 ''
             )
-            ;
+        ;
 
         return $form;
     }

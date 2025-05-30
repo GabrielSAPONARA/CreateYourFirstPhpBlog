@@ -9,7 +9,7 @@ class LoginFormType
     /**
      * @return Form
      */
-    public static function buildForm() : Form
+    public static function buildForm(): Form
     {
         $form = new Form();
 
@@ -22,7 +22,7 @@ class LoginFormType
                 "",
                 'Username',
                 [
-                    "required" => true,
+                    "required"    => true,
                     "placeholder" => "Username",
                 ]
             )
@@ -34,7 +34,7 @@ class LoginFormType
                 "",
                 'Password',
                 [
-                    "required" => true,
+                    "required"    => true,
                     "placeholder" => "***********",
                 ]
             )
@@ -46,7 +46,7 @@ class LoginFormType
                 "Sign in",
                 '',
             )
-            ;
+        ;
 
         return $form;
     }

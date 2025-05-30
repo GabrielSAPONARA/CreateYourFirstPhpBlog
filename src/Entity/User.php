@@ -146,7 +146,7 @@ class User
     public function setPassword($password): void
     {
         $options = ['cost' => 15];
-        $hashedPassword =password_hash($password, PASSWORD_DEFAULT, $options);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT, $options);
         $this->password = $hashedPassword;
     }
 
@@ -208,6 +208,6 @@ class User
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->emailAddress;
+        return (string)$this->emailAddress;
     }
 }

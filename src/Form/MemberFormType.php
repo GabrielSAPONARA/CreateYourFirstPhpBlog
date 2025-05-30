@@ -23,7 +23,7 @@ class MemberFormType
                 $user ? $user->getFirstName() : '',
                 'Firstname',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => 'Martin',
                 ]
             )
@@ -35,7 +35,7 @@ class MemberFormType
                 $user ? $user->getLastName() : '',
                 'Lastname',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => 'MARTIN',
                 ]
             )
@@ -47,7 +47,7 @@ class MemberFormType
                 $user ? $user->getEmailAddress() : '',
                 'Email Address',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => 'martin.martin@gmail.com',
                 ]
             )
@@ -59,7 +59,7 @@ class MemberFormType
                 $user ? $user->getUsername() : '',
                 'Username',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => 'RikuKing',
                 ]
             )
@@ -71,7 +71,7 @@ class MemberFormType
                 $user ? $user->getPassword() : '',
                 'Password',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => '********************************',
                 ]
             )

@@ -21,7 +21,7 @@ class CommentFormType
         $form = new Form();
 
         TextareaType::addField($form, 'Content', 'Content', $comment ?
-            $comment->getContent() : '', 'Content of the comment','content',
+            $comment->getContent() : '', 'Content of the comment', 'content',
             $isDisabled);
 
         SubmitType::addField($form, 'Submit');

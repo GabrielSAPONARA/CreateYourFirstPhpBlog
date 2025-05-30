@@ -23,7 +23,7 @@ class TextType
             $value,
             $label,
             [
-                'required' => true,
+                'required'    => true,
                 'placeholder' => $value ? '' : $placeholder,
             ]
         );

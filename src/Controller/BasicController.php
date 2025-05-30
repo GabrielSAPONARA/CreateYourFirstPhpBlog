@@ -16,9 +16,9 @@ class BasicController
     private Session $session;
 
     private array $roleHierarchy = [
-        'Administrator' => ['Moderator', 'Member', 'Disconnected user'],
-        'Moderator' => ['Member', 'Disconnected user'],
-        'Member' => ['Disconnected user'],
+        'Administrator'     => ['Moderator', 'Member', 'Disconnected user'],
+        'Moderator'         => ['Member', 'Disconnected user'],
+        'Member'            => ['Disconnected user'],
         'Disconnected user' => [],
     ];
 
@@ -55,7 +55,9 @@ class BasicController
      */
     protected function checkAuth(null|string $requiredRole): void
     {
-        if (!$this->session->get('user_id') && $requiredRole !== 'Disconnected user') {
+        if (!$this->session->get('user_id') &&
+            $requiredRole !== 'Disconnected user')
+        {
             $this->redirectToRoute('login');
         }
     }
@@ -69,7 +71,8 @@ class BasicController
         $userRole = $this->session->get('role') ?? 'Disconnected user';
         $allRoles = $this->getAllRoles($userRole);
 
-        if (is_string($roles)) {
+        if (is_string($roles))
+        {
             $roles = [$roles];
         }
 
@@ -84,7 +87,8 @@ class BasicController
     {
         $this->checkAuth($requiredRole);
 
-        if ($requiredRole && !$this->isGranted($requiredRole)) {
+        if ($requiredRole && !$this->isGranted($requiredRole))
+        {
             $this->redirectToRoute('forbidden');
         }
     }
@@ -135,8 +139,10 @@ class BasicController
     {
         $roles = [$role];
 
-        if (isset($this->roleHierarchy[$role])) {
-            foreach ($this->roleHierarchy[$role] as $childRole) {
+        if (isset($this->roleHierarchy[$role]))
+        {
+            foreach ($this->roleHierarchy[$role] as $childRole)
+            {
                 $roles = array_merge($roles, $this->getAllRoles($childRole));
             }
         }

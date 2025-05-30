@@ -29,10 +29,10 @@ class Form
     {
         $this->fields[$name] =
             [
-                'type' => $type,
-                'id' => $id,
-                'value' => $value,
-                'label' => $label,
+                'type'    => $type,
+                'id'      => $id,
+                'value'   => $value,
+                'label'   => $label,
                 'options' => $options
             ];
 
@@ -46,10 +46,14 @@ class Form
     public function bind(array $data): void
     {
         $this->data = $data;
-        foreach ($this->fields as $name => $field) {
-            if (isset($data[$name])) {
+        foreach ($this->fields as $name => $field)
+        {
+            if (isset($data[$name]))
+            {
                 $this->data[$name] = $data[$name];
-            } else {
+            }
+            else
+            {
                 $this->data[$name] = null;
             }
         }
@@ -58,10 +62,13 @@ class Form
     /**
      * @return void
      */
-    public function validate() : void
+    public function validate(): void
     {
-        foreach ($this->fields as $name => $field) {
-            if (isset($field['options']['required']) && $field['options']['required'] && empty($this->data[$name])) {
+        foreach ($this->fields as $name => $field)
+        {
+            if (isset($field['options']['required']) &&
+                $field['options']['required'] && empty($this->data[$name]))
+            {
                 $this->errors[$name] = 'The field ' . $name . ' is required.';
             }
         }

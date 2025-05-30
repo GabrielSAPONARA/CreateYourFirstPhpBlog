@@ -1,28 +1,31 @@
-{#<div class="posts__post card">#}
-{#    <a href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">#}
-{#        <div class="posts__post__element posts_post__title">#}
-{#            {{ post.title }}#}
-{#        </div>#}
-{#        <span aria-hidden="true" class="invisible-link"></span>#}
-{#    </a>#}
-{#    <div class="posts__post__element posts_post__chapo">#}
-{#        {{ post.chapo }}#}
-{#    </div>#}
-{#    <div class="posts__post__element">#}
-{#        {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }}#}
-{#    </div>#}
-{#    <div class="buttons-set">#}
-{#        {% if is_granted('Administrator') %}#}
-{#            <a class="button" href="{{ path('posts__modify', {'postId' : post.id.toString()}) }}">Modify This Post</a>#}
-{#            <a class="button" href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a>#}
-{#        {% endif %}#}
-{#    </div>#}
-{#</div>#}
+{# <div class="posts__post card"> #}
+{#    <a href="{{ path('posts__details', {'postId' : post.id.toString()}) }}"> #}
+{#        <div class="posts__post__element posts_post__title"> #}
+{#            {{ post.title }} #}
+{#        </div> #}
+{#        <span aria-hidden="true" class="invisible-link"></span> #}
+{#    </a> #}
+{#    <div class="posts__post__element posts_post__chapo"> #}
+{#        {{ post.chapo }} #}
+{#    </div> #}
+{#    <div class="posts__post__element"> #}
+{#        {{ post.dateOfLastUpdate|date("d/m/Y H:i:s") }} #}
+{#    </div> #}
+{#    <div class="buttons-set"> #}
+{#        {% if is_granted('Administrator') %} #}
+{#            <a class="button" href="{{ path('posts__modify', {'postId' : post.id.toString()}) }}">Modify This Post</a> #}
+{#            <a class="button" href="{{ path('posts__delete', {'postId' : post.id}) }}">Delete this post</a> #}
+{#        {% endif %} #}
+{#    </div> #}
+{# </div> #}
 
 <div class="col-lg-4 mb-5">
     <div class="card h-100 shadow border-0">
         <div class="card-body p-4">
-            <a class="text-decoration-none link-dark stretched-link" href="{{ path('posts__details', {'postId' : post.id.toString()}) }}"><div class="h5 card-title mb-3">{{ post.title }}</div></a>
+            <a class="text-decoration-none link-dark stretched-link"
+               href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">
+                <div class="h5 card-title mb-3">{{ post.title }}</div>
+            </a>
             <p class="card-text mb-0">{{ post.chapo }}</p>
         </div>
         <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
