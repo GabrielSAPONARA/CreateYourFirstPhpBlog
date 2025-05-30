@@ -1,9 +1,0 @@
-@import "../../responsive";
-
-@media #{$medium}
-{
-  .footer__bloc
-  {
-    grid-template-columns: repeat(4, 25%);
-  }
-}

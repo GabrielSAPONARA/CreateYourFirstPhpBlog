@@ -100,13 +100,4 @@ class PostService
 
         return $post;
     }
-
-    /**
-     * @return array|null
-     */
-    public function findPostToValidate(): ?array
-    {
-        $postRepository = $this->entityManager->getRepository(Post::class);
-        return $postRepository->findByIsValidated(false);
-    }
 }
