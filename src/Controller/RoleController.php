@@ -87,6 +87,7 @@ class RoleController extends BasicController
         if ((filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS) !==
              null))
         {
+            // modify role
             if ($roleId !== null)
             {
                 $roleRepository = $this->entityManager->getRepository
@@ -100,6 +101,7 @@ class RoleController extends BasicController
             }
             else
             {
+                // create new role
                 $role = new Role();
                 $role->setName(filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS));
                 $this->entityManager->persist($role);

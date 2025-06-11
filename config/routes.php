@@ -15,15 +15,18 @@ $router->map('GET', '/role/delete/[uuid:id]', "RoleController::delete", "roles_d
 // routes to manage users
 $router->map('GET', '/user', "UserController::index", "users");
 $router->map('GET', '/user/add', "UserController::add", "users__addition");
-$router->map('POST', '/user/process', "UserController::processToCreateOrUpdateUser", "users_process__create");
-$router->map('POST', '/user/process/[uuid:id]', "UserController::processToCreateOrUpdateUser", "users_process__update");
+$router->map('POST', '/user/add', "UserController::add", "users__addition__process");
+//$router->map('POST', '/user/process/[uuid:id]', "UserController::processToCreateOrUpdateUser", "users_process__update");
 $router->map('GET', '/user/modify/[uuid:id]', "UserController::modify", "users_modify");
+$router->map('POST', '/user/modify/[uuid:id]', "UserController::modify", "users_modify_process");
 $router->map('GET', '/user/delete/[uuid:id]', "UserController::delete", "users_delete");
 $router->map('GET', '/register', "UserController::register", "register");
-$router->map('POST', '/register/process', "UserController::processToRegister", "register__process");
+$router->map('POST', '/register/process', "UserController::register", "register__process");
 $router->map('GET', '/user/profile', "UserController::profile", "profile");
 $router->map('GET', '/user/profile/modify', 'UserController::modifyProfile', "profile__modify");
 $router->map('POST', '/user/profile/modify', 'UserController::modifyProfile', "profile__modify__process");
+$router->map('GET', '/user/profile/set/my/password', 'UserController::setMyPassword', "set__my__password");
+$router->map('POST', '/user/profile/set/my/password', 'UserController::setMyPassword', "set__my__password__process");
 
 // routes to manage authentication
 $router->map('GET', '/login', "AuthController::login", "login");
