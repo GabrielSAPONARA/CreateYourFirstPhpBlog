@@ -5,7 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Form\Form\Form;
 
-class MemberFormType
+class Member2FormType
 {
     /**
      * @param User|null $user
@@ -61,18 +61,6 @@ class MemberFormType
                 [
                     'required'    => true,
                     'placeholder' => 'RikuKing',
-                ]
-            )
-            ->addField
-            (
-                'Password',
-                'password',
-                'password',
-                '',
-                'Password',
-                [
-                    'required'    => true,
-                    'placeholder' => '********************************',
                 ]
             )
             ->addField
