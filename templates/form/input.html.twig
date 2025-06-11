@@ -1,20 +1,30 @@
 <input
     {% if not(fieldProperties["type"] is same as ("submit")) %}
-       class="input" name="{{ fieldName }}"
+        class="form-control" name="{{ fieldName }}"
     {% else %}
-        class="input button form__submit"
+        class="btn btn-primary btn-lg"
     {% endif %}
     {% for attribut, attributValue in fieldProperties %}
-       {% if attributValue is iterable %}
-           {% if attributValue|length > 0 %}
-               {% for option, optionValue in attributValue %}
+        {% if attributValue is iterable %}
+            {% if attributValue|length > 0 %}
+                {% for option, optionValue in attributValue %}
                     {% if not(optionValue is same as (false)) %}
-                        {{ option }} = "{{ optionValue }}"
+                        {% if (option is same as ("required")) %}
+                            {% if (fieldProperties["type"] is same as ("email")) %}
+                                data-sb-validations="required,Email"
+                            {% else %}
+                                data-sb-validations="required"
+                            {% endif %}
+                        {% else %}
+                            {{ option }} = "{{ optionValue }}"
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
            {% endif %}
        {% else %}
-           {{ attribut }}="{{ attributValue }}"
+           {% if not(attribut is same as ("label")) %}
+               {{ attribut }}="{{ attributValue }}"
+           {% endif %}
        {% endif %}
     {% endfor %}
 >

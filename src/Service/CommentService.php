@@ -10,25 +10,34 @@ class CommentService
 {
     private EntityManagerInterface $entityManager;
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    public function saveComment(array $data, ?string $commentId = null, ?User
-    $currentUser = null): Comment
+    /**
+     * @param array $data
+     * @param string|null $commentId
+     * @param User|null $currentUser
+     * @return Comment
+     * @throws \DateMalformedStringException
+     */
+    public function saveComment(array $data, ?string $commentId = null, ?User $currentUser = null): Comment
     {
-        if((empty($data["Content"])))
+        if ((empty($data["Content"])))
         {
             throw new \Exception("Empty comment content");
         }
 
         $commentRepository = $this->entityManager->getRepository(Comment::class);
 
-        if($commentId !== null)
+        if ($commentId !== null)
         {
             $comment = $commentRepository->findById($commentId)[0];
-            if(!$comment)
+            if (!$comment)
             {
                 throw new \Exception("The comment with the id $commentId does not exist");
             }
@@ -48,6 +57,10 @@ class CommentService
         return $comment;
     }
 
+    /**
+     * @param string $postId
+     * @return array
+     */
     public function findByPostId(string $postId): array
     {
         $commentRepository = $this->entityManager->getRepository(Comment::class);

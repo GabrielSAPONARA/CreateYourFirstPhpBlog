@@ -6,9 +6,19 @@ use App\Form\Form\Form;
 
 class TextareaType
 {
-    public static function addField(Form $form, string $label, string $name,
+    /**
+     * @param Form $form
+     * @param string $label
+     * @param string $name
+     * @param string $value
+     * @param string $placeholder
+     * @param string $id
+     * @param bool $isDisabled
+     * @return void
+     */
+    public static function addField(Form   $form, string $label, string $name,
                                     string $value, string $placeholder,
-                                    string $id, bool $isDisabled) : void
+                                    string $id, bool $isDisabled): void
     {
         $form->addField
         (
@@ -18,9 +28,9 @@ class TextareaType
             $value,
             $label,
             [
-                'required' => true,
+                'required'    => true,
                 'placeholder' => $placeholder,
-                'disabled' => $isDisabled,
+                'disabled'    => $isDisabled,
             ]
         );
     }

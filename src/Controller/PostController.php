@@ -30,16 +30,24 @@ class PostController extends BasicController
 
     private CommentService $commentService;
 
-
+    /**
+     * @param PostService $postService
+     * @param EntityManagerInterface $entityManager
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     * @param CommentService $commentService
+     */
     public function __construct
     (
-        PostService $postService,
-        EntityManagerInterface $entityManager,
-        \Twig\Environment $twig,
+        PostService              $postService,
+        EntityManagerInterface   $entityManager,
+        \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers,
-        Session $session,
-        CommentService $commentService
+        array                    $loggers,
+        Session                  $session,
+        CommentService           $commentService
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);
@@ -47,7 +55,14 @@ class PostController extends BasicController
         $this->postService = $postService;
         $this->commentService = $commentService;
     }
-    public function index() : void
+
+    /**
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function index(): void
     {
         $posts = $this->postService->getAllPosts();
 
@@ -57,12 +72,20 @@ class PostController extends BasicController
             ]);
     }
 
-    public function add() : void
+    /**
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws \DateMalformedStringException
+     */
+    public function add(): void
     {
         $this->beforeAction("Administrator");
         $form = PostFormType::buildForm();
 
-        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
+        if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+            null)
         {
             $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
             $route = "";
@@ -77,7 +100,8 @@ class PostController extends BasicController
                 $post = $this->postService->savePost($form->getData(), null,
                     $currentUser);
                 $postLogger = $this->getLogger('post');
-                $postLogger->info("Post ". $post->getId() . " has been created");
+                $postLogger->info("Post " . $post->getId() .
+                                  " has been created");
                 $route = "posts";
             }
             else
@@ -89,18 +113,20 @@ class PostController extends BasicController
         else
         {
             $this->twig->display('post/add.html.twig',
-            [
-                'formFields' => $form->getFields(),
-            ]);
+                [
+                    'formFields' => $form->getFields(),
+                ]);
         }
     }
 
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
+     * @param array $params
+     * @return void
      * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    #[NoReturn] public function details (array $params) : void
+    #[NoReturn] public function details(array $params): void
     {
         $uuid = $params["postId"];
         $postRepository = $this->entityManager->getRepository(Post::class);
@@ -110,39 +136,47 @@ class PostController extends BasicController
         {
             return $comment->isValidated();
         });
-        usort($comments, function ($commentA, $commentB) {
-            return $commentB->getPublishedDate() <=> $commentA->getPublishedDate();
+        usort($comments, function ($commentA, $commentB)
+        {
+            return $commentB->getPublishedDate() <=>
+                   $commentA->getPublishedDate();
         });
         $post = $postRepository->findById($uuid)[0];
         $author = $post->getUser();
 
         $flashMessages = $this->getSession()->getFlashMessages();
         $this->render('post/detail.html.twig',
-        [
-            'post' => $post,
-            'author' => $author,
-            'comments' => $comments,
-            'flashMessages' => $flashMessages,
-        ]);
+            [
+                'post'          => $post,
+                'author'        => $author,
+                'comments'      => $comments,
+                'flashMessages' => $flashMessages,
+            ]);
     }
 
-    public function postByUser() : void
+    /**
+     * @return void
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function postByUser(): void
     {
         $userId = $this->getSession()->get("user_id");
         $postRepository = $this->entityManager->getRepository(Post::class);
         $posts = $postRepository->findByUser($userId);
 
         $this->twig->display('post/byUser.html.twig',
-        [
-            'posts' => $posts
-        ]);
+            [
+                'posts' => $posts
+            ]);
     }
 
     /**
      * @throws \DateMalformedStringException
      * @throws \Exception
      */
-    public function modify(array $params) : void
+    public function modify(array $params): void
     {
         $this->beforeAction("Administrator");
         $postId = $params["postId"];
@@ -150,7 +184,8 @@ class PostController extends BasicController
         $post = $this->postService->findByPostId($postId);
 
         $form = PostFormType::buildForm($post);
-        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null)
+        if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+            null)
         {
             $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
             $route = "";
@@ -166,18 +201,25 @@ class PostController extends BasicController
                 catch (\Exception $exception)
                 {
                     $postLogger->error($exception->getMessage());
-                    $this->getSession()->addFlashMessage('error', $exception->getMessage
-                    ());
+                    $this->getSession()
+                         ->addFlashMessage('error', $exception->getMessage
+                         ())
+                    ;
                 }
-                $postLogger->info("Post ". $post->getId() . " has been updated");
-                $this->getSession()->addFlashMessage('success', 'Post has been updated');
+                $postLogger->info("Post " . $post->getId() .
+                                  " has been updated");
+                $this->getSession()
+                     ->addFlashMessage('success', 'Post has been updated')
+                ;
                 $route = "posts__details";
                 $routeParams["postId"] = $postId;
             }
             else
             {
                 $route = "posts__modify";
-                $this->getSession()->addFlashMessage('error', 'You have an error in your field');
+                $this->getSession()
+                     ->addFlashMessage('error', 'You have an error in your field')
+                ;
             }
             $this->redirectToRoute($route, $routeParams);
         }
@@ -185,22 +227,27 @@ class PostController extends BasicController
         {
             $flashMessages = $this->getSession()->getFlashMessages();
             $this->render('post/modify.html.twig',
-            [
-                'formFields' => $form->getFields(),
-                "postId" => $postId,
-                "flashMessages" => $flashMessages,
-            ]);
+                [
+                    'formFields'    => $form->getFields(),
+                    "postId"        => $postId,
+                    "flashMessages" => $flashMessages,
+                ]);
         }
     }
 
-    public function delete (array $params) : void
+    /**
+     * @param array $params
+     * @return void
+     * @throws \Exception
+     */
+    public function delete(array $params): void
     {
         $this->beforeAction("Administrator");
         $postId = $params["postId"];
         $post = $this->postService->findByPostId($postId);
         $comments = $this->commentService->findByPostId($postId);
         $commentLogger = $this->loggers["comment"];
-        foreach($comments as $comment)
+        foreach ($comments as $comment)
         {
             $commentLogger->warning("Comment deleted: " . $comment->getId());
             $this->entityManager->remove($comment);
@@ -208,7 +255,9 @@ class PostController extends BasicController
         }
         $postLogger = $this->loggers["post"];
         $postLogger->warning("Deleted post with id: " . $post->getId());
-        $this->getSession()->addFlashMessage('success', 'Post has been deleted');
+        $this->getSession()
+             ->addFlashMessage('success', 'Post has been deleted')
+        ;
         $this->entityManager->remove($post);
         $this->entityManager->flush();
         $this->redirectToRoute("posts");

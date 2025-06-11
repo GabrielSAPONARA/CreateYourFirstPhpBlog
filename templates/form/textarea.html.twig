@@ -1,19 +1,26 @@
 <textarea
         name="{{ fieldName }}"
-        class="textarea"
+        class="form-control"
+        style="height: 30dvh"
 {% for attribut, attributValue in fieldProperties %}
+
     {% if attributValue is iterable %}
-       {% if attributValue|length > 0 %}
-           {% for option, optionValue in attributValue %}
+        {% if attributValue|length > 0 %}
+            {% for option, optionValue in attributValue %}
                 {% if not(optionValue is same as (false)) %}
-                    {{ option }} = "{{ optionValue }}"
+                    {% if (option is same as ("required")) %}
+                        data-sb-validations="required"
+                    {% else %}
+                        {{ option }} = "{{ optionValue }}"
+                    {% endif %}
                 {% endif %}
             {% endfor %}
        {% endif %}
     {% else %}
-        {% if not(attribut is same as ("value")) %}
-           {{ attribut }}="{{ attributValue }}"
+        {% if not(attribut is same as ("value")) and not(attribut is same as ("type")) and not(attribut is same as ("label")) %}
+            {{ attribut }}="{{ attributValue }}"
         {% endif %}
     {% endif %}
 {% endfor %}
->{{ fieldProperties["value"]|e }}</textarea>
+
+>{{ fieldProperties["value"]|raw }}</textarea>

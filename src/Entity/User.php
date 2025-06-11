@@ -146,7 +146,7 @@ class User
     public function setPassword($password): void
     {
         $options = ['cost' => 15];
-        $hashedPassword =password_hash($password, PASSWORD_DEFAULT, $options);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT, $options);
         $this->password = $hashedPassword;
     }
 
@@ -193,6 +193,9 @@ class User
         return $this->comments;
     }
 
+    /**
+     * @return void
+     */
     public function eraseCredentials(): void
     {
         $this->password = null;
@@ -200,8 +203,11 @@ class User
         $this->username = null;
     }
 
+    /**
+     * @return string
+     */
     public function getUserIdentifier(): string
     {
-        return (string) $this->emailAddress;
+        return (string)$this->emailAddress;
     }
 }

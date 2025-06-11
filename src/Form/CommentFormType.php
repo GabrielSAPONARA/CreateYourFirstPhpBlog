@@ -9,6 +9,11 @@ use App\Form\Type\TextareaType;
 
 class CommentFormType
 {
+    /**
+     * @param Comment|null $comment
+     * @param array $options
+     * @return Form
+     */
     public static function buildForm(?Comment $comment = null, array $options
     = []): Form
     {
@@ -16,7 +21,7 @@ class CommentFormType
         $form = new Form();
 
         TextareaType::addField($form, 'Content', 'Content', $comment ?
-            $comment->getContent() : '', 'Content of the comment','content',
+            $comment->getContent() : '', 'Content of the comment', 'content',
             $isDisabled);
 
         SubmitType::addField($form, 'Submit');

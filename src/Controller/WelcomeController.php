@@ -17,12 +17,18 @@ class WelcomeController extends BasicController
     protected array $loggers;
     private Session $session;
 
+    /**
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     */
     public function __construct
     (
-        \Twig\Environment $twig,
+        \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers,
-        Session $session
+        array                    $loggers,
+        Session                  $session
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);

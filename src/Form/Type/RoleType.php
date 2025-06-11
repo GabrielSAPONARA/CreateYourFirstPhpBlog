@@ -8,6 +8,12 @@ use App\Form\Form\Form;
 
 class RoleType
 {
+    /**
+     * @param Form $form
+     * @param User|null $user
+     * @param array $roles
+     * @return void
+     */
     public static function addField(Form $form, ?User $user, array $roles): void
     {
         $roleId = $user && $user->getRole() ? $user->getRole()->getId() : null;
@@ -20,14 +26,15 @@ class RoleType
             'Roles',
             [
                 'required' => true,
-                'choices' => self::mapRolesToChoices($roles),
+                'choices'  => self::mapRolesToChoices($roles),
             ]
         );
     }
 
     private static function mapRolesToChoices(array $roles): array
     {
-        return array_map(function (Role $role) {
+        return array_map(function (Role $role)
+        {
             return [
                 'value' => $role->getId(),
                 'label' => $role->getName(),

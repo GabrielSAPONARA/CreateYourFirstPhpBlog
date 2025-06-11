@@ -12,29 +12,34 @@ use App\Form\Type\TextType;
 
 class UserFormType
 {
+    /**
+     * @param User|null $user
+     * @param array $roles
+     * @return Form
+     */
     public static function buildForm(?User $user = null, array $roles = []): Form
     {
         $form = new Form();
 
         TextType::addField($form, 'Firstname', 'firstname', $user ? $user->getFirstName() : '', 'Firstname', [
-            'required' => true,
+            'required'    => true,
             'placeholder' => $user ? '' : 'Martin',
         ]);
 
         TextType::addField($form, 'Lastname', 'lastname', $user ? $user->getLastName() : '', 'Lastname', [
-            'required' => true,
+            'required'    => true,
             'placeholder' => $user ? '' : 'MARTIN',
         ]);
 
         EmailType::addField($form, 'Email Address', 'emailAddress', $user ? $user->getEmailAddress() : '', 'Email address', 'email');
 
         TextType::addField($form, 'Username', 'username', $user ? $user->getUsername() : '', 'Username', [
-            'required' => true,
+            'required'    => true,
             'placeholder' => $user ? '' : 'RikuKing',
         ]);
 
         PasswordType::addField($form, 'Password', 'password', $user ? $user->getPassword() : '', 'Password', [
-            'required' => true,
+            'required'    => true,
             'placeholder' => $user ? '' : '********************************',
         ]);
 

@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\User;
+use App\Form\Member2FormType;
+use App\Form\SetPasswordMemberFormType;
 use Twig\Environment;
 use App\Component\Session;
 use App\Form\UserFormType;
@@ -23,20 +25,32 @@ class UserController extends BasicController
     protected array $loggers;
     private Session $session;
 
-
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param Environment $twig
+     * @param RouteManager $routeManager
+     * @param array $loggers
+     * @param Session $session
+     */
     public function __construct
     (
-        EntityManagerInterface $entityManager,
-        \Twig\Environment $twig,
+        EntityManagerInterface   $entityManager,
+        \Twig\Environment        $twig,
         \App\Router\RouteManager $routeManager,
-        array $loggers,
-        Session $session
+        array                    $loggers,
+        Session                  $session
     )
     {
         parent::__construct($twig, $routeManager, $loggers, $session);
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function index(): void
     {
         $this->beforeAction('Administrator');
@@ -49,6 +63,12 @@ class UserController extends BasicController
             ]);
     }
 
+    /**
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function add(): void
     {
         $this->beforeAction('Administrator');
@@ -56,61 +76,123 @@ class UserController extends BasicController
         $roles = $roleRepository->findAll();
 
         $form = UserFormType::buildForm(null, $roles);
-        $this->twig->display('user/add.html.twig',
-        [
-            'formFields' => $form->getFields(),
-        ]);
-
-    }
-
-    #[NoReturn] public function process($params = []) : void
-    {
-        $this->beforeAction('Administrator');
-        $userId = $params['id'] ?? null;
-
         $userLogger = $this->getLogger("user");
-        if($userId !== null)
+        $route = "";
+        if ((filter_input(INPUT_POST, "Lastname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Username", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Password", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Roles", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null))
         {
-            $userRepository = $this->entityManager->getRepository
-            (User::class);
-            $user = $userRepository->findById($userId);
-            $roleRepository = $this->entityManager->getRepository(Role::class);
-            $role = $roleRepository->findById(filter_input(INPUT_POST,'Roles'));
-            $user->setRole($role);
-            $this->entityManager->flush();
-            $userLogger->info("User " . $user->getId() . " has been modified.");
-            $this->redirectToRoute('users');
-        }
-        else
-        {
-            if((filter_input(INPUT_POST,"Lastname",FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Username", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Password", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Roles", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
+            if ($form->isValid())
             {
                 $user = new User();
-                $user->setLastName(filter_input(INPUT_POST,'Lastname', FILTER_SANITIZE_SPECIAL_CHARS));
-                $user->setFirstName(filter_input(INPUT_POST,'Firstname', FILTER_SANITIZE_SPECIAL_CHARS));
-                $user->setEmailAddress(filter_input(INPUT_POST,'Email_Address', FILTER_SANITIZE_SPECIAL_CHARS));
-                $user->setUsername(filter_input(INPUT_POST,'Username', FILTER_SANITIZE_SPECIAL_CHARS));
-                $user->setPassword(filter_input(INPUT_POST,'Password', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setLastName(filter_input(INPUT_POST, 'Lastname', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setFirstName(filter_input(INPUT_POST, 'Firstname', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setEmailAddress(filter_input(INPUT_POST, 'Email_Address', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setUsername(filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setPassword(filter_input(INPUT_POST, 'Password', FILTER_SANITIZE_SPECIAL_CHARS));
                 $roleRepository = $this->entityManager->getRepository(Role::class);
-                $role = $roleRepository->findById(filter_input(INPUT_POST,'Roles', FILTER_SANITIZE_SPECIAL_CHARS));
+                $role = $roleRepository->findById(filter_input(INPUT_POST, 'Roles', FILTER_SANITIZE_SPECIAL_CHARS));
                 $user->setRole($role);
                 $user->setIsActive(true);
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
                 $userLogger->info("New user added: " . $user->getId());
-                $this->redirectToRoute('users');
+                $route = "users";
             }
             else
             {
                 $userLogger->warning("Some information about user are missing.");
-                $this->redirectToRoute("users__addition");
+                $route = "users__addition";
             }
+            $this->redirectToRoute($route);
+        }
+        else
+        {
+            $this->twig->display('user/add.html.twig',
+                [
+                    'formFields' => $form->getFields(),
+                ]);
         }
 
-        
+
     }
 
-    public function modify(array $params) : void
+//    /**
+//     * @param $params
+//     * @return void
+//     */
+//    #[NoReturn] public function processToCreateOrUpdateUser($params = []): void
+//    {
+//        $this->beforeAction('Administrator');
+//        $userId = $params['id'] ?? null;
+//
+//        $userLogger = $this->getLogger("user");
+//        if ($userId !== null)
+//        {
+//            $userRepository = $this->entityManager->getRepository
+//            (User::class);
+//            $user = $userRepository->findById($userId);
+//            $roleRepository = $this->entityManager->getRepository(Role::class);
+//            $role = $roleRepository->findById(filter_input(INPUT_POST, 'Roles'));
+//            $user->setRole($role);
+//            $this->entityManager->flush();
+//            $userLogger->info("User " . $user->getId() . " has been modified.");
+//            $this->redirectToRoute('users');
+//        }
+//        else
+//        {
+//            if ((filter_input(INPUT_POST, "Lastname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+//                 null) &&
+//                (filter_input(INPUT_POST, "Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+//                 null) &&
+//                (filter_input(INPUT_POST, "Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !==
+//                 null) &&
+//                (filter_input(INPUT_POST, "Username", FILTER_SANITIZE_SPECIAL_CHARS) !==
+//                 null) &&
+//                (filter_input(INPUT_POST, "Password", FILTER_SANITIZE_SPECIAL_CHARS) !==
+//                 null) &&
+//                (filter_input(INPUT_POST, "Roles", FILTER_SANITIZE_SPECIAL_CHARS) !==
+//                 null))
+//            {
+//                $user = new User();
+//                $user->setLastName(filter_input(INPUT_POST, 'Lastname', FILTER_SANITIZE_SPECIAL_CHARS));
+//                $user->setFirstName(filter_input(INPUT_POST, 'Firstname', FILTER_SANITIZE_SPECIAL_CHARS));
+//                $user->setEmailAddress(filter_input(INPUT_POST, 'Email_Address', FILTER_SANITIZE_SPECIAL_CHARS));
+//                $user->setUsername(filter_input(INPUT_POST, 'Username', FILTER_SANITIZE_SPECIAL_CHARS));
+//                $user->setPassword(filter_input(INPUT_POST, 'Password', FILTER_SANITIZE_SPECIAL_CHARS));
+//                $roleRepository = $this->entityManager->getRepository(Role::class);
+//                $role = $roleRepository->findById(filter_input(INPUT_POST, 'Roles', FILTER_SANITIZE_SPECIAL_CHARS));
+//                $user->setRole($role);
+//                $user->setIsActive(true);
+//                $this->entityManager->persist($user);
+//                $this->entityManager->flush();
+//                $userLogger->info("New user added: " . $user->getId());
+//                $this->redirectToRoute('users');
+//            }
+//            else
+//            {
+//                $userLogger->warning("Some information about user are missing.");
+//                $this->redirectToRoute("users__addition");
+//            }
+//        }
+
+
+//    }
+
+    /**
+     * @param array $params
+     * @return void
+     */
+    public function modify(array $params): void
     {
         $this->beforeAction('Administrator');
         $userId = $params["id"];
@@ -121,15 +203,49 @@ class UserController extends BasicController
         $roleIdOfUser = $user->getRole()->getId();
 
         $form = UserRoleFormType::buildForm($user, $roles);
-        $this->twig->display('user/modify.html.twig',
-            [
-                'formFields' => $form->getFields(),
-                'user' => $user,
-                'roleIdOfUser' => $roleIdOfUser,
-            ]);
+        $userLogger = $this->getLogger("user");
+        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+           null)
+        {
+            $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
+            $route = "";
+            $routeParams = [];
+            if ($form->isValid())
+            {
+                $userRepository = $this->entityManager->getRepository
+                (User::class);
+                $user = $userRepository->findById($userId);
+                $roleRepository = $this->entityManager->getRepository(Role::class);
+                $role = $roleRepository->findById(filter_input(INPUT_POST, 'Roles'));
+                $user->setRole($role);
+                $this->entityManager->flush();
+                $userLogger->info("User " . $user->getId() . " has been modified.");
+                $this->redirectToRoute('users');
+                $route = "users";
+            }
+            else
+            {
+                $route = "users_modify";
+                $routeParams["userId"] = $userId;
+            }
+            $this->redirectToRoute($route, $routeParams);
+        }
+        else
+        {
+            $this->twig->display('user/modify.html.twig',
+                [
+                    'formFields'   => $form->getFields(),
+                    'user'         => $user,
+                    'roleIdOfUser' => $roleIdOfUser,
+                ]);
+        }
     }
 
-    #[NoReturn] public function delete(array $params) : void
+    /**
+     * @param array $params
+     * @return void
+     */
+    #[NoReturn] public function delete(array $params): void
     {
         $this->beforeAction('Administrator');
         $userId = $params["id"];
@@ -142,46 +258,62 @@ class UserController extends BasicController
         $this->redirectToRoute('users');
     }
 
-    public function register() : void
+    /**
+     * @return void
+     */
+    public function register(): void
     {
         $form = MemberFormType::buildForm();
-        $this->twig->display('user/register.html.twig',
-        [
-            'formFields' => $form->getFields(),
-        ]);
-    }
-
-    public function processToRegister()
-    {
         $userLogger = $this->getLogger("user");
-        $route = "";
 
-        if((filter_input(INPUT_POST,"Lastname", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !== null)  && (filter_input(INPUT_POST,"Username", FILTER_SANITIZE_SPECIAL_CHARS) !== null) && (filter_input(INPUT_POST,"Password", FILTER_SANITIZE_SPECIAL_CHARS) !== null))
+        if ((filter_input(INPUT_POST, "Lastname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Firstname", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Email_Address", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Username", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null) &&
+            (filter_input(INPUT_POST, "Password", FILTER_SANITIZE_SPECIAL_CHARS) !==
+             null))
         {
-            $user = new User();
-            $user->setLastName(filter_input(INPUT_POST,"Lastname", FILTER_SANITIZE_SPECIAL_CHARS));
-            $user->setFirstName(filter_input(INPUT_POST,"Firstname", FILTER_SANITIZE_SPECIAL_CHARS));
-            $user->setEmailAddress(filter_input(INPUT_POST,"Email_Address", FILTER_SANITIZE_SPECIAL_CHARS));
-            $user->setUsername(filter_input(INPUT_POST,"Username", FILTER_SANITIZE_SPECIAL_CHARS));
-            $user->setPassword(filter_input(INPUT_POST,"Password", FILTER_SANITIZE_SPECIAL_CHARS));
-            $roleRepository = $this->entityManager->getRepository(Role::class);
-            $role = $roleRepository->findByName("Member");
-            $user->setRole($role);
-            $user->setIsActive(true);
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-            $userLogger->info("New user added: " . $user->getId());
-            $route = "profile";
-            $this->getSession()->set('user_id', $user->getId());
-            $this->getSession()->set('username', $user->getUsername());
-            $this->getSession()->set('role', $role->getName());
+            $route = "";
+            if ($form->isValid())
+            {
+                $user = new User();
+                $user->setLastName(filter_input(INPUT_POST, "Lastname", FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setFirstName(filter_input(INPUT_POST, "Firstname", FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setEmailAddress(filter_input(INPUT_POST, "Email_Address", FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setUsername(filter_input(INPUT_POST, "Username", FILTER_SANITIZE_SPECIAL_CHARS));
+                $user->setPassword(filter_input(INPUT_POST, "Password", FILTER_SANITIZE_SPECIAL_CHARS));
+                $roleRepository = $this->entityManager->getRepository(Role::class);
+                $role = $roleRepository->findByName("Member");
+                $user->setRole($role);
+                $user->setIsActive(true);
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+                $userLogger->info("New user added: " . $user->getId());
+                $route = "profile";
+                $this->getSession()->set('user_id', $user->getId());
+                $this->getSession()->set('username', $user->getUsername());
+                $this->getSession()->set('role', $role->getName());
+                $route = "profile";
+            }
+            else
+            {
+                $userLogger->warning("Some information about user are missing.");
+                $route = "register";
+            }
+            $this->redirectToRoute($route);
         }
         else
         {
-            $userLogger->warning("Some information about user are missing.");
-            $route = "register";
+            $this->twig->display('user/register.html.twig',
+                [
+                    'formFields' => $form->getFields(),
+                ]);
         }
-        $this->redirectToRoute($route);
+
     }
 
     public function profile()
@@ -191,21 +323,23 @@ class UserController extends BasicController
         $user = $userRepository->findById($userId);
 
         $this->twig->display('user/profile.html.twig',
-        [
-            'user' => $user,
-        ]);
+            [
+                'user' => $user,
+            ]);
     }
 
-    public function modifyProfile() : void
+    public function modifyProfile(): void
     {
         $userLogger = $this->getLogger("user");
         $userId = $this->getSession()->get('user_id');
         $userRepository = $this->entityManager->getRepository(User::class);
         $user = $userRepository->findById($userId);
 
-        $form = MemberFormType::buildForm($user);
+        $form = Member2FormType::buildForm($user);
 
-        if(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !== null) {
+        if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+            null)
+        {
             $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
 
             if ($form->isValid())
@@ -215,14 +349,8 @@ class UserController extends BasicController
                 $user->setFirstName($data["Firstname"]);
                 $user->setEmailAddress($data["Email_Address"]);
                 $user->setUsername($data["Username"]);
-                if($data['Password'] !== $user->getPassword())
-                {
-                    $user->setPassword($data["Password"]);
-                }
-
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
-
                 $userLogger->info("User " . $user->getId() . " has been modified.");
                 $route = "profile";
             }
@@ -235,6 +363,52 @@ class UserController extends BasicController
         else
         {
             $this->twig->display('user/modify_profile.html.twig',
+                [
+                    'formFields' => $form->getFields(),
+                ]);
+        }
+    }
+
+    public function setMyPassword() : void
+    {
+        $userLogger = $this->getLogger("user");
+        $userId = $this->getSession()->get('user_id');
+        $userRepository = $this->entityManager->getRepository(User::class);
+        $user = $userRepository->findById($userId);
+
+        $form = SetPasswordMemberFormType::buildForm();
+
+        if (filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS) !==
+            null)
+        {
+            $form->bind(filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS));
+
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                if(\password_verify($data["oldPassword"], $user->getPassword
+                ()) && ($data["newPassword"] === $data["repeatPassword"]))
+                {
+                    $user->setPassword($data["newPassword"]);
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
+                    $userLogger->info("Password of user " . $user->getId() . " has been modified.");
+                    $route = "profile";
+                }
+                else
+                {
+                    $route ="set__my__password";
+                }
+            }
+            else
+            {
+                $route ="set__my__password";
+            }
+            $this->redirectToRoute($route);
+        }
+        else
+        {
+            $this->render("user/set_password.html.twig",
             [
                 'formFields' => $form->getFields(),
             ]);

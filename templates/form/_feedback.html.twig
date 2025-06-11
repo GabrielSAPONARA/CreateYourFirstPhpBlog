@@ -1,0 +1,12 @@
+{% if (fieldProperties["type"] is same as ("email")) %}
+    <div class="invalid-feedback" data-sb-feedback="{{ fieldProperties["id"] }}:required">An email is required.</div>
+    <div class="invalid-feedback" data-sb-feedback="{{ fieldProperties["id"] }}:email">Email is not valid.</div>
+{% elseif (fieldProperties["type"] is same as ("textarea")) %}
+    <div class="invalid-feedback" data-sb-feedback="{{ fieldProperties["id"] }}:required">A {{ fieldName }} is
+        required.
+    </div>
+{% elseif (fieldProperties["type"] is same as ("text")) %}
+    <div class="invalid-feedback" data-sb-feedback="{{ fieldProperties["id"] }}:required">A {{ fieldName }} is
+        required.
+    </div>
+{% endif %}

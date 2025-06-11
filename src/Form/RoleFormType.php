@@ -7,6 +7,10 @@ use App\Form\Form\Form;
 
 class RoleFormType
 {
+    /**
+     * @param Role|null $role
+     * @return Form
+     */
     public static function buildForm(?Role $role = null): Form
     {
         $form = new Form();
@@ -19,7 +23,7 @@ class RoleFormType
                 $role ? $role->getName() : '',
                 'Name',
                 [
-                    'required' => true,
+                    'required'    => true,
                     'placeholder' => $role ? '' : 'Membre'
                 ]
             )
@@ -31,7 +35,7 @@ class RoleFormType
                 'Submit',
                 '',
             )
-            ;
+        ;
         return $form;
     }
 }

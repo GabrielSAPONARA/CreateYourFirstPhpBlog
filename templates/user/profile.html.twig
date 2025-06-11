@@ -6,39 +6,69 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/style/css/user/profile.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/style/css/responsive/600px/user/profile.css') }}">
 {% endblock %}
 
 {% block pageTitle %}
     My profile
 {% endblock %}
 {% block main %}
-    <div class="profile">
-        <div class="profile__element">
-            <div class="profile__label">Last Name</div>
-            <div>{{ user.lastName }}</div>
+    <div class="row gx-5">
+        <div class="col-lg-3">
+            <div class="d-flex align-items-center mt-lg-5 mb-4">
+                <div class="ms-3">
+                    <div class="fw-bold">
+                        <a class="btn btn-warning" href="{{ path( 'profile__modify') }}">Modify My Profile</a>
+                        <a class="btn btn-warning mt-3" href="{{ path( 'set__my__password') }}">Set My Password</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="profile__element">
-            <div class="profile__label">First Name</div>
-            <div>{{ user.firstName }}</div>
+        <div class="col-lg-9">
+            <article>
+                <header class="mb-4">
+                    <label>
+                        Lastname
+                    </label>
+                    <p class="fs-5 mb-4">
+                        {{ user.lastName }}
+                    </p>
+                    <label>
+                        Firstname
+                    </label>
+                    <p class="fs-5 mb-4">
+                        {{ user.firstName }}
+                    </p>
+                    <label>
+                        Username
+                    </label>
+                    <p class="fs-5 mb-4">
+                        {{ user.username }}
+                    </p>
+                    <label>
+                        Email Address
+                    </label>
+                    <p class="fs-5 mb-4">
+                        {{ user.emailAddress }}
+                    </p>
+                </header>
+            </article>
         </div>
-        <div class="profile__element">
-            <div class="profile__label">Username</div>
-            <div>{{ user.username }}</div>
-        </div>
-        <div class="profile__element">
-            <div class="profile__label">Email Adress</div>
-            <div>{{ user.emailAddress }}</div>
-        </div>
-    {#    <div>#}
-            {#        <a href="{{ path("users__addition") }}">Add User</a>#}
-    {#    </div>#}
-        <div class="profile__button">
-            <a class="button" href="{{ path( 'profile__modify') }}">Modify My Profile</a>
-        </div>
-    {#    <div>#}
-    {#            <a href="{{ path( 'users_delete', {'id' :user.id}) }}">Delete</a>#}
-    {#    </div>#}
     </div>
+
+
+
+
+
+
+
+    {#    <div> #}
+    {#        <a href="{{ path("users__addition") }}">Add User</a> #}
+    {#    </div> #}
+    {#        <div class="profile__button"> #}
+    {#            <a class="btn btn-warning" href="{{ path( 'profile__modify') }}">Modify My Profile</a> #}
+    {#        </div> #}
+    {#    #}{#    <div> #}
+    {#    #}{#            <a href="{{ path( 'users_delete', {'id' :user.id}) }}">Delete</a> #}
+    {#    #}{#    </div> #}
+    {#    </div> #}
 {% endblock %}

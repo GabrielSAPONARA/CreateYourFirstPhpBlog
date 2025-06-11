@@ -7,12 +7,12 @@ use App\Controller\CommentController;
 use App\Controller\ContactController;
 use App\Controller\PostController;
 use App\Controller\RoleController;
-use App\Controller\SocialNetworkController;
 use App\Controller\UserController;
 use App\Controller\WelcomeController;
 use App\Service\CommentService;
 use App\Service\PostService;
 use App\Service\EmailService;
+use App\Service\AuthService;
 use DI\ContainerBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\Mailer;
@@ -99,8 +99,9 @@ return function (): \DI\Container {
 
       // Services et controllers
     $containerBuilder->addDefinitions([
-        PostService::class => DI\autowire(PostService::class),
+        PostService::class    => DI\autowire(PostService::class),
         CommentService::class => DI\autowire(CommentService::class),
+        AuthService::class    => DI\autowire(AuthService::class),
         EsmtpTransport::class => function () {
             $transportFactory = new EsmtpTransportFactory();
             return $transportFactory->create(new Dsn(
@@ -121,7 +122,7 @@ return function (): \DI\Container {
         WelcomeController::class => DI\autowire(WelcomeController::class)
             ->constructorParameter('loggers', DI\get('loggers')),
         AuthController::class => DI\autowire(AuthController::class)
-            ->constructorParameter('loggers', DI\get('loggers')),  // Passer le tableau des loggers
+            ->constructorParameter('loggers', DI\get('loggers')),// Passer le tableau des loggers
         CommentController::class => DI\autowire(CommentController::class)
             ->constructorParameter('loggers', DI\get('loggers')),
         RoleController::class => DI\autowire(RoleController::class)
@@ -136,7 +137,7 @@ return function (): \DI\Container {
             ->constructorParameter('session', DI\get(Session::class))
             ->constructorParameter('loggers', DI\get('loggers')),  //
         // Injection de l'objet LoggerManager
-    // Injection de l'objet LoggerManager
+        // Injection de l'objet LoggerManager
     ]);
 
 
