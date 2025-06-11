@@ -84,36 +84,30 @@ class CommentController extends BasicController
         if ((filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS) !==
              null))
         {
+            $comment = new Comment();
+            $comment->setContent(filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS));
+            $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+            $currentDate->setTimezone(new \DateTimeZone('UTC'));
+            $comment->setPublishedDate($currentDate);
+            $currentUserId = $this->getSession()->get("user_id");
+            $userRepository = $this->entityManager->getRepository(User::class);
+            $currentUser = $userRepository->findById($currentUserId);
+            $comment->setUser($currentUser);
+            $postRepository = $this->entityManager->getRepository(Post::class);
+            $post = $postRepository->findById($postId)[0];
+            $comment->setPost($post);
+            if($this->isGranted("Moderator"))
+            {
 
-//            if ($commentId !== null)
-//            {
-//                $commentLogger->notice("Comment " . $commentId .
-//                                       "was updated.");
-//                $commentRepository = $this->entityManager->getRepository
-//                (Comment::class);
-//                $comment = $commentRepository->findById($commentId);
-//                $comment->setContent(filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS));
-//                $this->entityManager->flush();
-//            }
-//            else
-//            {
-                $comment = new Comment();
-                $comment->setContent(filter_input(INPUT_POST, "Content", FILTER_SANITIZE_SPECIAL_CHARS));
-                $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-                $currentDate->setTimezone(new \DateTimeZone('UTC'));
-                $comment->setPublishedDate($currentDate);
-                $currentUserId = $this->getSession()->get("user_id");
-                $userRepository = $this->entityManager->getRepository(User::class);
-                $currentUser = $userRepository->findById($currentUserId);
-                $comment->setUser($currentUser);
-                $postRepository = $this->entityManager->getRepository(Post::class);
-                $post = $postRepository->findById($postId)[0];
-                $comment->setPost($post);
+                $comment->setIsValidated(true);
+            }
+            else
+            {
                 $comment->setIsValidated(false);
-                $commentLogger->notice("New comment was created.");
-                $this->entityManager->persist($comment);
-                $this->entityManager->flush();
-//            }
+            }
+            $commentLogger->notice("New comment was created.");
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
             $route = "posts__details";
         }
         else
