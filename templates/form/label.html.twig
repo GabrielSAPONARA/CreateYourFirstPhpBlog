@@ -1,5 +1,5 @@
 {% if not(fieldProperties["label"] is same as ("")) %}
     <label class="fw-bold" for="{{ fieldProperties["id"] }}">
-        {{ fieldProperties["label"]|capitalize }}
+        {{ fieldProperties["label"]|capitalize|raw }}
     </label>
 {% endif %}

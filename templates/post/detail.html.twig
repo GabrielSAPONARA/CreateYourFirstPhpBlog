@@ -25,16 +25,16 @@
             <article>
                 <header class="mb-4">
                     <h1>
-                        {{ post.title }}
+                        {{ post.title|raw }}
                     </h1>
 
                     <p class="fs-5 mb-4">
-                        {{ post.chapo }}
+                        {{ post.chapo|raw }}
                     </p>
                 </header>
                 <section class="mb-5">
                     <p class="fs-5 mb-4">
-                        {{ post.content }}
+                        {{ post.content|raw }}
                     </p>
                 </section>
             </article>
@@ -58,7 +58,7 @@
                                         <div class="fw-bold">
                                             {{ comment.user.username }}
                                         </div>
-                                        {{ comment.content }}
+                                        {{ comment.content|raw }}
                                         <div class="text-muted fst-italic mb-2">
                                             {{ comment.publishedDate|date("d/m/Y H:i:s") }}
                                         </div>

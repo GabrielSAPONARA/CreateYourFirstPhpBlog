@@ -3,7 +3,7 @@
         <div class="card-body p-4">
 
             <p class="card-text mb-0">
-                {{ comment.content }}
+                {{ comment.content|raw }}
             </p>
         </div>
         <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
@@ -18,12 +18,7 @@
             </div>
         </div>
         <a class="btn btn-primary" href="{{ path('posts__details', {'postId' : postId}) }}">
-            {#                <div class="h5 card-title mb-3"> #}
             Detail about post
-            {#                </div> #}
         </a>
-        {#        <div> #}
-        {#            <a class="button" href="{{ path('posts__details', {'postId' : postId}) }}">Detail about post</a> #}
-        {#        </div> #}
     </div>
 </div>

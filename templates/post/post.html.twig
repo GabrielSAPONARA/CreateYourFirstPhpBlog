@@ -3,9 +3,9 @@
         <div class="card-body p-4">
             <a class="text-decoration-none link-dark stretched-link"
                href="{{ path('posts__details', {'postId' : post.id.toString()}) }}">
-                <div class="h5 card-title mb-3">{{ post.title }}</div>
+                <div class="h5 card-title mb-3">{{ post.title|raw }}</div>
             </a>
-            <p class="card-text mb-0">{{ post.chapo }}</p>
+            <p class="card-text mb-0">{{ post.chapo|raw }}</p>
         </div>
         <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
             <div class="d-flex align-items-end justify-content-between">
